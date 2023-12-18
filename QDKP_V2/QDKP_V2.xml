@@ -306,7 +306,7 @@
 
   <Frame name="QDKP2_CopyWindow" inherits="QDKP2PopUp">
     <Size>
-      <AbsDimension x="750" y="530"/>
+      <AbsDimension x="950" y="530"/>
     </Size>
     <Anchors>
       <Anchor relativePoint="CENTER" point="CENTER" >
@@ -362,7 +362,7 @@
       </ScrollFrame>
         <EditBox name="QDKP2_CopyWindow_Data" parent="QDKP2_CopyWindow_ScrollFrame" ignoreArrows="true">
           <Size>
-            <AbsDimension x="690" y="54"/>
+            <AbsDimension x="890" y="54"/>
           </Size>
           <Anchors>
             <Anchor point="TOPLEFT" relativeTo="QDKP2_CopyWindow_ScrollFrame">
