@@ -150,6 +150,7 @@ local function notify_winner(winner)
   if QDKP2_IsInGuild(winner) and QDKP2_BidM_LogBids and QDKP2_BidM.ITEM and #QDKP2_BidM.ITEM>0  then
     local mess=QDKP2_LOC_BidWinLog
     local timestamp=QDKP2_Timestamp()
+	mess=mess:gsub("$VALUE",tostring(dkp))
     mess=mess:gsub("$ITEM",tostring(QDKP2_BidM.ITEM or '-'))
     QDKP2log_Entry(winner, mess, QDKP2LOG_BIDDING, nil, timestamp)
     if QDKP2_IsManagingSession() then QDKP2log_Link("RAID",winner,timestamp,QDKP2_OngoingSession()); end

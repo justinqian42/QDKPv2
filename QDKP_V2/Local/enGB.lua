@@ -147,12 +147,12 @@ QDKP2_LOC_BidRollMulti = "You can't roll twice."
 QDKP2_LOC_BidRollFirstv = "You must /roll before placing that bid."
 QDKP2_LOC_BidRollAck = "OK, roll acquired."
 QDKP2_LOC_BidRemove = "Your bet has been removed."
-QDKP2_LOC_BidPlaceLog = 'Bets for $ITEM: "$BIDTEXT"'
+QDKP2_LOC_BidPlaceLog = 'Bets "$BIDTEXT" for $ITEM'
 QDKP2_LOC_BidPlaceLogVal = "($VALUE)"
 QDKP2_LOC_BidRemovedLog = "Last bet has been cancelled."
 QDKP2_LOC_BidRollsLog = "Rolls $ROLL for $ITEM"
 QDKP2_LOC_BidStartLog = "Bidding started for $ITEM."
-QDKP2_LOC_BidWinLog = "Wins the bidding for $ITEM."
+QDKP2_LOC_BidWinLog = "Wins with $VALUE for $ITEM."
 QDKP2_LOC_BidCancelLog = "Bidding for $ITEM has been cancelled."
 QDKP2_LOC_NoEligible = "You are not eligible to use that keyword."
 

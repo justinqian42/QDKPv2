@@ -2342,7 +2342,7 @@
         </FontString>
 
         <FontString name="$parent_action" inherits="GameFontHighlightSmall" justifyH="LEFT" text="QDKP2_LOC_GUIDESCRIPTION">
-          <Size><AbsDimension x="306" y="14"/></Size>
+          <Size><AbsDimension x="606" y="14"/></Size>
           <Anchors>
             <Anchor point="TOPLEFT" relativeTo="$parent_mod" relativePoint="TOPRIGHT">
               <Offset><AbsDimension x="16" y="0"/></Offset>
@@ -2395,7 +2395,7 @@
 
   <Frame name="QDKP2_Frame5" inherits="QDKP2DialogTitled">
     <Size>
-      <AbsDimension x="550" y="400" />
+      <AbsDimension x="750" y="400" />
     </Size>
     <Anchors>
       <Anchor relativePoint="BOTTOMLEFT" point="BOTTOMLEFT">

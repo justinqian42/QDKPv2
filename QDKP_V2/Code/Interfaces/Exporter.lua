@@ -255,7 +255,7 @@ query=function(log) return QDKP2log_GetChange(log) or ''; end,
 },
 {header="Description",
 xmlHeader="description",
-width=42,
+width=72,
 query=QDKP2log_GetModEntryText,
 },
 }
