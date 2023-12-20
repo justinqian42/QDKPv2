@@ -26,6 +26,10 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Release Log:
+v2.6.7.15 (20 Dec 2023)
+- Added notification of non-numerical bids such as '2k' or 'all in'.
+- Increased log entry description lengths due to truncation of data.  Also increased log window size to compensate.
+
 v2.6.7.6 (11/3/2019)
 - fixed DKP upload check failing after timer tick if QDKP2_StoreHours
 - Options.ini workaround for boss-awards not working when boss death is not in combat log
