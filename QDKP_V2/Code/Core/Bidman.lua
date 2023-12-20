@@ -301,6 +301,9 @@ function QDKP2_BidM_BidWatcher(txt,player,channel)
             mess=mess:gsub("$BIDTEXT",txt or "-")
             if txt ~= tostring(newBet.value) then
               mess=mess..QDKP2_LOC_BidPlaceLogVal:gsub("$VALUE", tostring(newBet.value or "-"))
+			  local messAllIn=QDKP2_LOC_BidAllIn
+			  messAllIn=messAllIn:gsub("$VALUE",tostring(newBet.value))
+			  QDKP2_BidM_SendMessage(player,"NOBID","GROUP",messAllIn)
             end
             QDKP2log_Entry(player,mess, QDKP2LOG_BIDDING)
             QDKP2_Events:Fire("DATA_UPDATED","log")
