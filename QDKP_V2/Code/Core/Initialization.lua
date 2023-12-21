@@ -188,7 +188,10 @@ function QDKP2_Init()
   QDKP2classEnglish = QDKP2classEnglish or {}
   QDKP2zoneEnglish = QDKP2zoneEnglish or {}
   QDKP2inventoryEnglish = QDKP2inventoryEnglish or {}
-
+  BagId = 0
+  SlotId = 1
+  Temp_BagId = 0
+  Temp_SlotId = 1
   --Register events
   --QDKP2:RegisterEvent("ADDON_LOADED")
   QDKP2:RegisterEvent("GUILD_ROSTER_UPDATE")
@@ -314,6 +317,7 @@ function QDKP2_OnLoad()
   QDKP2:RegisterEvent("CHAT_MSG_ADDON")
   QDKP2:RegisterEvent("CHAT_MSG_SYSTEM")
   QDKP2:RegisterEvent("CHAT_MSG_PARTY")
+  QDKP2:RegisterEvent("ITEM_LOCKED")
   QDKP2_Events:Fire("LOAD")
 
   LoadedMsg = string.gsub(LoadedMsg, "$VERSION", QDKP2_VERSION)

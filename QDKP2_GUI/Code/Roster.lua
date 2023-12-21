@@ -419,6 +419,8 @@ end
 function myClass.DragDropManager(self)
   local what,a1,a2=GetCursorInfo()
   if what=='item' then
+	BagId = Temp_BagId
+	SlotId = Temp_SlotId
     this:SetText(a2)
     ClearCursor()
   end

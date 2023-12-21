@@ -66,6 +66,13 @@ function QDKP2_OnEvent(self, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7)
     end
     return
   end
+  if event == "ITEM_LOCKED" then
+		QDKP2_Debug(3,"Events","ITEM_LOCKED")
+		QDKP2_Debug(3,"Events - Bag",arg1)
+		QDKP2_Debug(3,"Events - Slot",arg2)
+		Temp_BagId = arg1
+		Temp_SlotId = arg2
+	end
 
 -- ADDON SUCCESSFULLY LOADED
  -- if (event == "ADDON_LOADED") then  --fired on succesfil addon load (all stored var are ready)

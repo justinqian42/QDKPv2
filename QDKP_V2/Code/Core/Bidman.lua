@@ -124,8 +124,27 @@ local function notify_winner(winner)
   end
   if QDKP2_BidM_AnnounceWinner and QDKP2_BidM.ITEM and #QDKP2_BidM.ITEM>0 then
     if dkp and dkp ~= 0 then
-      msg=QDKP2_LOC_BidMWinnerString
-      msg=msg:gsub("$AMOUNT",tostring(dkp))
+		msg=QDKP2_LOC_BidMWinnerString
+		msg=msg:gsub("$AMOUNT",tostring(dkp))
+		--todo trade  here
+
+		if winner then --and itemLink then
+			if CheckInteractDistance(winner, 2) == 1 then
+				ClearCursor()
+				PickupContainerItem(BagId, SlotId)
+				if CursorHasItem() then
+					InitiateTrade(winner)
+				end
+
+			-- Cannot trade the player?
+			elseif GetUnitID(winner) ~= "none" then
+				ClearRaidIcons()
+				SetRaidTarget(UnitName("player"), 1)
+				SetRaidTarget(winner, 4)
+				SendChatMessage("Triangle, come trade Star", "RAID_WARNING")
+				SendChatMessage("Come trade Star.", "WHISPER", nil, winner)
+			end
+		end
     else
       msg=QDKP2_LOC_BidMWinnerStringNoDKP
       local lootmethod, masterlooterPartyID, masterlooterRaidID = GetLootMethod()
