@@ -125,7 +125,7 @@ QDKP2_LOC_CheckOK="CHECK: DKP are syncronized."
 QDKP2_LOC_CheckAborted="Upload Check aborted due to modifications done"
 
 --Externals
-QDKP2_LOC_CantAddExternalInGuild="Can't add $NAME as esternal: he is already in guild."
+QDKP2_LOC_CantAddExternalInGuild="Can't add $NAME as external: he is already in guild."
 QDKP2_LOC_CantDeleteUnexistingExternals="Can't delete $NAME: he's not a valid external."
 QDKP2_LOC_InvalidExternalName="Invalid name for an external."
 QDKP2_LOC_ExternalRemoved="$NAME has been removed from Guild Roster as External."

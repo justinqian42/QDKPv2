@@ -42,6 +42,7 @@ Code\Core\Bidman.lua
 Local\enGB.lua
 Local\frFR.lua
 Local\ruRU.lua
+Local\zhCN.lua
 
 Code\Logging\Constants.lua
 Code\Logging\LogEntry.lua
