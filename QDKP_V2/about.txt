@@ -26,6 +26,9 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Release Log:
+v2.6.7.17
+- Trade button added to retry failed trades.
+
 v2.6.7.16
 - Trade window now opened upon a winner being declared.
 

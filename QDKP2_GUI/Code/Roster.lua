@@ -84,6 +84,22 @@ function myClass.Refresh(self, forceResort)
     --QDKP2frame2_selectList_Session:SetChecked(false)
 
     myClass:PupulateList()
+	
+			if ElvUI then
+			local E, L, V, P, G = unpack(ElvUI)
+			local S = E:GetModule("Skins")
+			
+			if E:GetModule("AddOnSkins", true) then
+				local AS = E:GetModule("AddOnSkins")
+
+				if not AS:IsAddonLODorEnabled("QDKP_V2") then return end
+
+				local ipairs = ipairs
+				local select = select
+				local unpack = unpack
+				S:HandleButton(QDKP2_Frame2_Trade_Button)
+			end	
+		end
 
     if self.Sel=="guildonline" or self.Sel=="guild" then
       myClass:ShowColumn('deltatotal', false)
@@ -97,6 +113,7 @@ function myClass.Refresh(self, forceResort)
       QDKP2_Frame2_BiddingZone:Hide()
       QDKP2_Frame2_Bid_Item:Hide()
       QDKP2_Frame2_Bid_Button:Hide()
+	  QDKP2_Frame2_Trade_Button:Hide()
       QDKP2_Frame2_Bid_ButtonWin:Hide()
       if self.Sel=='guild' then
         QDKP2frame2_selectList_guild:SetChecked(true)
@@ -114,6 +131,7 @@ function myClass.Refresh(self, forceResort)
       QDKP2_Frame2_bidcount:Hide()
       QDKP2_Frame2_BiddingZone:Hide()
       QDKP2_Frame2_Bid_Item:Hide()
+	  QDKP2_Frame2_Trade_Button:Hide()
       QDKP2_Frame2_Bid_Button:Hide()
       QDKP2_Frame2_Bid_ButtonWin:Hide()
       QDKP2frame2_selectList_Raid:SetChecked(true)
@@ -129,6 +147,7 @@ function myClass.Refresh(self, forceResort)
       QDKP2_Frame2_BiddingZone:Show()
       QDKP2_Frame2_Bid_Item:Show()
       QDKP2_Frame2_Bid_Button:Show()
+	  QDKP2_Frame2_Trade_Button:Show()
       QDKP2_Frame2_Bid_ButtonWin:Show()
       if QDKP2_BidM_isBidding() then
         QDKP2_Frame2_Bid_Button:SetText(QDKP2_LOC_GUICANCELBID)
@@ -426,6 +445,26 @@ function myClass.DragDropManager(self)
   end
 end
 
+function myClass.PushedTradeButton(self)
+	if myClass.SelectedPlayers and #myClass.SelectedPlayers == 1 then
+		Temp_Winner = myClass.SelectedPlayers[1]
+		if CheckInteractDistance(Temp_Winner, 2) == 1 then
+			ClearCursor()
+			PickupContainerItem(BagId, SlotId)
+			if CursorHasItem() then
+				InitiateTrade(Temp_Winner)
+			end
+
+		-- Cannot trade the player?
+		elseif GetUnitID(Temp_Winner) ~= "none" then
+			ClearRaidIcons()
+			SetRaidTarget(UnitName("player"), 1)
+			SetRaidTarget(Temp_Winner, 4)
+			SendChatMessage("Triangle, come trade Star", "RAID_WARNING")
+			SendChatMessage("Come trade Star.", "WHISPER", nil, Temp_Winner)
+		end
+	end
+end
 
 function myClass.PushedBidButton(self)
   if QDKP2_BidM_isBidding() then
