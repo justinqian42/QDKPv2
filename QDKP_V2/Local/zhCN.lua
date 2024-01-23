@@ -80,7 +80,7 @@ if GetLocale()=='zhCN' then
 	QDKP2_LOC_ZeroSumSpReas="因 $REASON 给团队 $SPENT DKP。"
 	QDKP2_LOC_ZeroSumAw="从 $GIVER 获得 $AMOUNT DKP。"
 	QDKP2_LOC_ZeroSumAwReas="因为 $REASON 从 $GIVER 获得 $AMOUNT DKP。"
-	QDKP2_LOC_ExtMod="$AWARDSPENDTEXT （原因：人为公会官员备注信息编辑）"
+	QDKP2_LOC_ExtMod="$AWARDSPENDTEXT （原因：手动备注编辑）"
 	QDKP2_LOC_Generic="$AWARDSPENDTEXT" --these are used in the general case. (eg. manual editing to DKP)
 	QDKP2_LOC_GenericReas="$AWARDSPENDTEXT 原因：$REASON"
 	QDKP2_LOC_DKPPurchase="购买 $ITEM 花费了 $AMOUNT DKP"
@@ -271,6 +271,7 @@ if GetLocale()=='zhCN' then
 	QDKP2_LOC_GUIBIDMANAGER = "会计"
 	QDKP2_LOC_GUIBIDITEMDESC = "把你想要团员出分的物品拖放到这里，\n 你也可以输入文本。"
 	QDKP2_LOC_GUISTARTBID = "开始出分"
+	QDKP2_LOC_GUITRADE = "交易物品"
 	QDKP2_LOC_GUICANCELBID = "取消出分"
 	QDKP2_LOC_GUISETWINNER = "设定赢家"
 	QDKP2_LOC_GUISETWINNERDESC = "按这个按钮结束出分并设置赢家。"
