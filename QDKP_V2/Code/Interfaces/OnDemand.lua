@@ -151,7 +151,7 @@ function QDKP2_OD(text, sender)
       return {"QDKP2 - No results for the given keyword"}
     end
 ]]
-  elseif (P1=="?classdkp" or P1=="?dkpclass") then
+  elseif (P1=="?classdkp" or P1=="?dkpclass" or P1=="?class") then
     if not QDKP2_IsInGuild(sender) and not QDKP_OD_EXT then
       return {"QDKP2 - Only GuildMembers can use the On-Demand whisper system."}
     end

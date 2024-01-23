@@ -1535,6 +1535,24 @@
           </OnClick>
         </Scripts>
       </Button>
+	  
+	        <Button name="QDKP2_Frame2_Trade_Button" inherits="UIPanelButtonTemplate" text="QDKP2_LOC_GUITRADE">
+        <Size>
+          <AbsDimension x="80" y="20"/>
+        </Size>
+        <Anchors>
+          <Anchor relativePoint="LEFT" point="RIGHT" relativeTo="QDKP2_Frame2_Bid_Item">
+            <Offset>
+              <AbsDimension x="-87" y="-20"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnClick>
+            QDKP2GUI_Roster:PushedTradeButton()
+          </OnClick>
+        </Scripts>
+      </Button>
 
       <Button name="QDKP2_Frame2_Bid_ButtonWin" inherits="UIPanelButtonTemplate" text="QDKP2_LOC_GUISETWINNER">
         <Size>
