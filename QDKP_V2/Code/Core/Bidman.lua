@@ -84,6 +84,35 @@ function QDKP2_BidM_CancelBid()
   QDKP2_BidM_Reset()
 end
 
+function QDKP2_BidM_DE()
+-- Cancels the bidding
+-- Clears the data
+  if QDKP2_BidM_CountdownCount then QDKP2_BidM_CountdownCancel(); end
+  if QDKP2_BidM_LogBids and QDKP2_BidM.ITEM and #QDKP2_BidM.ITEM>0 then
+    local mess=QDKP2_LOC_DELog
+    mess=mess:gsub("$ITEM",tostring(QDKP2_BidM.ITEM or '-'))
+		QDKP2log_Entry("RAID",mess, QDKP2LOG_BIDDING)
+    QDKP2_Events:Fire("DATA_UPDATED","log")
+  end
+
+  local tempSetting=QDKP2_BidM_AckRejBids    --avoids a crapload of "Your bid has been cancelled" messages
+  QDKP2_BidM_AckRejBids=false
+  for name,obj in pairs(QDKP2_BidM.LIST) do
+    QDKP2_BidM_CancelPlayer(name)
+  end
+  QDKP2_BidM_AckRejBids=tempSetting
+
+  if QDKP2_BidM_AnnounceCancel and QDKP2_BidM.ITEM and #QDKP2_BidM.ITEM>0 then
+    local mess=QDKP2_LOC_DELog
+    mess=string.gsub(mess,"$ITEM",tostring(QDKP2_BidM.ITEM or '-'))
+    QDKP2_BidM_SendMessage(nil,"MANAGER","bid_cancel",mess)
+  end
+
+  QDKP2_BidM_CloseBid()
+  QDKP2_BidM.ITEM=nil
+  QDKP2_BidM_Reset()
+end
+
 function QDKP2_BidM_Reset()
 -- Clears allthe bid. Does not stop a ongoing bidding.
   QDKP2_BidM.LIST={}

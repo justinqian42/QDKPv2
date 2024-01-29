@@ -98,6 +98,7 @@ function myClass.Refresh(self, forceResort)
 				local select = select
 				local unpack = unpack
 				S:HandleButton(QDKP2_Frame2_Trade_Button)
+				S:HandleButton(QDKP2_Frame2_DE_Button)
 			end	
 		end
 
@@ -114,6 +115,7 @@ function myClass.Refresh(self, forceResort)
       QDKP2_Frame2_Bid_Item:Hide()
       QDKP2_Frame2_Bid_Button:Hide()
 	  QDKP2_Frame2_Trade_Button:Hide()
+	  QDKP2_Frame2_DE_Button:Hide()
       QDKP2_Frame2_Bid_ButtonWin:Hide()
       if self.Sel=='guild' then
         QDKP2frame2_selectList_guild:SetChecked(true)
@@ -132,6 +134,7 @@ function myClass.Refresh(self, forceResort)
       QDKP2_Frame2_BiddingZone:Hide()
       QDKP2_Frame2_Bid_Item:Hide()
 	  QDKP2_Frame2_Trade_Button:Hide()
+	  QDKP2_Frame2_DE_Button:Hide()
       QDKP2_Frame2_Bid_Button:Hide()
       QDKP2_Frame2_Bid_ButtonWin:Hide()
       QDKP2frame2_selectList_Raid:SetChecked(true)
@@ -148,6 +151,7 @@ function myClass.Refresh(self, forceResort)
       QDKP2_Frame2_Bid_Item:Show()
       QDKP2_Frame2_Bid_Button:Show()
 	  QDKP2_Frame2_Trade_Button:Show()
+	  QDKP2_Frame2_DE_Button:Show()
       QDKP2_Frame2_Bid_ButtonWin:Show()
       if QDKP2_BidM_isBidding() then
         QDKP2_Frame2_Bid_Button:SetText(QDKP2_LOC_GUICANCELBID)
@@ -481,6 +485,16 @@ function myClass.PushedBidWinButton(self)
   if QDKP2_BidM_isBidding() then
     if myClass.SelectedPlayers and #myClass.SelectedPlayers == 1 then
       QDKP2_BidM_Winner(myClass.SelectedPlayers[1])
+    end
+  end
+end
+
+function myClass.PushedDEButton(self)
+  if QDKP2_BidM_isBidding() then
+    if myClass.SelectedPlayers and #myClass.SelectedPlayers == 1 then
+	  
+      myClass.PushedTradeButton(self)
+	  QDKP2_BidM_DE()
     end
   end
 end
