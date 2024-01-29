@@ -99,6 +99,7 @@ function myClass.Refresh(self, forceResort)
 				local unpack = unpack
 				S:HandleButton(QDKP2_Frame2_Trade_Button)
 				S:HandleButton(QDKP2_Frame2_DE_Button)
+				S:HandleButton(QDKP2_Frame2_Bid_ButtonRoll)
 			end	
 		end
 
@@ -153,12 +154,20 @@ function myClass.Refresh(self, forceResort)
 	  QDKP2_Frame2_Trade_Button:Show()
 	  QDKP2_Frame2_DE_Button:Show()
       QDKP2_Frame2_Bid_ButtonWin:Show()
-      if QDKP2_BidM_isBidding() then
+	  if QDKP2_BidM_isRolling() then
+	    QDKP2_Frame2_Bid_Button:SetText(QDKP2_LOC_GUISTARTBID)
+		QDKP2_Frame2_Bid_ButtonWin:Show()
+		QDKP2_Frame2_Bid_ButtonRoll:Hide()
+      elseif QDKP2_BidM_isBidding() then
         QDKP2_Frame2_Bid_Button:SetText(QDKP2_LOC_GUICANCELBID)
+		QDKP2_Frame2_Bid_ButtonWin:Show()
+		QDKP2_Frame2_Bid_ButtonRoll:Hide()
       else
         QDKP2_Frame2_Bid_Button:SetText(QDKP2_LOC_GUISTARTBID)
+		QDKP2_Frame2_Bid_ButtonWin:Hide()
+		QDKP2_Frame2_Bid_ButtonRoll:Show()
       end
-      if QDKP2_BidM_isBidding() and myClass.SelectedPlayers and #myClass.SelectedPlayers==1 and QDKP2_BidM.LIST[myClass.SelectedPlayers[1]] then
+      if not QDKP2_BidM_isBidding() or (QDKP2_BidM_isBidding() and myClass.SelectedPlayers and #myClass.SelectedPlayers==1 and QDKP2_BidM.LIST[myClass.SelectedPlayers[1]]) then
         QDKP2_Frame2_Bid_ButtonWin:Enable()
       else
         QDKP2_Frame2_Bid_ButtonWin:Disable()
@@ -471,11 +480,30 @@ function myClass.PushedTradeButton(self)
 end
 
 function myClass.PushedBidButton(self)
-  if QDKP2_BidM_isBidding() then
+  if QDKP2_BidM_isRolling() then
+    QDKP2_BidM.ROLLING = nil
+	local item = QDKP2_Frame2_Bid_Item:GetText()
+	if QDKP2_BidM_AnnounceStart and item and #item>0 then
+      local mess=QDKP2_LOC_BidMStartString
+      mess=string.gsub(mess,"$ITEM",tostring(QDKP2_BidM.ITEM or '-'))
+      QDKP2_BidM_SendMessage(nil,"MANAGER","bid_start",mess)
+    end
+  elseif QDKP2_BidM_isBidding() then
     QDKP2_BidM_CancelBid()
     QDKP2_Frame2_Bid_Item:SetText("")
   else
     QDKP2_BidM_StartBid(QDKP2_Frame2_Bid_Item:GetText())
+  end
+  myClass:Refresh()
+  QDKP2_Frame2_Bid_Item:ClearFocus()
+end
+
+function myClass.PushedBidRollButton(self)
+  if QDKP2_BidM_isRolling() then
+    QDKP2_BidM_CancelBid()
+    QDKP2_Frame2_Bid_Item:SetText("")
+  else
+    QDKP2_BidM_StartRoll(QDKP2_Frame2_Bid_Item:GetText())
   end
   myClass:Refresh()
   QDKP2_Frame2_Bid_Item:ClearFocus()

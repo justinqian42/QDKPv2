@@ -1596,6 +1596,23 @@
           </OnClick>
         </Scripts>
       </Button>
+	        <Button name="QDKP2_Frame2_Bid_ButtonRoll" inherits="UIPanelButtonTemplate" text="QDKP2_LOC_GUIROLL">
+        <Size>
+          <AbsDimension x="80" y="20"/>
+        </Size>
+        <Anchors>
+          <Anchor relativePoint="LEFT" point="RIGHT" relativeTo="QDKP2_Frame2_Bid_Button">
+            <Offset>
+              <AbsDimension x="-2" y="0"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnClick>
+            QDKP2GUI_Roster:PushedBidRollButton()
+          </OnClick>
+        </Scripts>
+      </Button>
 
 
       <!-- Title (used to align the sort buttons -->

@@ -49,9 +49,39 @@ function QDKP2_BidM_StartBid(item)
   end
 end
 
+function QDKP2_BidM_StartRoll(item)
+-- Starts a new bid. item is the string of the item to bid (or a generic reason)
+  if QDKP2_BidM_LogBids and not QDKP2_ManagementMode() then
+    QDKP2_NeedManagementMode()
+    return
+  end
+  if QDKP2_BidM.BIDDING then
+    QDKP2_BidM_CancelBid()
+  elseif QDKP2_BidM.LIST then
+    QDKP2_BidM_Reset()
+  end
+  QDKP2_BidM.ITEM = item
+  QDKP2_BidM.LIST = {}
+  QDKP2_BidM.ROLLING = true
+  QDKP2_BidM.BIDDING = true
+  QDKP2_BidM.ACCEPT_BID = true
+  if QDKP2_BidM_AnnounceStart and item and #item>0 then
+    local mess=QDKP2_LOC_RollMStartString
+    mess=string.gsub(mess,"$ITEM",tostring(QDKP2_BidM.ITEM or '-'))
+    QDKP2_BidM_SendMessage(nil,"MANAGER","bid_start",mess)
+  end
+  if QDKP2_BidM_LogBids and item and #item>0 then
+    local mess=QDKP2_LOC_BidStartLog
+    mess=mess:gsub("$ITEM",tostring(QDKP2_BidM.ITEM or '-'))
+		QDKP2log_Entry("RAID",mess, QDKP2LOG_BIDDING)
+    QDKP2_Events:Fire("DATA_UPDATED","log")
+  end
+end
+
 function QDKP2_BidM_CloseBid()
 --stops the bidding. Does not clear the data.
   QDKP2_BidM.BIDDING = nil
+  QDKP2_BidM.ROLLING = nil
   QDKP2_Events:Fire("DATA_UPDATED","roster")
 end
 
@@ -598,6 +628,10 @@ end
 
 function QDKP2_BidM_isBidding()
   return QDKP2_BidM.BIDDING
+end
+
+function QDKP2_BidM_isRolling()
+  return QDKP2_BidM.ROLLING
 end
 
 
