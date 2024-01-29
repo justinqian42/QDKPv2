@@ -26,6 +26,9 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Release Log:
+v2.6.7.19
+- Logging and announcing of rolls and disenchanting added.
+
 v2.6.7.18
 - AutoTrade removed, button is now the only method.
 
