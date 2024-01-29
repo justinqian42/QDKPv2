@@ -156,7 +156,12 @@ local function notify_winner(winner)
 		msg=QDKP2_LOC_BidMWinnerString
 		msg=msg:gsub("$AMOUNT",tostring(dkp))
     else
-      msg=QDKP2_LOC_BidMWinnerStringNoDKP
+	  if QDKP2_BidM.LIST[winner].roll and QDKP2_BidM.LIST[winner].roll ~= 0 then
+		msg=QDKP2_LOC_BidMWinnerStringRoll
+		msg=msg:gsub("$AMOUNT",tostring(QDKP2_BidM.LIST[winner].roll))
+	  else
+	    msg=QDKP2_LOC_BidMWinnerStringNoDKP
+	  end
       local lootmethod, masterlooterPartyID, masterlooterRaidID = GetLootMethod()
       if lootmethod == "master" and masterlooterPartyID == 0 and GetNumLootItems() ~= 0 then
         for ci = 1, 40 do
@@ -179,8 +184,15 @@ local function notify_winner(winner)
   if QDKP2_IsInGuild(winner) and QDKP2_BidM_LogBids and QDKP2_BidM.ITEM and #QDKP2_BidM.ITEM>0  then
     local mess=QDKP2_LOC_BidWinLog
     local timestamp=QDKP2_Timestamp()
-	mess=mess:gsub("$VALUE",tostring(dkp))
-    mess=mess:gsub("$ITEM",tostring(QDKP2_BidM.ITEM or '-'))
+    
+	if dkp == nil then
+	  if QDKP2_BidM.LIST[winner].roll and QDKP2_BidM.LIST[winner].roll ~= 0 then
+		mess=mess:gsub("$VALUE",tostring(QDKP2_BidM.LIST[winner].roll))
+	  end
+	else
+	  mess=mess:gsub("$VALUE",tostring(dkp))
+	end
+	mess=mess:gsub("$ITEM",tostring(QDKP2_BidM.ITEM or '-'))
     QDKP2log_Entry(winner, mess, QDKP2LOG_BIDDING, nil, timestamp)
     if QDKP2_IsManagingSession() then QDKP2log_Link("RAID",winner,timestamp,QDKP2_OngoingSession()); end
     QDKP2_Events:Fire("DATA_UPDATED","log")
