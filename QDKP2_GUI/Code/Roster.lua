@@ -118,6 +118,7 @@ function myClass.Refresh(self, forceResort)
 	  QDKP2_Frame2_Trade_Button:Hide()
 	  QDKP2_Frame2_DE_Button:Hide()
       QDKP2_Frame2_Bid_ButtonWin:Hide()
+	  QDKP2_Frame2_Bid_ButtonRoll:Hide()
       if self.Sel=='guild' then
         QDKP2frame2_selectList_guild:SetChecked(true)
       else
@@ -138,6 +139,7 @@ function myClass.Refresh(self, forceResort)
 	  QDKP2_Frame2_DE_Button:Hide()
       QDKP2_Frame2_Bid_Button:Hide()
       QDKP2_Frame2_Bid_ButtonWin:Hide()
+	  QDKP2_Frame2_Bid_ButtonRoll:Hide()
       QDKP2frame2_selectList_Raid:SetChecked(true)
     elseif self.Sel=="bid" then
       myClass:ShowColumn('deltatotal', true)
@@ -154,6 +156,7 @@ function myClass.Refresh(self, forceResort)
 	  QDKP2_Frame2_Trade_Button:Show()
 	  QDKP2_Frame2_DE_Button:Show()
       QDKP2_Frame2_Bid_ButtonWin:Show()
+	  QDKP2_Frame2_Bid_ButtonRoll:Show()
 	  if QDKP2_BidM_isRolling() then
 	    QDKP2_Frame2_Bid_Button:SetText(QDKP2_LOC_GUISTARTBID)
 		QDKP2_Frame2_Bid_ButtonWin:Show()

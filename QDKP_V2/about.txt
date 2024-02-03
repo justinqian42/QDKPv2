@@ -26,6 +26,9 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Release Log:
+v2.6.7.21
+- Roll button was showing when it wasn't meant to.
+
 v2.6.7.20
 - Added simplified Chinese translations (thanks to justinqian42).
 - Added Better roll/bid dialog/buttons to aid in PUGs and when to roll vs Bid.
