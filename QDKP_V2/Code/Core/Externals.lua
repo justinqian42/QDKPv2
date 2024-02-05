@@ -11,7 +11,13 @@
 -- QDKP2_DelExternal(name): Removes <name> from the external list
 -- QDKP2_IsExternal(name): Returns true if <name> is an external
 -- QDKP2_PostExternals(channel,subChannel): Posts in the given channel (or guild) all externals data.
-
+function QDKP2_NewDE(name,data)
+  if not name or name=="" then
+    QDKP2_OpenInputBox("Please enter the name of the disenchanter",QDKP2_NewDE,data)
+    return
+  end
+  assignedDE = name
+end
 
 function QDKP2_NewExternal(name,data)
   if not QDKP2_OfficerMode() then QDKP2_Msg(QDKP2_LOC_NoRights,"ERROR")(); return; end

@@ -121,6 +121,7 @@ function QDKP2_BidM_DE()
   if QDKP2_BidM_LogBids and QDKP2_BidM.ITEM and #QDKP2_BidM.ITEM>0 then
     local mess=QDKP2_LOC_DELog
     mess=mess:gsub("$ITEM",tostring(QDKP2_BidM.ITEM or '-'))
+	mess=string.gsub(mess,"$PLAYER",tostring(assignedDE or '-'))
 		QDKP2log_Entry("RAID",mess, QDKP2LOG_BIDDING)
     QDKP2_Events:Fire("DATA_UPDATED","log")
   end
@@ -135,6 +136,7 @@ function QDKP2_BidM_DE()
   if QDKP2_BidM_AnnounceCancel and QDKP2_BidM.ITEM and #QDKP2_BidM.ITEM>0 then
     local mess=QDKP2_LOC_DELog
     mess=string.gsub(mess,"$ITEM",tostring(QDKP2_BidM.ITEM or '-'))
+	mess=string.gsub(mess,"$PLAYER",tostring(assignedDE or '-'))
     QDKP2_BidM_SendMessage(nil,"MANAGER","bid_cancel",mess)
   end
 

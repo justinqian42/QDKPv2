@@ -521,12 +521,26 @@ function myClass.PushedBidWinButton(self)
 end
 
 function myClass.PushedDEButton(self)
-  if QDKP2_BidM_isBidding() then
-    if myClass.SelectedPlayers and #myClass.SelectedPlayers == 1 then
-	  
-      myClass.PushedTradeButton(self)
+  if not assignedDE or assignedDE=="" then
+    QDKP2_NewDE()
+  end
+  if assignedDE and assignedDE ~= "" then
+	  	if CheckInteractDistance(assignedDE, 2) == 1 then
+			ClearCursor()
+			PickupContainerItem(BagId, SlotId)
+			if CursorHasItem() then
+				InitiateTrade(assignedDE)
+			end
+
+		-- Cannot trade the player?
+		elseif GetUnitID(assignedDE) ~= "none" then
+			ClearRaidIcons()
+			SetRaidTarget(UnitName("player"), 1)
+			SetRaidTarget(assignedDE, 4)
+			SendChatMessage("Triangle, come trade Star", "RAID_WARNING")
+			SendChatMessage("Come trade Star.", "WHISPER", nil, assignedDE)
+		end
 	  QDKP2_BidM_DE()
-    end
   end
 end
 
@@ -737,6 +751,11 @@ AltMake={text=QDKP2_LOC_GUILINKALT,func=function()
   end
 end
 },
+DEAdd={text=QDKP2_LOC_GUIADDDE,
+func=function()
+  QDKP2_NewDE(myClass.SelectedPlayers[1])
+end
+},
 ExternalAdd={text=QDKP2_LOC_GUIADDEXTERNAL,
 func=function()
   QDKP2_NewExternal()
@@ -874,6 +893,9 @@ function myClass.PlayerMenu(self,List)
       table.insert(menu,LogVoices.CancelBid)
     end
     table.insert(menu,LogVoices.AddAsExternal)
+    if self.Sel=="raid" then
+      table.insert(menu,2,LogVoices.DEAdd)
+	end
   elseif #sel==1 then
     local name=self.SelectedPlayers[1]
     menu={}
@@ -897,6 +919,9 @@ function myClass.PlayerMenu(self,List)
     if QDKP2_IsExternal(name) then
       table.insert(menu,LogVoices.ExternalRem)
     end
+	if self.Sel=="raid" then
+      table.insert(menu,2,LogVoices.DEAdd)
+	end
     table.insert(menu,LogVoices.QuickMod)
     table.insert(menu,LogVoices.Revert)
     QuickModifyVoices[1].text=string.gsub(QuickModifyVoices[1].template,"$AMOUNT",tostring(QDKP2GUI_Vars.DKP_QuickModify))

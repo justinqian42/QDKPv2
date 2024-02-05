@@ -192,6 +192,7 @@ function QDKP2_Init()
   SlotId = 1
   Temp_BagId = 0
   Temp_SlotId = 1
+  assignedDE = ""
   --Register events
   --QDKP2:RegisterEvent("ADDON_LOADED")
   QDKP2:RegisterEvent("GUILD_ROSTER_UPDATE")
