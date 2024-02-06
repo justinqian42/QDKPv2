@@ -213,7 +213,7 @@ local function notify_winner(winner)
     msg=msg:gsub("$ITEM",QDKP2_BidM.ITEM or '-')
     QDKP2_BidM_SendMessage(nil,"MANAGER","bid_winner",msg)
   end
-  if QDKP2_IsInGuild(winner) and QDKP2_BidM_LogBids and QDKP2_BidM.ITEM and #QDKP2_BidM.ITEM>0  then
+  if QDKP2_BidM_LogBids and QDKP2_BidM.ITEM and #QDKP2_BidM.ITEM>0  then
     local mess=QDKP2_LOC_BidWinLog
     local timestamp=QDKP2_Timestamp()
     
@@ -225,8 +225,13 @@ local function notify_winner(winner)
 	  mess=mess:gsub("$VALUE",tostring(dkp))
 	end
 	mess=mess:gsub("$ITEM",tostring(QDKP2_BidM.ITEM or '-'))
-    QDKP2log_Entry(winner, mess, QDKP2LOG_BIDDING, nil, timestamp)
-    if QDKP2_IsManagingSession() then QDKP2log_Link("RAID",winner,timestamp,QDKP2_OngoingSession()); end
+	if not QDKP2_IsInGuild(winner) then
+	  pugname = winner .. " (PUG)"
+	  QDKP2log_Entry(pugname, mess, QDKP2LOG_BIDDING, nil, timestamp)
+	else
+      QDKP2log_Entry(winner, mess, QDKP2LOG_BIDDING, nil, timestamp)
+	end
+    if QDKP2_IsManagingSession() and QDKP2_IsInGuild(winner) then QDKP2log_Link("RAID",winner,timestamp,QDKP2_OngoingSession()); end
     QDKP2_Events:Fire("DATA_UPDATED","log")
   end
   QDKP2_BidM_CloseBid()

@@ -26,6 +26,9 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Release Log:
+v2.6.7.23
+- Increased logging of PUG wins.
+
 v2.6.7.22
 - Disenchanter selection changed to context menu.
 
