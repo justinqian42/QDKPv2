@@ -21,6 +21,10 @@ Code\Lib\LibBabble-Zone-3.0.lua
 Code\Lib\LibBabble-Inventory-3.0.lua
 Code\Lib\AceConsole-3.0.lua
 Code\Lib\Deformat-2.0.lua
+Code\Lib\AceAddon-3.0.lua
+Code\Lib\AceComm-3.0.lua
+Code\Lib\AceHook-3.0.lua
+Code\Lib\AceEvent-3.0.lua
 
 Code\DefaultOptions.lua
 Code\Core\DKP_Editing.lua
@@ -38,6 +42,7 @@ Code\Core\Check.lua
 Code\Core\Backup.lua
 Code\Core\Misc.lua
 Code\Core\Bidman.lua
+
 
 Local\enGB.lua
 Local\frFR.lua
@@ -58,5 +63,6 @@ Code\Interfaces\Graphical.lua
 Code\Interfaces\Exporter.lua
 
 Code\Core\Initialization.lua
+Code\Core\Comms.lua
 
 QDKP_V2.xml

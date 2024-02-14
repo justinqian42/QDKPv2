@@ -1428,6 +1428,27 @@
           </OnClick>
         </Scripts>
       </CheckButton>
+	  
+	   <CheckButton name="QDKP2frame2_selectList_RaidMonitor" inherits="UICheckButtonTemplate" id="18" text="">
+        <Size>
+          <AbsDimension x="20" y="20"/>
+        </Size>
+        <Anchors>
+          <Anchor relativePoint="RIGHT" point="LEFT" relativeTo="QDKP2frame2_selectList_guildOnline">
+            <Offset>
+              <AbsDimension x="90" y="0"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnLoad>
+            QDKP2frame2_selectList_RaidMonitorText:SetText(QDKP2_LOC_GUIRAIDMON);
+          </OnLoad>
+          <OnClick>
+            QDKP2GUI_Roster:ChangeList("raidmon");
+          </OnClick>
+        </Scripts>
+      </CheckButton>
 
       <CheckButton name="QDKP2frame2_selectList_Bid" inherits="UICheckButtonTemplate" id="19" text="">
         <Size>
@@ -1446,6 +1467,26 @@
           </OnLoad>
           <OnClick>
             QDKP2GUI_Roster:ChangeList("bid");
+          </OnClick>
+        </Scripts>
+      </CheckButton>
+	        <CheckButton name="QDKP2frame2_selectList_Monitor" inherits="UICheckButtonTemplate" id="19" text="">
+        <Size>
+          <AbsDimension x="20" y="20"/>
+        </Size>
+        <Anchors>
+          <Anchor relativePoint="RIGHT" point="LEFT" relativeTo="QDKP2frame2_selectList_Raid">
+            <Offset>
+              <AbsDimension x="35" y="0"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnLoad>
+            QDKP2frame2_selectList_MonitorText:SetText(QDKP2_LOC_GUIMONITOR);
+          </OnLoad>
+          <OnClick>
+            QDKP2GUI_Roster:ChangeList("monitor");
           </OnClick>
         </Scripts>
       </CheckButton>
@@ -1516,9 +1557,43 @@
           </OnEditFocusGained>
         </Scripts>
       </EditBox>
-
-
+	  
       <Button name="QDKP2_Frame2_Bid_Button" inherits="UIPanelButtonTemplate" text="QDKP2_LOC_GUISTARTBID">
+        <Size>
+          <AbsDimension x="80" y="20"/>
+        </Size>
+        <Anchors>
+          <Anchor relativePoint="LEFT" point="RIGHT" relativeTo="QDKP2_Frame2_Bid_Item">
+            <Offset>
+              <AbsDimension x="-87" y="0"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnClick>
+            QDKP2GUI_Roster:PushedBidButton()
+          </OnClick>
+        </Scripts>
+      </Button>
+	  <Button name="QDKP2_Frame2_Cancel_Button" inherits="UIPanelButtonTemplate" text="QDKP2_LOC_GUICANCEL">
+        <Size>
+          <AbsDimension x="80" y="20"/>
+        </Size>
+        <Anchors>
+          <Anchor relativePoint="LEFT" point="RIGHT" relativeTo="QDKP2_Frame2_Bid_Item">
+            <Offset>
+              <AbsDimension x="-2" y="0"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnClick>
+            QDKP2GUI_Roster:PushedCancelButton()
+          </OnClick>
+        </Scripts>
+      </Button>
+	  
+	  <Button name="QDKP2_Frame2_Bid_ButtonClearData" inherits="UIPanelButtonTemplate" text="QDKP2_LOC_GUICLEAR">
         <Size>
           <AbsDimension x="80" y="20"/>
         </Size>
@@ -1531,7 +1606,7 @@
         </Anchors>
         <Scripts>
           <OnClick>
-            QDKP2GUI_Roster:PushedBidButton()
+            QDKP2GUI_Roster:PushedClearButton()
           </OnClick>
         </Scripts>
       </Button>
@@ -1577,9 +1652,9 @@
           <AbsDimension x="80" y="20"/>
         </Size>
         <Anchors>
-          <Anchor relativePoint="LEFT" point="RIGHT" relativeTo="QDKP2_Frame2_Bid_Button">
+          <Anchor relativePoint="LEFT" point="RIGHT" relativeTo="QDKP2_Frame2_Bid_Item">
             <Offset>
-              <AbsDimension x="-2" y="0"/>
+              <AbsDimension x="-87" y="0"/>
             </Offset>
           </Anchor>
         </Anchors>
@@ -1601,7 +1676,7 @@
           <AbsDimension x="80" y="20"/>
         </Size>
         <Anchors>
-          <Anchor relativePoint="LEFT" point="RIGHT" relativeTo="QDKP2_Frame2_Bid_Button">
+          <Anchor relativePoint="LEFT" point="RIGHT" relativeTo="QDKP2_Frame2_Bid_Item">
             <Offset>
               <AbsDimension x="-2" y="0"/>
             </Offset>

@@ -20,6 +20,11 @@ myClass.EntryName="QDKP2_frame2_entry"
 myClass.Sort={}
 myClass.Sort.Order="Alpha"
 myClass.Sort.LastLen=0
+myClass.MONITOR_LIST = {}
+myClass.MONITOR_DICT = {}
+myClass.RAID_LIST = {}
+myClass.RAID_DICT = {}
+myClass.ITEM = ""
 
 myClass.PlayersColor={}
 myClass.PlayersColor.Default={r=1,g=1,b=1}
@@ -72,36 +77,61 @@ function myClass.Refresh(self, forceResort)
     local Complete=QDKP2_OfficerMode()
     if Complete then
       QDKP2_frame2_showRaid:Hide()
-      QDKP2frame2_selectList_Bid:Show()
+	  if QDKP2_ManagementMode() then
+        QDKP2frame2_selectList_Bid:Show()
+		QDKP2frame2_selectList_Monitor:Hide()
+		QDKP2frame2_selectList_RaidMonitor:Hide()
+		QDKP2frame2_selectList_Raid:Show()
+		QDKP2frame2_selectList_guild:Show()
+		QDKP2frame2_selectList_guildOnline:Show()
+	  else
+	    QDKP2frame2_selectList_Bid:Hide()
+	    QDKP2frame2_selectList_Monitor:Show()
+		QDKP2frame2_selectList_Raid:Hide()
+		QDKP2frame2_selectList_RaidMonitor:Show()
+		QDKP2frame2_selectList_guild:Hide()
+		QDKP2frame2_selectList_guildOnline:Hide()
+	  end
     else
-      QDKP2_frame2_showRaid:Show()
-      QDKP2frame2_selectList_Bid:Hide()
+		QDKP2_frame2_showRaid:Hide()
+		QDKP2frame2_selectList_Bid:Hide()
+		QDKP2frame2_selectList_Monitor:Show()
+		QDKP2frame2_selectList_Raid:Hide()
+		QDKP2frame2_selectList_RaidMonitor:Show()
     end
     QDKP2frame2_selectList_guild:SetChecked(false)
     QDKP2frame2_selectList_guildOnline:SetChecked(false)
     QDKP2frame2_selectList_Raid:SetChecked(false)
     QDKP2frame2_selectList_Bid:SetChecked(false)
+	QDKP2frame2_selectList_Monitor:SetChecked(false)
+	QDKP2frame2_selectList_RaidMonitor:SetChecked(false)
     --QDKP2frame2_selectList_Session:SetChecked(false)
-
+	--todo remove when done
+	--QDKP2frame2_selectList_Monitor:Show()
+	--QDKP2frame2_selectList_RaidMonitor:Show()
     myClass:PupulateList()
 	
-			if ElvUI then
-			local E, L, V, P, G = unpack(ElvUI)
-			local S = E:GetModule("Skins")
-			
-			if E:GetModule("AddOnSkins", true) then
-				local AS = E:GetModule("AddOnSkins")
+	if ElvUI then
+		local E, L, V, P, G = unpack(ElvUI)
+		local S = E:GetModule("Skins")
+		
+		if E:GetModule("AddOnSkins", true) then
+			local AS = E:GetModule("AddOnSkins")
 
-				if not AS:IsAddonLODorEnabled("QDKP_V2") then return end
+			if not AS:IsAddonLODorEnabled("QDKP_V2") then return end
 
-				local ipairs = ipairs
-				local select = select
-				local unpack = unpack
-				S:HandleButton(QDKP2_Frame2_Trade_Button)
-				S:HandleButton(QDKP2_Frame2_DE_Button)
-				S:HandleButton(QDKP2_Frame2_Bid_ButtonRoll)
-			end	
-		end
+			local ipairs = ipairs
+			local select = select
+			local unpack = unpack
+			S:HandleButton(QDKP2_Frame2_Trade_Button)
+			S:HandleButton(QDKP2_Frame2_DE_Button)
+			S:HandleButton(QDKP2_Frame2_Bid_ButtonRoll)
+			S:HandleButton(QDKP2_Frame2_Bid_ButtonClearData)
+			S:HandleButton(QDKP2_Frame2_Cancel_Button)
+			S:HandleCheckBox(QDKP2frame2_selectList_Monitor)
+			S:HandleCheckBox(QDKP2frame2_selectList_RaidMonitor)
+		end	
+	end
 
     if self.Sel=="guildonline" or self.Sel=="guild" then
       myClass:ShowColumn('deltatotal', false)
@@ -119,6 +149,8 @@ function myClass.Refresh(self, forceResort)
 	  QDKP2_Frame2_DE_Button:Hide()
       QDKP2_Frame2_Bid_ButtonWin:Hide()
 	  QDKP2_Frame2_Bid_ButtonRoll:Hide()
+	  QDKP2_Frame2_Bid_ButtonClearData:Hide()
+	  QDKP2_Frame2_Cancel_Button:Hide()
       if self.Sel=='guild' then
         QDKP2frame2_selectList_guild:SetChecked(true)
       else
@@ -141,6 +173,123 @@ function myClass.Refresh(self, forceResort)
       QDKP2_Frame2_Bid_ButtonWin:Hide()
 	  QDKP2_Frame2_Bid_ButtonRoll:Hide()
       QDKP2frame2_selectList_Raid:SetChecked(true)
+	  QDKP2_Frame2_Bid_ButtonClearData:Hide()
+	  QDKP2_Frame2_Cancel_Button:Hide()
+	elseif self.Sel=="raidmon" then
+      myClass:ShowColumn('deltatotal', true)
+      myClass:ShowColumn('deltaspent', true)
+      myClass:ShowColumn('roll', false)
+      myClass:ShowColumn('bid', false)
+      myClass:ShowColumn('value', false)
+      QDKP2_Frame2_sesscount:Show()
+      QDKP2_Frame2_SessionZone:Show()
+      QDKP2_Frame2_bidcount:Hide()
+      QDKP2_Frame2_BiddingZone:Hide()
+      QDKP2_Frame2_Bid_Item:Hide()
+	  QDKP2_Frame2_Trade_Button:Hide()
+	  QDKP2_Frame2_DE_Button:Hide()
+      QDKP2_Frame2_Bid_Button:Hide()
+      QDKP2_Frame2_Bid_ButtonWin:Hide()
+	  QDKP2_Frame2_Bid_ButtonRoll:Hide()
+      QDKP2frame2_selectList_RaidMonitor:SetChecked(true)
+	  QDKP2_Frame2_Bid_ButtonClearData:Hide()
+	  QDKP2_Frame2_Cancel_Button:Hide()
+	  if self.Offset > #QDKP2GUI_Roster.RAID_LIST then self.Offset=#QDKP2GUI_Roster.RAID_LIST-1; end
+		if self.Offset < 0 then self.Offset=0; end
+
+		for i=1, QDKP2GUI_Roster.ENTRIES do  --fills in the list data
+
+		local indexAt = self.Offset+i
+		local ParentName="QDKP2_frame2_entry"..tostring(i)
+		QDKP2_Debug(2, "rAID builder ",indexAt .. ", " .. #QDKP2GUI_Roster.RAID_LIST)
+			
+		if indexAt <= #QDKP2GUI_Roster.RAID_LIST then
+		local list_entry = QDKP2GUI_Roster.RAID_DICT[indexAt]
+		
+		QDKP2_Debug(2,"Raid Build",list_entry)
+		local name = list_entry['name']
+		QDKP2_Debug(2,"Raid Build",name)
+		local class=list_entry['class']
+		local isinguild=QDKP2_IsInGuild(name)
+
+		r=list_entry['r']
+		g=list_entry['g']
+		b=list_entry['b']
+		a=list_entry['a']
+		local DKP_Ast=""
+
+        --Setting fields color
+        getglobal(ParentName.."_name"):SetVertexColor(r, g, b, a)
+        getglobal(ParentName.."_roll"):SetVertexColor(r, g, b, a)
+        getglobal(ParentName.."_bid"):SetVertexColor(r, g, b, a)
+        getglobal(ParentName.."_value"):SetVertexColor(r, g, b, a)
+        getglobal(ParentName.."_rank"):SetVertexColor(r, g, b, a)
+        if not QDKP2_USE_CLASS_BASED_COLORS then
+          local classColor=QDKP2_GetClassColor(class)
+		  getglobal(ParentName.."_class"):SetVertexColor(classColor.r, classColor.g, classColor.b, a)
+		else
+		  getglobal(ParentName.."_class"):SetVertexColor(r, g, b, a)
+        end
+
+        if isinguild and QDKP2_GetNet(name)<0 then
+          getglobal(ParentName.."_net"):SetVertexColor(1, 0.2, 0.2)
+        else
+          getglobal(ParentName.."_net"):SetVertexColor(r, g, b, a)
+        end
+        getglobal(ParentName.."_total"):SetVertexColor(r, g, b, a)
+        getglobal(ParentName.."_spent"):SetVertexColor(r, g, b, a)
+        getglobal(ParentName.."_hours"):SetVertexColor(r, g, b, a)
+        getglobal(ParentName.."_deltatotal"):SetVertexColor(r, g, b, a)
+        getglobal(ParentName.."_deltaspent"):SetVertexColor(r, g, b, a)
+
+		--Setting content
+		local nameS,roll,bid,value,rank,net,total,spent,hours,s_gain,s_spent
+		nameS=name or 'Unknown'
+
+		roll=''
+		bid=''
+		value=''
+
+		rank=list_entry['rank']
+		if class=="Death Knight" then class="DK"; end
+		net=list_entry['net']
+		total=list_entry['total']
+		spent=list_entry['spent']
+		if QDKP2_StoreHours then
+	      hours=tostring(QDKP2_GetHours(name))..DKP_Ast
+		else hours=''
+		end
+        s_gain=list_entry['s_gain']
+		s_spent=list_entry['s_spent']
+		displayname = list_entry['displayname']
+		getglobal(ParentName.."_name"):SetText(tostring(displayname));
+		getglobal(ParentName.."_roll"):SetText(tostring(roll or '-'))
+		getglobal(ParentName.."_bid"):SetText(tostring(bid or '-'))
+		getglobal(ParentName.."_value"):SetText(tostring(value or '-'))
+		getglobal(ParentName.."_rank"):SetText(tostring(rank or '-'));
+		getglobal(ParentName.."_class"):SetText(tostring(class or '-'));
+		getglobal(ParentName.."_net"):SetText(tostring(net or '-')..DKP_Ast);
+		getglobal(ParentName.."_total"):SetText(tostring(total or '-')..DKP_Ast);
+		getglobal(ParentName.."_spent"):SetText(tostring(spent or '-')..DKP_Ast);
+		getglobal(ParentName.."_hours"):SetText(tostring(hours or '-'));
+		getglobal(ParentName.."_deltatotal"):SetText(tostring(s_gain or '-'));
+		getglobal(ParentName.."_deltaspent"):SetText(tostring(s_spent or '-'));
+		QDKP2_Debug(2, "SETRAIDMON","Args"..  i.. ", " .. name.. ", " .. rank.. ", " .. class.. ", " .. net.. ", " ..  total.. ", " ..  spent.. ", " ..  hours.. ", " ..  s_gain.. ", " ..  s_spent)
+
+		if self:isSelectedPlayer(name) then getglobal(ParentName.."_Highlight"):Show()
+		else getglobal(ParentName.."_Highlight"):Hide()
+		end
+		getglobal(ParentName):Show();
+		else
+		getglobal(ParentName):Hide();
+		end
+		end
+
+		local numEntries=QDKP2GUI_Roster.ENTRIES
+		if #QDKP2GUI_Roster.RAID_DICT<numEntries then numEntries=#QDKP2GUI_Roster.RAID_DICT; end
+		FauxScrollFrame_Update(QDKP2_frame2_scrollbar,#QDKP2GUI_Roster.RAID_DICT,numEntries,16);
+		return
+	  
     elseif self.Sel=="bid" then
       myClass:ShowColumn('deltatotal', true)
       myClass:ShowColumn('deltaspent', true)
@@ -157,26 +306,175 @@ function myClass.Refresh(self, forceResort)
 	  QDKP2_Frame2_DE_Button:Show()
       QDKP2_Frame2_Bid_ButtonWin:Show()
 	  QDKP2_Frame2_Bid_ButtonRoll:Show()
+	  QDKP2_Frame2_Bid_ButtonClearData:Hide()
+	  QDKP2_Frame2_Cancel_Button:Hide()
 	  if QDKP2_BidM_isRolling() then
-	    QDKP2_Frame2_Bid_Button:SetText(QDKP2_LOC_GUISTARTBID)
 		QDKP2_Frame2_Bid_ButtonWin:Show()
 		QDKP2_Frame2_Bid_ButtonRoll:Hide()
+		QDKP2_Frame2_Cancel_Button:Show()
+		if not QDKP2_BidM_isBidding() or (QDKP2_BidM_isBidding() and myClass.SelectedPlayers and #myClass.SelectedPlayers==1 and QDKP2_BidM.LIST[myClass.SelectedPlayers[1]]) then
+			QDKP2_Frame2_Bid_ButtonWin:Show()
+			QDKP2_Frame2_Bid_ButtonWin:Enable()
+			QDKP2_Frame2_Bid_Button:Hide()
+		else
+			QDKP2_Frame2_Bid_ButtonWin:Hide()
+			QDKP2_Frame2_Bid_ButtonWin:Disable()
+			QDKP2_Frame2_Bid_Button:Show()
+		end
       elseif QDKP2_BidM_isBidding() then
-        QDKP2_Frame2_Bid_Button:SetText(QDKP2_LOC_GUICANCELBID)
+	    QDKP2_Frame2_Cancel_Button:Show()
 		QDKP2_Frame2_Bid_ButtonWin:Show()
 		QDKP2_Frame2_Bid_ButtonRoll:Hide()
+		QDKP2_Frame2_Bid_Button:Hide()
+		if not QDKP2_BidM_isBidding() or (QDKP2_BidM_isBidding() and myClass.SelectedPlayers and #myClass.SelectedPlayers==1 and QDKP2_BidM.LIST[myClass.SelectedPlayers[1]]) then
+			QDKP2_Frame2_Bid_ButtonWin:Enable()
+		else
+			QDKP2_Frame2_Bid_ButtonWin:Disable()
+		end
       else
-        QDKP2_Frame2_Bid_Button:SetText(QDKP2_LOC_GUISTARTBID)
 		QDKP2_Frame2_Bid_ButtonWin:Hide()
 		QDKP2_Frame2_Bid_ButtonRoll:Show()
       end
-      if not QDKP2_BidM_isBidding() or (QDKP2_BidM_isBidding() and myClass.SelectedPlayers and #myClass.SelectedPlayers==1 and QDKP2_BidM.LIST[myClass.SelectedPlayers[1]]) then
-        QDKP2_Frame2_Bid_ButtonWin:Enable()
-      else
-        QDKP2_Frame2_Bid_ButtonWin:Disable()
-      end
+
       QDKP2frame2_selectList_Bid:SetChecked(true)
-    end
+    elseif self.Sel=="monitor" then
+      myClass:ShowMonitorColumn('deltatotal', true)
+      myClass:ShowMonitorColumn('deltaspent', true)
+      myClass:ShowMonitorColumn('roll', true)
+      myClass:ShowMonitorColumn('bid', true)
+      myClass:ShowMonitorColumn('value', true)
+	  QDKP2_Frame2_sesscount:Show()
+      QDKP2_Frame2_SessionZone:Show()
+      QDKP2_Frame2_bidcount:Show()
+      QDKP2_Frame2_BiddingZone:Show()
+	  QDKP2_Frame2_Trade_Button:Hide()
+	  QDKP2_Frame2_DE_Button:Hide()
+      QDKP2_Frame2_Bid_Button:Hide()
+      QDKP2_Frame2_Bid_ButtonWin:Hide()
+	  QDKP2_Frame2_Bid_ButtonRoll:Hide()
+	  QDKP2_Frame2_Cancel_Button:Hide()
+	  -- todo have item appear here, ideally with tooltip
+      QDKP2_Frame2_Bid_Item:Show()
+	  QDKP2_Frame2_Bid_ButtonClearData:Show()
+	  --todo will need a false for all other options
+	  --QDKP2_BidM.ITEM = "PLACEHOLDER"
+	  --if not QDKP2_BidM.LIST then QDKP2_BidM.LIST = {} end
+      --QDKP2_BidM.BIDDING = true
+	  --QDKP2_BidM_CatchRoll = true
+      --QDKP2_BidM.ACCEPT_BID = true
+	  QDKP2frame2_selectList_Monitor:SetChecked(true)
+		--todo adjust for QDKP2GUI_Roster.MONITOR_DICT
+		for i, p in pairs (QDKP2GUI_Roster.MONITOR_DICT) do
+			for k,v in pairs(QDKP2GUI_Roster.MONITOR_DICT[i]) do
+				QDKP2_Debug(2,"Refresh 2 ", i .. ", " .. QDKP2GUI_Roster.MONITOR_DICT[i][k])
+			end
+		end
+		QDKP2_Debug(2,"Refresh 2  list length", #QDKP2GUI_Roster.MONITOR_DICT)
+		if QDKP2_StoreHours then
+		  myClass:ShowColumn('hours', true)
+		else
+		  myClass:ShowColumn('hours', false)
+		end
+
+		--if QDKP2GUI_Vars.ShowOutGuild then forceResort=true; end
+		--self:SortList(nil,nil,forceResort)
+
+		if self.Offset > #QDKP2GUI_Roster.MONITOR_LIST then self.Offset=#QDKP2GUI_Roster.MONITOR_LIST-1; end
+		if self.Offset < 0 then self.Offset=0; end
+
+		for i=1, QDKP2GUI_Roster.ENTRIES do  --fills in the list data
+
+		local indexAt = self.Offset+i
+		local ParentName="QDKP2_frame2_entry"..tostring(i)
+		QDKP2_Debug(2, "Mon builder ",indexAt .. ", " .. #QDKP2GUI_Roster.MONITOR_LIST)
+
+		if indexAt <= #QDKP2GUI_Roster.MONITOR_LIST then
+
+		local list_entry = QDKP2GUI_Roster.MONITOR_DICT[indexAt]
+		local name = list_entry['name']
+		QDKP2_Debug(2,"MON Build",name)
+		local class=list_entry['class']
+		local isinguild=QDKP2_IsInGuild(name)
+		QDKP2GUI_Roster.ITEM = list_entry['loot']
+
+		r=list_entry['r']
+		g=list_entry['g']
+		b=list_entry['b']
+		a=list_entry['a']
+		local DKP_Ast=""
+
+        --Setting fields color
+        getglobal(ParentName.."_name"):SetVertexColor(r, g, b, a)
+        getglobal(ParentName.."_roll"):SetVertexColor(r, g, b, a)
+        getglobal(ParentName.."_bid"):SetVertexColor(r, g, b, a)
+        getglobal(ParentName.."_value"):SetVertexColor(r, g, b, a)
+        getglobal(ParentName.."_rank"):SetVertexColor(r, g, b, a)
+        if not QDKP2_USE_CLASS_BASED_COLORS then
+          local classColor=QDKP2_GetClassColor(class)
+		  getglobal(ParentName.."_class"):SetVertexColor(classColor.r, classColor.g, classColor.b, a)
+		else
+		  getglobal(ParentName.."_class"):SetVertexColor(r, g, b, a)
+        end
+
+        if isinguild and QDKP2_GetNet(name)<0 then
+          getglobal(ParentName.."_net"):SetVertexColor(1, 0.2, 0.2)
+        else
+          getglobal(ParentName.."_net"):SetVertexColor(r, g, b, a)
+        end
+        getglobal(ParentName.."_total"):SetVertexColor(r, g, b, a)
+        getglobal(ParentName.."_spent"):SetVertexColor(r, g, b, a)
+        getglobal(ParentName.."_hours"):SetVertexColor(r, g, b, a)
+        getglobal(ParentName.."_deltatotal"):SetVertexColor(r, g, b, a)
+        getglobal(ParentName.."_deltaspent"):SetVertexColor(r, g, b, a)
+
+		--Setting content
+		local nameS,roll,bid,value,rank,net,total,spent,hours,s_gain,s_spent
+		nameS=name or 'Unknown'
+
+		roll=list_entry['roll']
+		bid=list_entry['bid']
+		value=list_entry['value']
+
+		rank=list_entry['rank']
+		if class=="Death Knight" then class="DK"; end
+		net=list_entry['net']
+		total=list_entry['total']
+		spent=list_entry['spent']
+		displayname = list_entry['displayname']
+		if QDKP2_StoreHours then
+	      hours=tostring(QDKP2_GetHours(name))..DKP_Ast
+		else hours=''
+		end
+        s_gain=list_entry['s_gain']
+		s_spent=list_entry['s_spent']
+		getglobal(ParentName.."_name"):SetText(tostring(displayname));
+		getglobal(ParentName.."_roll"):SetText(tostring(roll or '-'))
+		getglobal(ParentName.."_bid"):SetText(tostring(bid or '-'))
+		getglobal(ParentName.."_value"):SetText(tostring(value or '-'))
+		getglobal(ParentName.."_rank"):SetText(tostring(rank or '-'));
+		getglobal(ParentName.."_class"):SetText(tostring(class or '-'));
+		getglobal(ParentName.."_net"):SetText(tostring(net or '-')..DKP_Ast);
+		getglobal(ParentName.."_total"):SetText(tostring(total or '-')..DKP_Ast);
+		getglobal(ParentName.."_spent"):SetText(tostring(spent or '-')..DKP_Ast);
+		getglobal(ParentName.."_hours"):SetText(tostring(hours or '-'));
+		getglobal(ParentName.."_deltatotal"):SetText(tostring(s_gain or '-'));
+		getglobal(ParentName.."_deltaspent"):SetText(tostring(s_spent or '-'));
+		QDKP2_Debug(2, "SETMON","Args"..  i.. ", " .. name.. ", " .. roll.. ", " .. bid.. ", " .. value.. ", " .. rank.. ", " .. class.. ", " .. net.. ", " ..  total.. ", " ..  spent.. ", " ..  hours.. ", " ..  s_gain.. ", " ..  s_spent)
+
+		if self:isSelectedPlayer(name) then getglobal(ParentName.."_Highlight"):Show()
+		else getglobal(ParentName.."_Highlight"):Hide()
+		end
+		getglobal(ParentName):Show();
+		else
+		getglobal(ParentName):Hide();
+		end
+		end
+		QDKP2_Frame2_Bid_Item:SetText(QDKP2GUI_Roster.ITEM)
+		local numEntries=QDKP2GUI_Roster.ENTRIES
+		if #QDKP2GUI_Roster.MONITOR_DICT<numEntries then numEntries=#QDKP2GUI_Roster.MONITOR_DICT; end
+		FauxScrollFrame_Update(QDKP2_frame2_scrollbar,#QDKP2GUI_Roster.MONITOR_DICT,numEntries,16);
+		return
+	end
 
     if QDKP2_StoreHours then
       myClass:ShowColumn('hours', true)
@@ -257,7 +555,7 @@ function myClass.Refresh(self, forceResort)
             hours=tostring(QDKP2_GetHours(name))..DKP_Ast
           else hours=''
           end
-          if self.Sel=="raid" or self.Sel=="bid" then
+          if self.Sel=="raid" or self.Sel=="bid" or self.Sel=="monitor" then
             s_gain,s_spent=QDKP2_GetSessionAmounts(name)
           else
             s_gain=''; s_spent=''
@@ -309,12 +607,74 @@ function myClass.PupulateList(self)
     for i,name in pairs(QDKP2name) do
       if QDKP2online[name] and not QDKP2_IsExternal(name) then table.insert(self.List,name); end
     end
+  elseif self.Sel=='raidmon' then
+    self.List=QDKP2_CopyTable(QDKP2GUI_Roster.RAID_LIST)
+
+	for i,v in pairs(QDKP2GUI_Roster.RAID_DICT) do
+		QDKP2_Debug(2,"Pop_RaidMon", QDKP2GUI_Roster.RAID_DICT[i])
+		for k,v in pairs(QDKP2GUI_Roster.RAID_DICT[i]) do
+			QDKP2_Debug(2,"raidmon list args", QDKP2GUI_Roster.RAID_DICT[i][k])
+		end
+	end
+	for k,v in pairs(self.List) do
+		QDKP2_Debug(2,"self.List ", self.List[k])
+	end
   elseif self.Sel=='raid' then
     if QDKP2GUI_Vars.ShowOutGuild then
       local list={}
+	  QDKP2GUI_Roster.RAID_LIST = {}
+	  QDKP2GUI_Roster.RAID_DICT = {}
+	  QDKP:SendMonitorMessage( 'CLEARRAIDLIST')
       for i=1,QDKP2_GetNumRaidMembers() do
         local name = QDKP2_GetRaidRosterInfo(i)
         table.insert(list,name)
+		s_gain,s_spent=QDKP2_GetSessionAmounts(name)
+		
+        local class=QDKP2class[name] or UnitClass(name)
+        local isinguild=QDKP2_IsInGuild(name)
+        local colors=myClass.PlayersColor.Default
+        if not isinguild then colors=myClass.PlayersColor.NoGuild
+        elseif QDKP2_USE_CLASS_BASED_COLORS then
+          colors=QDKP2_GetClassColor(class)
+        else
+          if QDKP2_IsModified(name) then colors=myClass.PlayersColor.Modified
+          elseif QDKP2_IsStandby(name) then colors=myClass.PlayersColor.Standby
+          elseif QDKP2_IsAlt(name) then colors=myClass.PlayersColor.Alt
+          elseif QDKP2_IsExternal(name) then colors=myClass.PlayersColor.External
+          else
+          end
+        end
+        local r,g,b,a=colors.r, colors.g, colors.b, 1
+        local DKP_Ast=""
+        if QDKP2_USE_CLASS_BASED_COLORS and QDKP2_IsModified(name) then DKP_Ast="*"; end
+        if self.Sel=='raid' and QDKP2_IsRemoved(name) then a=0.4; end
+
+		QDKP2_Debug(2,"Bidder List",name)
+		QDKP2_Debug(2,"Bidder List",QDKP2rank[name] .. " " .. QDKP2class[name] .. " " .. QDKP2_GetNet(name) .. " " .. QDKP2_GetTotal(name))
+		QDKP2_Debug(2,"Bidder List",QDKP2_GetSpent(name) .. " " .. s_gain .. " " .. s_spent)
+		displayname = QDKP2_GetName(name)
+		table.insert(QDKP2GUI_Roster.RAID_LIST,name)
+		QDKP2GUI_Roster.RAID_DICT[i] = {}
+		QDKP2GUI_Roster.RAID_DICT[i]['name'] = name
+		QDKP2GUI_Roster.RAID_DICT[i]['displayname'] = displayname
+		QDKP2GUI_Roster.RAID_DICT[i]['rank']=QDKP2rank[name]
+		QDKP2GUI_Roster.RAID_DICT[i]['class']=QDKP2class[name]
+		QDKP2GUI_Roster.RAID_DICT[i]['net']=QDKP2_GetNet(name)
+		QDKP2GUI_Roster.RAID_DICT[i]['total']=QDKP2_GetTotal(name)
+		QDKP2GUI_Roster.RAID_DICT[i]['spent']=QDKP2_GetSpent(name)
+		QDKP2GUI_Roster.RAID_DICT[i]['s_gain']=s_gain
+		QDKP2GUI_Roster.RAID_DICT[i]['s_spent']=s_spent
+		QDKP2GUI_Roster.RAID_DICT[i]['r']=r
+		QDKP2GUI_Roster.RAID_DICT[i]['g']=g
+		QDKP2GUI_Roster.RAID_DICT[i]['b']=b
+		QDKP2GUI_Roster.RAID_DICT[i]['a']=a
+		QDKP2GUI_Roster.RAID_DICT[i]['roll']='-'
+		QDKP2GUI_Roster.RAID_DICT[i]['bid']='-'
+		QDKP2GUI_Roster.RAID_DICT[i]['value']='-'
+		QDKP2GUI_Roster.RAID_DICT[i]['loot']='-'
+		QDKP:SendMonitorMessage( 'RAIDLIST', i, '-', name, '-', '-', '-', QDKP2rank[name], QDKP2class[name], QDKP2_GetNet(name), QDKP2_GetTotal(name), QDKP2_GetSpent(name), s_gain, s_spent, r, g, b,a, displayname)
+		
+		
       end
       self.List=list
     else
@@ -322,11 +682,93 @@ function myClass.PupulateList(self)
     end
   elseif self.Sel=='bid' then
     self.List=QDKP2_CopyTable(QDKP2_BidM_GetBidderList())
+	QDKP2GUI_Roster.MONITOR_LIST = {}
+	QDKP2GUI_Roster.MONITOR_DICT = {}
+	--todo add clear dict signal
+	QDKP:SendMonitorMessage( 'CLEARMONITORLIST')
+	
+	for i,v in pairs(self.List) do
+		QDKP2_Debug(2,"Refresh bid ",  self.List[i])
+		--for k,v in pairs(self.List[i]) do
+		--	QDKP2_Debug(2,"Refresh bid ", i .. ", " .. self.List[i][k])
+		--end
+		name = self.List[i]
+
+		QDKP2_Debug(2,"Bidder List",self.List[i])
+		local BidEntry=QDKP2_BidM_GetBidder(name) or {}
+		roll=BidEntry.roll
+		bid=BidEntry.txt
+		value=BidEntry.value
+		if roll== nil then
+			roll="-"
+		end
+		if bid== nil then
+			bid="-"
+		end
+		if value== nil then
+			value="-"
+		end
+		s_gain,s_spent=QDKP2_GetSessionAmounts(name)
+		
+        local class=QDKP2class[name] or UnitClass(name)
+        local isinguild=QDKP2_IsInGuild(name)
+        local colors=myClass.PlayersColor.Default
+        if not isinguild then colors=myClass.PlayersColor.NoGuild
+        elseif QDKP2_USE_CLASS_BASED_COLORS then
+          colors=QDKP2_GetClassColor(class)
+        else
+          if QDKP2_IsModified(name) then colors=myClass.PlayersColor.Modified
+          elseif QDKP2_IsStandby(name) then colors=myClass.PlayersColor.Standby
+          elseif QDKP2_IsAlt(name) then colors=myClass.PlayersColor.Alt
+          elseif QDKP2_IsExternal(name) then colors=myClass.PlayersColor.External
+          else
+          end
+        end
+        local r,g,b,a=colors.r, colors.g, colors.b, 1
+        local DKP_Ast=""
+        if QDKP2_USE_CLASS_BASED_COLORS and QDKP2_IsModified(name) then DKP_Ast="*"; end
+        if self.Sel=='raid' and QDKP2_IsRemoved(name) then a=0.4; end
+
+		QDKP2_Debug(2,"Bidder List",name .. " " .. roll .. " " .. bid .. " " .. value)
+		QDKP2_Debug(2,"Bidder List",QDKP2rank[name] .. " " .. QDKP2class[name] .. " " .. QDKP2_GetNet(name) .. " " .. QDKP2_GetTotal(name))
+		QDKP2_Debug(2,"Bidder List",QDKP2_GetSpent(name) .. " " .. s_gain .. " " .. s_spent .. " " .. QDKP2_BidM.ITEM)
+		displayname = QDKP2_GetName(name)
+		QDKP2GUI_Roster.MONITOR_DICT[i] = {}
+		QDKP2GUI_Roster.MONITOR_DICT[i]['name'] = name
+		QDKP2GUI_Roster.MONITOR_DICT[i]['displayname'] = displayname
+		QDKP2GUI_Roster.MONITOR_DICT[i]['roll']=roll
+		QDKP2GUI_Roster.MONITOR_DICT[i]['bid']=bid
+		QDKP2GUI_Roster.MONITOR_DICT[i]['value']=value
+		QDKP2GUI_Roster.MONITOR_DICT[i]['rank']=QDKP2rank[name]
+		QDKP2GUI_Roster.MONITOR_DICT[i]['class']=QDKP2class[name]
+		QDKP2GUI_Roster.MONITOR_DICT[i]['net']=QDKP2_GetNet(name)
+		QDKP2GUI_Roster.MONITOR_DICT[i]['total']=QDKP2_GetTotal(name)
+		QDKP2GUI_Roster.MONITOR_DICT[i]['spent']=QDKP2_GetSpent(name)
+		QDKP2GUI_Roster.MONITOR_DICT[i]['s_gain']=s_gain
+		QDKP2GUI_Roster.MONITOR_DICT[i]['s_spent']=s_spent
+		QDKP2GUI_Roster.MONITOR_DICT[i]['loot']=QDKP2_BidM.ITEM
+		QDKP2GUI_Roster.MONITOR_DICT[i]['r']=r
+		QDKP2GUI_Roster.MONITOR_DICT[i]['g']=g
+		QDKP2GUI_Roster.MONITOR_DICT[i]['b']=b
+		QDKP2GUI_Roster.MONITOR_DICT[i]['a']=a
+		QDKP:SendMonitorMessage( 'MONITORLIST', i, QDKP2_BidM.ITEM, name, roll, bid, value, QDKP2rank[name], QDKP2class[name], QDKP2_GetNet(name), QDKP2_GetTotal(name), QDKP2_GetSpent(name), s_gain, s_spent, r, g, b,a, displayname)
+	end
     if not QDKP2GUI_Vars.ShowOutGuild then
       for i,name in pairs(self.List) do
         if not QDKP2_IsInGuild(name) then table.remove(self.List,i); end
       end
     end
+  elseif self.Sel=='monitor' then
+    self.List=QDKP2_CopyTable(QDKP2GUI_Roster.MONITOR_LIST)
+	for i,v in pairs(QDKP2GUI_Roster.MONITOR_DICT) do
+		QDKP2_Debug(2,"Pop_Mon", QDKP2GUI_Roster.MONITOR_DICT[i])
+		for k,v in pairs(QDKP2GUI_Roster.MONITOR_DICT[i]) do
+			QDKP2_Debug(2,"mon list args", QDKP2GUI_Roster.MONITOR_DICT[i][k])
+		end
+	end
+	for k,v in pairs(self.List) do
+		QDKP2_Debug(2,"self.List ", self.List[k])
+	end
   end
   QDKP2_Debug(2, "GUI-Roster","List populated. Voices="..tostring(#self.List))
 end
@@ -343,6 +785,50 @@ function myClass.ShowColumn(self, Column, todo)
     QDKP2_Debug(3, "GUI-Roster","showing column "..tostring(Column))
     expand=true
   end
+  for i=1, QDKP2GUI_Roster.ENTRIES do
+    local ParentName="QDKP2_frame2_entry"..tostring(i)
+    local ColObj=getglobal(ParentName..'_'..Column)
+    if todo then
+      --ColObj:Show()
+      ColObj:SetWidth(width+1)
+    else
+      --ColObj:Hide()
+      ColObj:SetWidth(0)
+    end
+    local RowObj=getglobal(ParentName)
+    if reduce then RowObj:SetWidth(RowObj:GetWidth()-(width))
+    elseif expand then RowObj:SetWidth(RowObj:GetWidth()+(width))
+    end
+  end
+  local TitleColObj=getglobal("QDKP2_frame2_title_"..Column)
+  local SortButton=getglobal("QDKP2_Frame2_SortBtn_"..Column)
+  if todo then
+    --TitleColObj:Show()
+    TitleColObj:SetWidth(width+1)
+    SortButton:Show()
+  else
+    --TitleColObj:Hide()
+    TitleColObj:SetWidth(0)
+    SortButton:Hide()
+  end
+  if reduce then QDKP2_Frame2:SetWidth(QDKP2_Frame2:GetWidth()-(width))
+  elseif expand then QDKP2_Frame2:SetWidth(QDKP2_Frame2:GetWidth()+(width))
+  end
+end
+
+function myClass.ShowMonitorColumn(self, Column, todo)
+  local width=myClass.ColumnWidth[Column]
+  local expand, reduce
+  TestObj=getglobal("QDKP2_Frame2_SortBtn_"..Column)
+  if TestObj:IsVisible() and not todo then
+    QDKP2_Debug(3, "GUI-Roster","Hiding column "..tostring(Column))
+    reduce=true
+  elseif not TestObj:IsVisible() and todo then
+    QDKP2_Debug(3, "GUI-Roster","showing column "..tostring(Column))
+    expand=true
+  end
+  QDKP2_Debug(2, "GUI-Roster","Help "..tostring(QDKP2GUI_Roster.MONITOR_DICT))
+  
   for i=1, QDKP2GUI_Roster.ENTRIES do
     local ParentName="QDKP2_frame2_entry"..tostring(i)
     local ColObj=getglobal(ParentName..'_'..Column)
@@ -440,7 +926,7 @@ function myClass.ChangeList(self,Type)
     if myClass:isSelectedPlayer(v) then table.insert(list,v); end
   end
   self.SelectedPlayers=list
-  if Type=='bid'  then
+  if Type=='bid' then
     myClass.Sort.Order=''
     myClass.Sort.Reverse.BidValue=true
     myClass:SortList("BidValue")
@@ -453,11 +939,13 @@ end
 
 function myClass.DragDropManager(self)
   local what,a1,a2=GetCursorInfo()
+  QDKP2_Debug(2,a2)
   if what=='item' then
 	BagId = Temp_BagId
 	SlotId = Temp_SlotId
     this:SetText(a2)
     ClearCursor()
+	myClass.ITEM = A2
   end
 end
 
@@ -491,14 +979,36 @@ function myClass.PushedBidButton(self)
       mess=string.gsub(mess,"$ITEM",tostring(QDKP2_BidM.ITEM or '-'))
       QDKP2_BidM_SendMessage(nil,"MANAGER","bid_start",mess)
     end
-  elseif QDKP2_BidM_isBidding() then
-    QDKP2_BidM_CancelBid()
-    QDKP2_Frame2_Bid_Item:SetText("")
   else
     QDKP2_BidM_StartBid(QDKP2_Frame2_Bid_Item:GetText())
   end
   myClass:Refresh()
   QDKP2_Frame2_Bid_Item:ClearFocus()
+  --todo
+  QDKP:SendMonitorMessage('ADDLOOT', QDKP2_BidM.ITEM, "PRIORITY_HIGH" )
+
+end
+
+function myClass.PushedCancelButton(self)
+	QDKP2_BidM_CancelBid()
+	QDKP2_Frame2_Bid_Item:SetText("")
+
+  myClass:Refresh()
+  QDKP2_Frame2_Bid_Item:ClearFocus()
+  --todo
+  QDKP:SendMonitorMessage('REMOVELOOT', QDKP2_BidM.ITEM, "PRIORITY_HIGH" )
+
+end
+
+function myClass.PushedClearButton(self)
+	QDKP2GUI_Roster.RAID_DICT = {}
+	QDKP2GUI_Roster.RAID_LIST = {}	
+	QDKP2GUI_Roster.MONITOR_DICT = {}
+	QDKP2GUI_Roster.MONITOR_LIST = {}
+	QDKP2GUI_Roster.ITEM = ""
+	QDKP2_Frame2_Bid_Item:SetText("")
+	myClass:Refresh()
+	QDKP2_Frame2_Bid_Item:ClearFocus()
 end
 
 function myClass.PushedBidRollButton(self)
@@ -1086,7 +1596,7 @@ local function SortComparitor(val1, val2)
    increment = Values.Hours
    if (test1 < test2) then compare = compare - increment; elseif (test1 > test2) then compare = compare + increment; end
 
-  if myClass.Sel == 'raid' or myClass.Sel == 'bid' then
+  if myClass.Sel == 'raid' or myClass.Sel == 'bid' or myClass.Sel == 'monitor' then
     local s_gain1,s_spent1=QDKP2_GetSessionAmounts(val1)
     local s_gain2,s_spent2=QDKP2_GetSessionAmounts(val2)
     s_gain1=s_gain1 or QDKP2_MINIMUM_NET
@@ -1104,7 +1614,7 @@ local function SortComparitor(val1, val2)
     increment = Values.SessSpent
     if (s_spent1 < s_spent2) then compare = compare - increment; elseif (s_spent1 > s_spent2) then compare = compare + increment; end
 
-    if myClass.Sel=='bid' then
+    if myClass.Sel=='bid' or myClass.Sel=='monitor' then
 
       local bid1=QDKP2_BidM_GetBidder(val1) or {}
       local bid2=QDKP2_BidM_GetBidder(val2) or {}
