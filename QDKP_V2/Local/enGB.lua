@@ -154,7 +154,7 @@ QDKP2_LOC_BidRollsLog = "Rolls $ROLL for $ITEM"
 QDKP2_LOC_BidStartLog = "Bidding started for $ITEM."
 QDKP2_LOC_BidWinLog = "Wins with $VALUE for $ITEM."
 QDKP2_LOC_BidCancelLog = "Bidding for $ITEM has been cancelled."
-QDKP2_LOC_DELog = "Bidding for $ITEM has been cancelled, item will be disenchanted by $PLAYER."
+QDKP2_LOC_DELog = "DE set for $ITEM by $PLAYER."
 QDKP2_LOC_NoEligible = "You are not eligible to use that keyword."
 QDKP2_LOC_BidAllIn = "has placed a bid of $VALUE."
 

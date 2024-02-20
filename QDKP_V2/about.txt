@@ -26,6 +26,11 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Release Log:
+v2.6.7.25
+- Ondemand interface moved to new comms backend. Ability to now hide ondemand messages (wasn't working before)
+- DE logging text shortened to reduce clipping.
+- Added ?main as a ondemand call
+
 v2.6.7.24
 - New comms backend for disseminating data between raid members.
 - Added a monitor for bidding and raid so raid members can see waht the masterlooter ees on the Raid and Bid Manager tabs.

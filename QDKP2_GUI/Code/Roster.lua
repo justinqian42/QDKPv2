@@ -649,9 +649,6 @@ function myClass.PupulateList(self)
         if QDKP2_USE_CLASS_BASED_COLORS and QDKP2_IsModified(name) then DKP_Ast="*"; end
         if self.Sel=='raid' and QDKP2_IsRemoved(name) then a=0.4; end
 
-		QDKP2_Debug(2,"Bidder List",name)
-		QDKP2_Debug(2,"Bidder List",QDKP2rank[name] .. " " .. QDKP2class[name] .. " " .. QDKP2_GetNet(name) .. " " .. QDKP2_GetTotal(name))
-		QDKP2_Debug(2,"Bidder List",QDKP2_GetSpent(name) .. " " .. s_gain .. " " .. s_spent)
 		displayname = QDKP2_GetName(name)
 		table.insert(QDKP2GUI_Roster.RAID_LIST,name)
 		QDKP2GUI_Roster.RAID_DICT[i] = {}

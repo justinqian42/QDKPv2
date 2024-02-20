@@ -111,11 +111,17 @@ function QDKP2_OnEvent(self, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7)
 
 --WHISPER SNIFFER
   elseif event=="CHAT_MSG_WHISPER" then
+	a=1
+	--replaced by QDKP:ChatFrameFilter
+  --[[
 		if QDKP2processedWhispers ~= time()..arg2..arg1 then
 			local answer = QDKP2_OD(arg1, arg2)
 			if answer then
+				QDKP2_SuppressIncomingWhisper(arg2,arg1)
 				if not QDKP2_OS_VIEWWHSP then QDKP2_SuppressIncomingWhisper(arg2,arg1) end
 				QDKP2_Debug(2,"Core", "OD system triggered by "..arg2..": "..arg1)
+				QDKP2_Debug(2,"Core QDKP2_OS_VIEWWHSP ", QDKP2_OS_VIEWWHSP)
+				QDKP2_Debug(2,"Core QDKP2_ODS_ENABLE ", QDKP2_ODS_ENABLE)
 				QDKP2_SendHiddenWhisper(answer,arg2)
 			else
 				if QDKP2_BidM_isBidding() then
@@ -126,7 +132,7 @@ function QDKP2_OnEvent(self, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7)
 				end
 			end
 		end
-		QDKP2processedWhispers=time()..arg2..arg1
+		QDKP2processedWhispers=time()..arg2..arg1]]--
 
 --RAID CHAT SNIFFER
   elseif event == "CHAT_MSG_RAID" or event == "CHAT_MSG_RAID_WARNING" or event == "CHAT_MSG_RAID_LEADER" or event == "CHAT_MSG_PARTY" then

@@ -18,6 +18,7 @@ end
 function QDKP:PostEnable()
     -- Inbound Chat Hooking
     ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER",		QDKP.ChatFrameFilter)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM",		QDKP.ChatFrameFilterOutbound)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY",    	QDKP.ChatFrameFilter)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID",    	QDKP.ChatFrameFilter)
 	ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER",    	QDKP.ChatFrameFilter)
@@ -45,10 +46,15 @@ local lastMsgID = nil
 local lastMsgFiltered = false
 
 local commandPatterns = {
-    '^%s*?[aA][dD][kK][pP]%s+(%a+)%s*(.*)',
-	'^%s*?[aA][dD][kK][pP]%s'
+    '^%s*?[dD][kK][pP]%s+(%a+)%s*(.*)',
+	'^%s*?[dD][kK][pP]',
+	'^%s*?[mM][aA][iI][nN]',
+	'^%s*?[rR][eE][pP][oO][rR][tT]',
+	'^%s*?[cC][lL][aA][sS][sS]',
+	'^%s*?[hH][eE][lL][pP]'
 }
 local numCommandPatterns = #commandPatterns
+
 
 function QDKP:ChatFrameFilter(...)
 
@@ -71,14 +77,51 @@ function QDKP:ChatFrameFilter(...)
 
     -- find ?dkp or any of the other command patterns in the chat message and try to handle the command.
 		-- find EPGPLootmaster: in the chat message and prevent these messages from showing up.
-	if strfind(msg, '^%s*QDKP2:%s+') then
+	local command, params = nil, nil
+    for i=1, numCommandPatterns do
+        command, params = strmatch(msg, commandPatterns[i])
+        if command then
+			QDKP2_Debug(2, "Comms", "command found " .. command .. " from " .. sender .. " in message " .. msg)
+			local a  = QDKP2_OD(msg, sender)
+			--QDKP:SendWhisperResponse(a, sender)
+			QDKP2_SendHiddenWhisper(a,sender)
+			lastMsgFiltered = true
+			return true
+		end
+    end	
+end
+
+function QDKP:ChatFrameFilterOutbound(...)
+
+
+    local event = select(1, ...)
+    local sender = select(3, ...)
+    local msg = select(2, ...)
+    local msgID = select(12, ...)
+    QDKP2_Debug(2, "Comms", "ChatFrameFilter Outbound, event: " .. event ..  ", sender: " .. sender ..  ", msg " .. msg ..  ", msgid" .. msgID)
+    -- Do not process WIM History
+    if not msgID or msgID<1 then return end
+
+    -- See if we have already processed the message.
+    if lastMsgID == msgID then
+        return lastMsgFiltered
+    end
+
+    lastMsgID         = msgID
+    lastMsgFiltered   = false
+
+		-- find QDKP2> in the chat message and prevent these messages from showing up.
+	if QDKP2_OS_VIEWWHSP then return false; end
+	if strfind(msg, '^%s*QDKP2>%s+') then
 	    QDKP2_Debug(2, "Comms", "command found ")
 		--todo change to true
 		lastMsgFiltered = true
-		return false
+		return true
 	end
 end
 
+
+--currently not used
 function QDKP:SendWhisperResponse(message, target)
     QDKP2_Debug(2, "Comms", "SendWhisperResponse " .. message .. target)
     SendChatMessage( MsgPrefix .. ( message or ''), 'WHISPER', nil, target );
@@ -234,6 +277,7 @@ function QDKP:CommandReceived(prefix, message, distribution, sender)
 
             QDKP2GUI_Roster.MONITOR_DICT = {}
 			QDKP2GUI_Roster.MONITOR_LIST = {}
+			QDKP2GUI_Roster.ITEM = ""
         
 		elseif monCmd == 'CLEARRAIDLIST' then
 
@@ -359,82 +403,225 @@ function QDKP:CommandReceived(prefix, message, distribution, sender)
     end
 end
 
-function QDKP:HandleEPGPCommand(command, message, sender, event)
 
-    local preventMonitorUpdate = false;
-    local preventMessageDisplay = false;
+function QDKP:HandleDKPCommand(text, sender)
 
-    if command=='STANDBY' then
-        -- dont handle this message, let EPGP handle it.
-        return false;
+  if not QDKP2_ODS_ENABLE then return; end
+
+  local P1,P2,P3=QDKP2libs.AceConsole:GetArgs(string.lower(text), 3)
+
+  if not P1 then return; end
+  if P1=="?dkp" then
+    if not QDKP2_IsInGuild(sender) and not QDKP_OD_EXT then
+      return {"QDKP2 - Only GuildMembers can use the On-Demand whisper system."}
     end
-	
-	if command=='REPORT' then
-        -- dont handle this message, let EPGP handle it.
-		--EPGP:EPGP_Export_Popup("raid")
-		self:Print(string.format("Request from %s", sender))
-		Text=EPGP_Export("raid","text")
-		leng = string.len(Text)
-		self:Print("Length is ", leng)
-		return_text = Text:gsub("|","\\")
-		return_text = return_text:gsub(" ","+")
-		return_text = return_text:gsub("\n","~")
-		self:SendCommMessage("EPGPLootMasterC", format("%s:%s", tostring(command), tostring("REPORT_START")), "WHISPER", sender, "ALERT")
-		local st = split(return_text,200)
-		for _,v in ipairs(st) do
-		   self:Print(v)
-		   self:SendCommMessage("EPGPLootMasterC", format("%s:%s", tostring(command), tostring(v)), "WHISPER", sender, "ALERT")
-		end
-		self:SendCommMessage("EPGPLootMasterC", format("%s:%s", tostring(command), tostring("REPORT_END")), "WHISPER", sender, "ALERT")
-		
-        return true;
+    if not P2 then P2=sender
+    else P2 = QDKP2_FormatName(P2)
     end
-
-    if command=='PAS' or command=='PASS' or command=='NEED' or command=='GREED' or command=='MAJOR' or command=='MINOR' or command=='OS' and message~='' then
-        --Someone is trying to need/greed/pass a loot item.
-
-        if command=='PAS' then
-            command = 'PASS'
-        end
-		
-		if command=='MAJOR' then
-            command = 'NEED'
-        end
-		
-		if command=='MINOR' then
-            command = 'MINORUPGRADE'
-        end
-		
-		if command=='OS' then
-            command = 'OFFSPEC'
-        end
-
-        local itemID = self:GetLootID( message )
-        if itemID then
-            if self:IsCandidate( itemID, sender ) then
-                if LootMaster.db.profile.ignoreResponseCorrections and tonumber(self:GetCandidateData( itemID, sender, 'response' )) >= LootMaster.RESPONSE.NEED then
-                    self:SendWhisperResponse( format('You have already made a selection for %s. Corrections have been disabled by the master looter.', message), sender );
-                    return true;
-                else
-                    self:SetCandidateResponse( itemID, sender, LootMaster.RESPONSE[command] or LootMaster.RESPONSE.INIT, preventMonitorUpdate );
-                    self:SetCandidateData( itemID, sender, 'enchantingSkill', 0, true );
-                    self:ReloadMLTableForLoot( itemID )
-                    self:SendWhisperResponse( format('Registered %s for %s', command, message), sender );
-                end
-            else
-                self:SendWhisperResponse( format('You are not a candidate for %s. Perhaps you were not involved in the fight?', message), sender );
-                return true;
-            end
-        else
-            self:SendWhisperResponse( format('%s not found on the loot list, perhaps it has already been looted?', message), sender );
-            return true;
-        end
-
-        return true;
+    if not QDKP2_NOD then
+      return {"QDKP2 - This feature is disabled."}
+    elseif not (P2==sender or QDKP2_IOD_REQALL) then
+      return {"QDKP2 - You can't ask for other player's data."}
+    elseif not QDKP2_IsInGuild(P2) then
+      return {"QDKP2 - "..P2..": Invalid Guild Member Name."}
     else
-        self:SendWhisperResponse( format('"%s" not understood. usage: /w %s !epgp major/minor/os/pass [itemlink]', command, UnitName('player')), sender );
-        self:Print( format('%s sent "%s %s"; not understood, returned usage list.', sender or '', command or '', message or ''));
-        return true;
+      if P2==sender then
+        return {QDKP2_MakeNotifyMsg(P2, false)}
+      else
+        return {QDKP2_MakeNotifyMsg(P2,true)}
+      end
     end
+  elseif P1=="?main" then
+    if not QDKP2_IsInGuild(sender) and not QDKP_OD_EXT then
+      return {"QDKP2 - Only GuildMembers can use the On-Demand whisper system."}
+    end
+    if not P2 then P2=sender
+    else P2 = QDKP2_FormatName(P2)
+    end
+	if QDKP2_IsAlt(sender)== nil then return {"This character is the main."};end
+	return {"Alt of: " .. QDKP2_GetMain(sender)}
 
+	
+  elseif P1=="?report" or P1=="?log" then
+    if not QDKP2_IsInGuild(sender) and not QDKP_OD_EXT then
+      return {"QDKP2 - Only GuildMembers can use the On-Demand whisper system."}
+    end
+    if not P2 then P2=sender
+    else P2 = QDKP2_FormatName(P2)
+    end
+    if P2=="raid" then P2="RAID"; end
+    if not QDKP2_ROD then
+      return {"QDKP2 - This feature is disabled."}
+    elseif not (P2==sender or QDKP2_IOD_REQALL) and not P2=="RAID" then
+      return {"QDKP2 - You can't ask for other player's data."}
+    elseif not (QDKP2_IsInGuild(P2) or P2 == "RAID") then
+      return {"QDKP2 - "..P2..": Invalid Guild Member Name."}
+    else
+      P3=P3 or "all"
+      local reportType, logList
+      if P3=="current" or P3=="last" then
+        local Session=QDKP2_IsManagingSession()
+        if not Session then
+          return {"QDKP2 - I'm not managing any session at the moment."}
+        end
+        local _,SessName=QDKP2_GetSessionInfo(Session)
+        reportType="Current session "..SessName
+        logList=QDKP2log_GetPlayer(P2,Session)
+      elseif P3=="all" then
+        logList=QDKP2log_ParsePlayerLog(P2)
+        reportType="Overview"
+      else
+        return {'QDKP2 - Wrong report type. Usage: "?report <name> all/current"'}
+      end
+      local Report=QDKP2_GetReport(logList,P2,reportType)
+      if Report and #Report>0 then
+        return Report
+      else
+        return {'QDKP2 - No data in '..P2.."'s Log."}
+      end
+    end
+--[[
+  elseif P1=="?prices" or P1=="?price" then
+    if not QDKP2_IsInGuild(sender) and not QDKP_OD_EXT then
+      return {"QDKP2 - Only GuildMembers can use the On-Demand whisper system."}
+    end
+    if not QDKP2_POD then return {"QDKP2 - This feature is disabled."}; end
+    local arg=string.lower(string.sub(text,8))
+    local output={}
+    if not arg then return {"QDKP2 - You must give a keyword to search for."}; end
+    if string.len(arg)<QDKP2_POD_MINKEYWORD then return {"QDKP2 - Search keyword must be longer than "..tostring(QDKP2_POD_MINKEYWORD).." chars."}; end
+    local results=0
+    for i=1,table.getn(QDKP2_ChargeLoots) do
+      if strfind(string.lower(QDKP2_ChargeLoots[i].item), arg) then
+        table.insert(output,"["..QDKP2_ChargeLoots[i].item.."], "..tostring(QDKP2_ChargeLoots[i].DKP).." DKP")
+	results=results+1
+      end
+      if results>QDKP2_POD_MAXRESULTS then
+        table.insert(output,"Max result limit hit. Please refine your search.")
+	return output
+      end
+    end
+    if table.getn(output)>0 then
+      return output
+    else
+      return {"QDKP2 - No results for the given keyword"}
+    end
+]]
+--[[
+  elseif P1=="?award" or P1=="?awards" or P1=="?bossaward"or P1=="?bossawards" then
+    if not QDKP2_IsInGuild(sender) and not QDKP_OD_EXT then
+      return {"QDKP2 - Only GuildMembers can use the On-Demand whisper system."}
+    end
+    if not QDKP2_AOD then return {"QDKP2 - This feature is disabled."}; end
+    local arg=string.lower(string.sub(text,8))
+    local output={}
+    if not arg then return 3{"QDKP2 - You must give a keyword to search for."}; end
+    if string.len(arg)<QDKP2_AOD_MINKEYWORD then return {"QDKP2 - Search keyword must be longer than "..tostring(QDKP2_AOD_MINKEYWORD).." chars."}; end
+    local results=0
+    for i=1,table.getn(QDKP2_Bosses) do
+      if strfind(string.lower(QDKP2_Bosses[i].name), arg) then
+        local boss=QDKP2_Bosses[i].name
+        table.insert(output,'"'..boss..'": '..tostring(QDKP2_GetBossAward(boss)))
+        results=results+1
+      end
+      if results>QDKP2_AOD_MAXRESULTS then
+        table.insert(output,"Max result limit hit. Please refine your search.")
+	return output
+      end
+    end
+    if table.getn(output)>0 then
+      return output
+    else
+      return {"QDKP2 - No results for the given keyword"}
+    end
+]]
+  elseif (P1=="?classdkp" or P1=="?dkpclass" or P1=="?class") then
+    if not QDKP2_IsInGuild(sender) and not QDKP_OD_EXT then
+      return {"QDKP2 - Only GuildMembers can use the On-Demand whisper system."}
+    end
+    if not QDKP2_COD then return {"QDKP2 - This feature is disabled."}; end
+    local arg=P2 or QDKP2class[sender]
+    if not arg or arg=="--" then return {"QDKP2 - You must provide the class to report."}; end
+    local origArg=arg
+    local class
+    arg=QDKP2classEnglish[QDKP2_FormatName(arg)] or arg
+    arg=string.lower(arg)
+    if arg=="druid" then class=arg
+    elseif arg=="hunter" then class=arg
+    elseif arg=="mage" then class=arg
+    elseif arg=="paladin" then class=arg
+    elseif arg=="priest" then class=arg
+    elseif arg=="rogue" then class=arg
+    elseif arg=="shaman" then class=arg
+    elseif arg=="warlock" then class=arg
+    elseif arg=="warrior" then class=arg
+    elseif arg=="dk" or arg=="death knight" then
+      class="death knight"
+    else
+      return {"QDKP2 - You must specify a valid class name."}
+    end
+    local output={"QDKP2 - DKP Top list for "..origArg.." class:"}
+    local list={}
+    for i = 1,table.getn(QDKP2name) do
+      local name=QDKP2name[i]
+      local classAct=QDKP2classEnglish[QDKP2class[name]] or QDKP2class[name]
+      if string.lower(classAct)==class then
+        table.insert(list,name)
+      end
+    end
+    if table.getn(list)==0 then return {"QDKP2 - No Guild Members for the given class"}; end
+    QDKP2_netSort(list)
+    for i=1,table.getn(list) do
+      if i > QDKP2_LOD_MAXLEN then break; end
+      local name=list[i]
+      local DKP=QDKP2_GetNet(name)
+      table.insert(output,tostring(i).."."..QDKP2_GetName(name)..": "..tostring(DKP).." DKP")
+    end
+    return output
+
+  elseif (P1=="?rankdkp" or P1=="?dkprank") then
+    if not QDKP2_IsInGuild(sender) and not QDKP_OD_EXT then
+      return {"QDKP2 - Only GuildMembers can use the On-Demand whisper system."}
+    end
+    if not QDKP2_KOD then return {"QDKP2 - This feature is disabled."}; end
+    local rank_str=string.sub(text,10)
+    local rank
+    if string.len(rank_str)>0 then rank=string.lower(rank_str); end
+    rank=rank or string.lower(QDKP2rank[sender])
+    if not rank then return {"QDKP2 - You must provide the rank to report."}; end
+    if rank=="external" then rank="*external*"; end
+    local output={"QDKP2 - DKP Top list for "..rank.." rank:"}
+    local list={}
+    for i = 1,table.getn(QDKP2name) do
+      local name=QDKP2name[i]
+      local rankAct=string.lower(QDKP2rank[name])
+      if rankAct==rank then
+        table.insert(list,name)
+      end
+    end
+    if table.getn(list)==0 then return {"QDKP2 - No Guild Members for the given rank"}; end
+    QDKP2_netSort(list)
+    for i=1,table.getn(list) do
+      if i > QDKP2_LOD_MAXLEN then break; end
+      local name=list[i]
+      local DKP=QDKP2_GetNet(name)
+      table.insert(output,tostring(i).."."..QDKP2_GetName(name)..": "..tostring(DKP).." DKP")
+    end
+    return output
+
+  elseif P1=="?help" or P1=="?commands" or P1=="?command"  or P1=="?keyword"  or P1=="?keywords" then
+    if not QDKP2_IsInGuild(sender) and not QDKP_OD_EXT then
+      return {"QDKP2 - Only GuildMembers can use the On-Demand whisper system."}
+    end
+    local output={  "QDKP2 - On Demand enabled keywords list:"}
+	table.insert(output, '"?main <name>"' )
+    if QDKP2_NOD then table.insert(output, '"?dkp <name>"' ); end
+    if QDKP2_COD then table.insert(output, '"?classdkp <class>"'); end
+    if QDKP2_KOD then table.insert(output, '"?rankdkp <rank>"'); end
+    if QDKP2_ROD then table.insert(output, '"?log <name> all/current"'); end
+    --if QDKP2_POD then table.insert(output, '"?prices <keywords>"'); end
+    --if QDKP2_AOD then table.insert(output, '"?award <keywords>"'); end
+    if table.getn(output)==1 then output={"QDKP2 - No On Demand enabled keywords."}; end
+    return output
+  end
 end

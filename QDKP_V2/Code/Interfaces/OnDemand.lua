@@ -52,12 +52,22 @@ function QDKP2_OD(text, sender)
       return {"QDKP2 - "..P2..": Invalid Guild Member Name."}
     else
       if P2==sender then
-        return {QDKP2_MakeNotifyMsg(P2)}
+        return {QDKP2_MakeNotifyMsg(P2, false)}
       else
         return {QDKP2_MakeNotifyMsg(P2,true)}
       end
     end
+  elseif P1=="?main" then
+    if not QDKP2_IsInGuild(sender) and not QDKP_OD_EXT then
+      return {"QDKP2 - Only GuildMembers can use the On-Demand whisper system."}
+    end
+    if not P2 then P2=sender
+    else P2 = QDKP2_FormatName(P2)
+    end
+	if QDKP2_IsAlt(sender)== nil then return {"This character is the main."};end
+	return {"Alt of: " .. QDKP2_GetMain(sender)}
 
+	
   elseif P1=="?report" or P1=="?log" then
     if not QDKP2_IsInGuild(sender) and not QDKP_OD_EXT then
       return {"QDKP2 - Only GuildMembers can use the On-Demand whisper system."}
