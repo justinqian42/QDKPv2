@@ -26,6 +26,9 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Release Log:
+v2.6.8.1
+- InZone detection fixed
+
 v2.6.7.25
 - Ondemand interface moved to new comms backend. Ability to now hide ondemand messages (wasn't working before)
 - DE logging text shortened to reduce clipping.

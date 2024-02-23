@@ -104,8 +104,7 @@ function QDKP2_RaidAward(amount,reason,giverName) --if giverName != nil, this wi
     if inguild and not removed and not QDKP2_IsMainAlreadyProcessed(name) then
       local InZone = zone == QDKP2_RaidLeaderZone or zone=="Offline"
       -- Checks if <name> is able to get the award.
-      local eligible,percentage,NoReason=QDKP2_GetEligibility(name,AwardType,amount,online,inzone)
-
+      local eligible,percentage,NoReason=QDKP2_GetEligibility(name,AwardType,amount,online,InZone)
       if eligible then
         --Crea l'entry per dare l'award.
         QDKP2log_Entry(name,ReasonField,QDKP2LOG_MODIFY, {0, nil, nil, percentage}, timeStamp , Flags)
@@ -609,7 +608,7 @@ local function WorseThan(percentage,awardtype,guilt)
   end
 end
 
-function QDKP2_GetEligibility(name,awardtype,award,online,inzone)
+function QDKP2_GetEligibility(name,awardtype,award,online,InZone)
   --returns eligible,percentage,reason
   --eligible is true if should get the award
   --percentage is to be passed to the AddTotals function
@@ -621,7 +620,7 @@ function QDKP2_GetEligibility(name,awardtype,award,online,inzone)
     local perc=WorseThan(percentage,awardtype,'OFFLINE')
     if perc then percentage = perc; reason = QDKP2LOG_NODKP_OFFLINE; end
   end
-  if not inzone then
+  if not InZone then
     local perc=WorseThan(percentage,awardtype,'ZONE')
     if perc then percentage=perc; reason=QDKP2LOG_NODKP_ZONE; end
   end
