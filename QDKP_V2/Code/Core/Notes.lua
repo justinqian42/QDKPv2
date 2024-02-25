@@ -37,18 +37,41 @@ local function ExtractNum(str, keys)
   end
   return value
 end
+
+local function ExtractName(str, keys)
+
+  local i1, i2, tmpstr, value, key
+
+  for j=1, table.getn(keys) do
+    key=keys[j]
+  -- find key voice
+    i1, i2 = string.find(str, key..QDKP2_NOTE_DASH.."[^%w]*")
+    if i1 and i2 then
+      i1, i2 = string.find(str, "[%w.]*", i2+1)        -- find digits
+      if (i1 == nil or i2 == nil or i2 < i1) then break; end   --control #1
+      value = string.sub(str, i1, i2)
+      break
+    end
+  end
+  --QDKP2_Debug(2,"Alt ", value)
+  return value
+end
 ----------------------------------------------------------------------
 
-function QDKP2_MakeNote(incNet, incTotal, incSpent, incHours)
+function QDKP2_MakeNote(incNet, incTotal, incSpent, incHours, oogalt)
 --puts the data back into a note
 
   incNet=RoundNum(incNet)
   incTotal=RoundNum(incTotal)
   incSpent=RoundNum(incSpent)
   incHours=RoundNum(incHours*10)/10
+  incAlt=oogalt
+  QDKP2_Debug(2,"oogaltwriter",oogalt)
+  if incAlt then QDKP2_Debug(2,"oogaltwriter"," true"); end
 
   local out=''
   local netLabel='Net'
+  local altLabel='A'
   local optLabel, optValue='Tot', incTotal
   local hrsLabel='Hrs'
   if QDKP2_TotalOrSpent==2 then
@@ -76,11 +99,18 @@ function QDKP2_MakeNote(incNet, incTotal, incSpent, incHours)
   if QDKP2_StoreHours then
     out=out..QDKP2_NOTE_BREAK..hrsLabel..QDKP2_NOTE_DASH..tostring(incHours)
   end
+  if incAlt then
+    out=out..QDKP2_NOTE_BREAK..altLabel..QDKP2_NOTE_DASH..incAlt
+  end
   return out
 end
 
 function QDKP2_GetMaximumFieldNumber()
-  if QDKP2_CompactNoteMode and not QDKP2_StoreHours then
+  if QDKP2_ExternalNoteMode then
+  --forced compact notes
+    QDKP2_CompactNoteMode = true
+    return 999999,-99999
+  elseif QDKP2_CompactNoteMode and not QDKP2_StoreHours then
     return 999999999999,-99999999999
   elseif QDKP2_CompactNoteMode and QDKP2_StoreHours then
     return 99999999,-9999999
@@ -101,17 +131,20 @@ function QDKP2_ParseNote(incParse)
   local spenttemp=0
   local totaltemp=0
   local hourstemp=0
+  local alttemp=false
 
   nettemp   = ExtractNum(incParse, {"Net", "DKP", "N"})     -- Net is any number following n=, net=
   totaltemp = ExtractNum(incParse, {"Total","Tot","T","G"}) -- Total is any number following g=, t=, tot=, total=
   spenttemp = ExtractNum(incParse, {"Spent", "Spt","S"})   -- Spent is any number following s=,spt=,spent=
   hourstemp = ExtractNum(incParse, {"Hours","Hrs","H"})   -- Hours is any number following hours=, hrs=, h=
+  alttemp = ExtractName(incParse, {"Alts","Alt","A"})   -- Hours is any number following hours=, hrs=, h=
 
   --if there isn't any compatible QDKP2 text in the note, return all 0
   if not spenttemp and not totaltemp and not nettemp then
     nettemp=0
     totaltemp=0
     spenttemp=0
+	alttemp=false
   end
 
   --this is to fix output format with only NET field (DKP:xx)
@@ -135,7 +168,7 @@ function QDKP2_ParseNote(incParse)
   totaltemp=totaltemp or nettemp + spenttemp
   hourstemp=hourstemp or 0
 
-  return nettemp, totaltemp, spenttemp, hourstemp
+  return nettemp, totaltemp, spenttemp, hourstemp, alttemp
 end
 
 

@@ -37,9 +37,13 @@ function QDKP2_MakeAlt(alt,main,sure)
   end
   if not main then
     QDKP2_Debug(2,"Core","Clearing alt relation for "..alt)
-    if not QDKP2_IsAlt(alt) then QDKP2_Msg(name.." is not an alt."); return; end
+    if not QDKP2_IsAlt(alt) then QDKP2_Msg(alt.." is not an alt."); return; end
     QDKP2altsRestore[alt]=""
+		local main2 = QDKP2_IsAlt(alt)
 
+		QDKP2extnote[main2]=nil
+		QDKP2_UpdateNoteByName(main2)
+		return
     --QDKP2alts[alt]=nil
   else
     if not sure then
@@ -79,9 +83,13 @@ function QDKP2_MakeAlt(alt,main,sure)
     QDKP2altsRestore[alt]=main
     QDKP2note[alt]=nil
     QDKP2stored[alt]=nil
+	if QDKP2_IsExternal(alt)==true then
+		QDKP2extnote[main]=alt
+		QDKP2_UpdateNoteByName(main)
+	end
   end
-  QDKP2_DownloadGuild()
-  QDKP2_Msg("Upload Changes to store the modifications.")
+    QDKP2_DownloadGuild()
+    QDKP2_Msg("Upload Changes to store the modifications.")
 end
 
 function QDKP2_ClearAlt(alt)
@@ -113,6 +121,11 @@ end
 function QDKP2_IsAlt(name)
 --returns the name of the main if is a alt, nil otherwhise.
   return QDKP2alts[name]
+end
+
+function QDKP2_ExtNote(name)
+--returns the name of the main if is a alt, nil otherwhise.
+  return QDKP2extnote[name]
 end
 
 --Get a formatted label for player ("name" if not alt, "name (main)" if alt)

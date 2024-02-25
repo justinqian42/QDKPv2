@@ -45,7 +45,7 @@ function QDKP2_Restore(DoNotAsk)
       local name = tempBackup[i][1]
       local datafield = tempBackup[i][2]
       if QDKP2_IsInGuild(name) and not QDKP2_IsAlt(name) then
-        local net, total, spent, hours = QDKP2_ParseNote(datafield)
+        local net, total, spent, hours, oogalt = QDKP2_ParseNote(datafield)
         local DTotal = total - QDKP2note[name][QDKP2_TOTAL]
         local DSpent = spent - QDKP2note[name][QDKP2_SPENT]
         local DHours = hours - QDKP2note[name][QDKP2_HOURS]
@@ -54,6 +54,7 @@ function QDKP2_Restore(DoNotAsk)
         if DSpent==0 then DSpent = nil; end
         if DHours==0 then DHours = nil; end
         if DTotal or DSpent or DHours then
+		  --todo oogalt
           QDKP2_AddTotals(name, DTotal, DSpent, DHours, "restored backup", true, nil, nil, true)
         end
       elseif not QDKP2_IsAlt(name) then

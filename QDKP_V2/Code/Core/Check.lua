@@ -36,7 +36,7 @@ local function CheckGo()
       if QDKP2_OfficerOrPublic==1 then Datafield=officernote
       elseif QDKP2_OfficerOrPublic==2 then Datafield=note
       end
-      local net,total,spent,hours = QDKP2_ParseNote(Datafield)
+      local net,total,spent,hours,oogalt = QDKP2_ParseNote(Datafield)
       if (QDKP2_GetNet(name) == net) and (QDKP2_GetTotal(name) == total) and (QDKP2_GetSpent(name) == spent) and (RoundNum(QDKP2_GetHours(name)*10) == RoundNum(hours*10)) then
         QDKP2log_ConfirmEntries(name,true)
       elseif QDKP2_IsModified(name) then

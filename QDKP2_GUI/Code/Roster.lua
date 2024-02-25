@@ -85,8 +85,8 @@ function myClass.Refresh(self, forceResort)
 	  else
 	    QDKP2frame2_selectList_Bid:Hide()
 	    QDKP2frame2_selectList_Monitor:Show()
-		QDKP2frame2_selectList_Raid:Hide()
-		QDKP2frame2_selectList_RaidMonitor:Show()
+		QDKP2frame2_selectList_Raid:Show()
+		QDKP2frame2_selectList_RaidMonitor:Hide()
 	  end
     else
 		QDKP2_frame2_showRaid:Hide()
@@ -199,14 +199,11 @@ function myClass.Refresh(self, forceResort)
 
 		local indexAt = self.Offset+i
 		local ParentName="QDKP2_frame2_entry"..tostring(i)
-		QDKP2_Debug(2, "rAID builder ",indexAt .. ", " .. #QDKP2GUI_Roster.RAID_LIST)
 			
 		if indexAt <= #QDKP2GUI_Roster.RAID_LIST then
 		local list_entry = QDKP2GUI_Roster.RAID_DICT[indexAt]
 		
-		QDKP2_Debug(2,"Raid Build",list_entry)
 		local name = list_entry['name']
-		QDKP2_Debug(2,"Raid Build",name)
 		local class=list_entry['class']
 		local isinguild=QDKP2_IsInGuild(name)
 
@@ -272,7 +269,7 @@ function myClass.Refresh(self, forceResort)
 		getglobal(ParentName.."_hours"):SetText(tostring(hours or '-'));
 		getglobal(ParentName.."_deltatotal"):SetText(tostring(s_gain or '-'));
 		getglobal(ParentName.."_deltaspent"):SetText(tostring(s_spent or '-'));
-		QDKP2_Debug(2, "SETRAIDMON","Args"..  i.. ", " .. name.. ", " .. rank.. ", " .. class.. ", " .. net.. ", " ..  total.. ", " ..  spent.. ", " ..  hours.. ", " ..  s_gain.. ", " ..  s_spent)
+		--QDKP2_Debug(2, "SETRAIDMON","Args"..  i.. ", " .. name.. ", " .. rank.. ", " .. class.. ", " .. net.. ", " ..  total.. ", " ..  spent.. ", " ..  hours.. ", " ..  s_gain.. ", " ..  s_spent)
 
 		if self:isSelectedPlayer(name) then getglobal(ParentName.."_Highlight"):Show()
 		else getglobal(ParentName.."_Highlight"):Hide()
@@ -362,12 +359,6 @@ function myClass.Refresh(self, forceResort)
       --QDKP2_BidM.ACCEPT_BID = true
 	  QDKP2frame2_selectList_Monitor:SetChecked(true)
 		--todo adjust for QDKP2GUI_Roster.MONITOR_DICT
-		for i, p in pairs (QDKP2GUI_Roster.MONITOR_DICT) do
-			for k,v in pairs(QDKP2GUI_Roster.MONITOR_DICT[i]) do
-				QDKP2_Debug(2,"Refresh 2 ", i .. ", " .. QDKP2GUI_Roster.MONITOR_DICT[i][k])
-			end
-		end
-		QDKP2_Debug(2,"Refresh 2  list length", #QDKP2GUI_Roster.MONITOR_DICT)
 		if QDKP2_StoreHours then
 		  myClass:ShowColumn('hours', true)
 		else
@@ -384,13 +375,11 @@ function myClass.Refresh(self, forceResort)
 
 		local indexAt = self.Offset+i
 		local ParentName="QDKP2_frame2_entry"..tostring(i)
-		QDKP2_Debug(2, "Mon builder ",indexAt .. ", " .. #QDKP2GUI_Roster.MONITOR_LIST)
 
 		if indexAt <= #QDKP2GUI_Roster.MONITOR_LIST then
 
 		local list_entry = QDKP2GUI_Roster.MONITOR_DICT[indexAt]
 		local name = list_entry['name']
-		QDKP2_Debug(2,"MON Build",name)
 		local class=list_entry['class']
 		local isinguild=QDKP2_IsInGuild(name)
 		QDKP2GUI_Roster.ITEM = list_entry['loot']
@@ -607,16 +596,6 @@ function myClass.PupulateList(self)
     end
   elseif self.Sel=='raidmon' then
     self.List=QDKP2_CopyTable(QDKP2GUI_Roster.RAID_LIST)
-
-	for i,v in pairs(QDKP2GUI_Roster.RAID_DICT) do
-		QDKP2_Debug(2,"Pop_RaidMon", QDKP2GUI_Roster.RAID_DICT[i])
-		for k,v in pairs(QDKP2GUI_Roster.RAID_DICT[i]) do
-			QDKP2_Debug(2,"raidmon list args", QDKP2GUI_Roster.RAID_DICT[i][k])
-		end
-	end
-	for k,v in pairs(self.List) do
-		QDKP2_Debug(2,"self.List ", self.List[k])
-	end
   elseif self.Sel=='raid' then
     if QDKP2GUI_Vars.ShowOutGuild then
       local list={}
@@ -683,13 +662,11 @@ function myClass.PupulateList(self)
 	QDKP:SendMonitorMessage( 'CLEARMONITORLIST')
 	
 	for i,v in pairs(self.List) do
-		QDKP2_Debug(2,"Refresh bid ",  self.List[i])
 		--for k,v in pairs(self.List[i]) do
 		--	QDKP2_Debug(2,"Refresh bid ", i .. ", " .. self.List[i][k])
 		--end
 		name = self.List[i]
 
-		QDKP2_Debug(2,"Bidder List",self.List[i])
 		local BidEntry=QDKP2_BidM_GetBidder(name) or {}
 		roll=BidEntry.roll
 		bid=BidEntry.txt
@@ -724,9 +701,6 @@ function myClass.PupulateList(self)
         if QDKP2_USE_CLASS_BASED_COLORS and QDKP2_IsModified(name) then DKP_Ast="*"; end
         if self.Sel=='raid' and QDKP2_IsRemoved(name) then a=0.4; end
 
-		QDKP2_Debug(2,"Bidder List",name .. " " .. roll .. " " .. bid .. " " .. value)
-		QDKP2_Debug(2,"Bidder List",QDKP2rank[name] .. " " .. QDKP2class[name] .. " " .. QDKP2_GetNet(name) .. " " .. QDKP2_GetTotal(name))
-		QDKP2_Debug(2,"Bidder List",QDKP2_GetSpent(name) .. " " .. s_gain .. " " .. s_spent .. " " .. QDKP2_BidM.ITEM)
 		displayname = QDKP2_GetName(name)
 		QDKP2GUI_Roster.MONITOR_DICT[i] = {}
 		QDKP2GUI_Roster.MONITOR_DICT[i]['name'] = name
@@ -755,15 +729,6 @@ function myClass.PupulateList(self)
     end
   elseif self.Sel=='monitor' then
     self.List=QDKP2_CopyTable(QDKP2GUI_Roster.MONITOR_LIST)
-	for i,v in pairs(QDKP2GUI_Roster.MONITOR_DICT) do
-		QDKP2_Debug(2,"Pop_Mon", QDKP2GUI_Roster.MONITOR_DICT[i])
-		for k,v in pairs(QDKP2GUI_Roster.MONITOR_DICT[i]) do
-			QDKP2_Debug(2,"mon list args", QDKP2GUI_Roster.MONITOR_DICT[i][k])
-		end
-	end
-	for k,v in pairs(self.List) do
-		QDKP2_Debug(2,"self.List ", self.List[k])
-	end
   end
   QDKP2_Debug(2, "GUI-Roster","List populated. Voices="..tostring(#self.List))
 end

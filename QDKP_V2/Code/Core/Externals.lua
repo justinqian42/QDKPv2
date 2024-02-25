@@ -62,8 +62,17 @@ function QDKP2_DelExternal(name,sure)
     QDKP2_AskUser("You are deleting "..name.." from the\nGuild Roster.\nThere is no undo. Continue?",QDKP2_DelExternal,name,true)
     return
   end
-  QDKP2externals[name]=nil
-  QDKP2_DownloadGuild()
+  if QDKP2_IsAlt(name) == nil then
+		QDKP2_Debug(2,"is not alt")
+		QDKP2externals[name]=nil
+		QDKP2_DownloadGuild()
+	else
+		local main = QDKP2_IsAlt(name)
+		QDKP2_Debug(2,"Is alt", main)
+		QDKP2_ClearAlt(name)
+		QDKP2externals[name]=nil
+  end
+  
   local msg=string.gsub(QDKP2_LOC_ExternalRemoved, "$NAME",name)
   QDKP2_Msg(msg,"INFO")
 end

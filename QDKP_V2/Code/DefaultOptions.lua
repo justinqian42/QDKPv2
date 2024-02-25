@@ -363,7 +363,10 @@ QDKP2_TotalOrSpent = 1
 --If you are about to break that limit, setting this to true will force QDKP to use only one letter
 --to label the DKP amounts in the guild notes, thereby leaving more room for DKP amounts.
 --eg: N:10 T:34 H:25.2
-QDKP2_CompactNoteMode = false
+QDKP2_CompactNoteMode = true
+
+--Allows the usage of Officer notes for storing external characters
+QDKP2_ExternalNoteMode = true
 
 --Setting this to false will disable the raiding hours counter.
 --Removing the hours will make more room for DKP digits, letting bigger amounts to be stored just as

@@ -87,6 +87,7 @@ function QDKP2_ReadDatabase(GuildName)
 
   GuildData.Alts = GuildData.Alts or {}
   GuildData.AltsRestore = GuildData.AltsRestore or {}
+  GuildData.ExtNotes = GuildData.ExtNotes or {}
 
   GuildData.SID = GuildData.SID or {}
   GuildData.SID.INDEX = GuildData.SID.INDEX or 1
@@ -125,6 +126,8 @@ function QDKP2_ReadDatabase(GuildName)
 
   QDKP2alts = GuildData.Alts
   QDKP2altsRestore = GuildData.AltsRestore
+  
+  QDKP2extnote = GuildData.ExtNotes
 
   QDKP2_SID = GuildData.SID
   QDKP2_ModifiedPlayers = GuildData.ModifiedPlayers
