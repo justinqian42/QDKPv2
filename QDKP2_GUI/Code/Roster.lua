@@ -904,6 +904,7 @@ function myClass.DragDropManager(self)
   if what=='item' then
 	BagId = Temp_BagId
 	SlotId = Temp_SlotId
+	QDKP2_Debug(2, "DRAGDROP DEBUGGER Bag: " .. tostring(BagId), " Slot: " .. tostring(SlotId))
     this:SetText(a2)
     ClearCursor()
 	myClass.ITEM = a2
@@ -913,6 +914,7 @@ end
 function myClass.PushedTradeButton(self)
 	if myClass.SelectedPlayers and #myClass.SelectedPlayers == 1 then
 		Temp_Winner = myClass.SelectedPlayers[1]
+		QDKP2_Debug(2, "Trade DEBUGER Bag: " .. tostring(BagId)," Slot: " .. tostring(SlotId))
 		if CheckInteractDistance(Temp_Winner, 2) == 1 then
 			ClearCursor()
 			PickupContainerItem(BagId, SlotId)
