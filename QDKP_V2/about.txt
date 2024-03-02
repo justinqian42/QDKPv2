@@ -26,6 +26,9 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Release Log:
+v2.6.8.3
+- Cleaning up.
+
 v2.6.8.2
 - Added support for external alts to be added to the officer notes using the A:NAME format. Enable this in options.ini to force reduced char limits for DKP values (<1mil DKP)
 

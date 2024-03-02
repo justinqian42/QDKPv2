@@ -92,8 +92,9 @@ function myClass.Refresh(self, forceResort)
 		QDKP2_frame2_showRaid:Hide()
 		QDKP2frame2_selectList_Bid:Hide()
 		QDKP2frame2_selectList_Monitor:Show()
-		QDKP2frame2_selectList_Raid:Hide()
-		QDKP2frame2_selectList_RaidMonitor:Show()
+		--todo only show raid monitor if raid leader is in a diff guild
+		QDKP2frame2_selectList_Raid:Show()
+		QDKP2frame2_selectList_RaidMonitor:Hide()
     end
 	QDKP2frame2_selectList_guild:Show()
 	QDKP2frame2_selectList_guildOnline:Show()
@@ -905,7 +906,7 @@ function myClass.DragDropManager(self)
 	SlotId = Temp_SlotId
     this:SetText(a2)
     ClearCursor()
-	myClass.ITEM = A2
+	myClass.ITEM = a2
   end
 end
 

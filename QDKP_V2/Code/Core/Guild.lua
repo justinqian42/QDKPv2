@@ -125,9 +125,6 @@ function QDKP2_DownloadGuild(Revert)
       end
     end
     local Main = QDKP2_FirstWord(datafield)
-	QDKP2_Debug(2,"Main ",main)
-	QDKP2_Debug(2,"level ",level)
-	QDKP2_Debug(2,"QDKP2_MINIMUM_LEVEL ",QDKP2_MINIMUM_LEVEL)
     if not Hide_Rank and level and level >= QDKP2_MINIMUM_LEVEL and ((not QDKP2_IsInGuild(Main) and not QDKP2altsRestore[name]) or QDKP2altsRestore[name] == "") then
 
       local net, total, spent, hours, oogalt = QDKP2_ParseNote(datafield)
@@ -175,7 +172,7 @@ function QDKP2_DownloadGuild(Revert)
 		QDKP2_Debug(2,"is ext ", QDKP2_IsExternal(old_char)==true)
 		QDKP2_DelExternal(old_char,true)
       else
-		QDKP2_Debug(2, "Guild", " no Alts of " .. name)
+		--QDKP2_Debug(2, "Guild", " no Alts of " .. name)
 		QDKP2extnote[name]=nil
 	  end
 
