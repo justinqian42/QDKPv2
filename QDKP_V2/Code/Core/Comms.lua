@@ -1,7 +1,7 @@
 QDKP = LibStub("AceAddon-3.0"):NewAddon("QDKP", "AceConsole-3.0", "AceComm-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceHook-3.0")
 
 function QDKP:OnEnable()
-    QDKP2_Debug(2, "Comms", "OnEnable")
+    --QDKP2_Debug(2, "Comms", "OnEnable")
     -- Postpone the chathooks to make sure we're the last hooking these.
     self:ScheduleTimer("PostEnable", 1)
 	QDKP:RegisterComm("QDKP2", 		    "CommandReceived")
@@ -63,7 +63,7 @@ function QDKP:ChatFrameFilter(...)
     local sender = select(3, ...)
     local msg = select(2, ...)
     local msgID = select(12, ...)
-    QDKP2_Debug(2, "Comms", "ChatFrameFilter " .. event ..  "," .. sender ..  "," .. msg ..  "," .. msgID)
+    --QDKP2_Debug(2, "Comms", "ChatFrameFilter " .. event ..  "," .. sender ..  "," .. msg ..  "," .. msgID)
     -- Do not process WIM History
     if not msgID or msgID<1 then return end
 
@@ -81,7 +81,7 @@ function QDKP:ChatFrameFilter(...)
     for i=1, numCommandPatterns do
         command, params = strmatch(msg, commandPatterns[i])
         if command then
-			QDKP2_Debug(2, "Comms", "command found " .. command .. " from " .. sender .. " in message " .. msg)
+			--QDKP2_Debug(2, "Comms", "command found " .. command .. " from " .. sender .. " in message " .. msg)
 			local a  = QDKP2_OD(msg, sender)
 			--QDKP:SendWhisperResponse(a, sender)
 			QDKP2_SendHiddenWhisper(a,sender)
@@ -177,7 +177,7 @@ local MonitorMessagePriorities = {
 
 
 function QDKP:SendMonitorMessage(...)
-    QDKP2_Debug(2,"SMM","start")
+    --QDKP2_Debug(2,"SMM","start")
     --if not LootMaster.db.profile.monitorSend then return end;
 
     local numArgs = select("#", ...)
@@ -205,7 +205,7 @@ function QDKP:SendMonitorMessage(...)
     local msgType = tostring(select(1, ...))
 
     local num = GetNumRaidMembers()
-	QDKP2_Debug(2,"SMM","num " .. num)
+	--QDKP2_Debug(2,"SMM","num " .. num)
     if num>0 then
         -- we're in raid
         if false then --LootMaster.db.profile.monitorSendAssistantOnly and msgType=='ADDLOOT' then
@@ -221,18 +221,18 @@ function QDKP:SendMonitorMessage(...)
         else
           -- Everybody is allowed to monitor, just use the raid channel
           QDKP:SendCommMessage("QDKP2", format("MONITOR:%s", out), "RAID", nil, prio)
-          QDKP2_Debug(2,'SendMonitorMessage(RAID): ' .. out, true)
+          --QDKP2_Debug(2,'SendMonitorMessage(RAID): ' .. out, true)
         end
     else
         num = GetNumPartyMembers()
         if num>0 then
             --we're in party
             QDKP:SendCommMessage("QDKP2", format("MONITOR:%s", out), "PARTY", nil, prio)
-            QDKP2_Debug(2,'SendMonitorMessage(PARTY): ' .. out, true)
+            --QDKP2_Debug(2,'SendMonitorMessage(PARTY): ' .. out, true)
         else
             --we're not grouped, send message to self for debugging purposes.
             QDKP:SendCommMessage("QDKP2", format("MONITOR:%s", out), "WHISPER", UnitName('player'), prio)
-            QDKP2_Debug(2,'SendMonitorMessage(WHISPER->SELF): ' .. out, true)
+            --QDKP2_Debug(2,'SendMonitorMessage(WHISPER->SELF): ' .. out, true)
         end
     end
 end
@@ -241,7 +241,7 @@ end
 	Event gets triggered when ML receives a message from a candidate
 ]]
 function QDKP:CommandReceived(prefix, message, distribution, sender)
-    QDKP2_Debug(2, "Comms", "CommandReceived " .. prefix .. message .. distribution .. sender)
+    --QDKP2_Debug(2, "Comms", "CommandReceived " .. prefix .. message .. distribution .. sender)
 	local _,_,command, message = string.find(message, "^([%a_]-):(.*)$")
 	command = strupper(command or '');
 	message = message or '';
@@ -288,7 +288,7 @@ function QDKP:CommandReceived(prefix, message, distribution, sender)
 			QDKP2GUI_Roster.RAID_LIST = {}			
 			
 		elseif monCmd == 'RAIDLIST' then	
-			QDKP2_Debug(2,"RAIDLIST","Received")
+			--QDKP2_Debug(2,"RAIDLIST","Received")
 
 			local index, loot, name, roll, bid, value, rank, class, net, total, spent, s_gain, s_spent,r,g,b,a, displayname = unpack(monArgs)
 			
@@ -337,7 +337,7 @@ function QDKP:CommandReceived(prefix, message, distribution, sender)
 			--QDKP2_Debug(2, "RAIDLIST","Args"..  i.. ", " .. loot.. ", " .. name.. ", " .. roll.. ", " .. bid.. ", " .. value.. ", " .. rank.. ", " .. class.. ", " .. net.. ", " ..  total.. ", " ..  spent.. ", " ..  s_gain.. ", " ..  s_spent.. ", " ..  r.. ", " ..  g.. ", " ..  b.. ", " ..  a)
 
         elseif monCmd == 'MONITORLIST' then
-			QDKP2_Debug(2,"MONITORLIST","Received")
+			--QDKP2_Debug(2,"MONITORLIST","Received")
 
 			local index, loot, name, roll, bid, value, rank, class, net, total, spent, s_gain, s_spent,r,g,b,a, displayname = unpack(monArgs)
 			
@@ -389,7 +389,7 @@ function QDKP:CommandReceived(prefix, message, distribution, sender)
 			--	QDKP2_Debug(2,"REC ARG", QDKP2GUI_Roster.MONITOR_DICT[i][k])
 			end
 			
-			QDKP2_Debug(2, "MONITORLIST","Args"..  i.. ", " .. loot.. ", " .. name.. ", " .. roll.. ", " .. bid.. ", " .. value.. ", " .. rank.. ", " .. class.. ", " .. net.. ", " ..  total.. ", " ..  spent.. ", " ..  s_gain.. ", " ..  s_spent.. ", " ..  r.. ", " ..  g.. ", " ..  b.. ", " ..  a)
+			--QDKP2_Debug(2, "MONITORLIST","Args"..  i.. ", " .. loot.. ", " .. name.. ", " .. roll.. ", " .. bid.. ", " .. value.. ", " .. rank.. ", " .. class.. ", " .. net.. ", " ..  total.. ", " ..  spent.. ", " ..  s_gain.. ", " ..  s_spent.. ", " ..  r.. ", " ..  g.. ", " ..  b.. ", " ..  a)
 			--QDKP2_Debug(2, "SETCANDIDATEDATA","Args"..  i..loot..name..roll..bid..value..rank..class.. net.. total.. spent.. s_gain.. s_spent)
 			QDKP2_Events:Fire("DATA_UPDATED","roster")
 			
