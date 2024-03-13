@@ -626,7 +626,14 @@ function myClass.PupulateList(self)
         local DKP_Ast=""
         if QDKP2_USE_CLASS_BASED_COLORS and QDKP2_IsModified(name) then DKP_Ast="*"; end
         if self.Sel=='raid' and QDKP2_IsRemoved(name) then a=0.4; end
-
+		
+		if s_gain== nil then
+			s_gain="-"
+		end
+		if s_spent== nil then
+			s_spent="-"
+		end
+		
 		displayname = QDKP2_GetName(name)
 		table.insert(QDKP2GUI_Roster.RAID_LIST,name)
 		QDKP2GUI_Roster.RAID_DICT[i] = {}
