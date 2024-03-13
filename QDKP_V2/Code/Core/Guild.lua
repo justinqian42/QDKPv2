@@ -110,11 +110,15 @@ function QDKP2_DownloadGuild(Revert)
 
       if not datafield or #datafield == 0 then
         QDKP2stored[name] = { 0, 0, 0 }
+		QDKP2extnote[name]=nil
         QDKP2_UpdateNoteByName(name)
       end
-      QDKP2_DelExternal(name, true)
-      QDKP2_DownloadGuild(Revert)
-      return
+      --todo non-officer struggles
+	  if QDKP2_OfficerMode() then
+		  QDKP2_DelExternal(name, true)
+		  QDKP2_DownloadGuild(Revert)
+		  return
+	  end
     end
 
     local Hide_Rank = false
@@ -129,20 +133,56 @@ function QDKP2_DownloadGuild(Revert)
     if not Hide_Rank and level and level >= QDKP2_MINIMUM_LEVEL and ((not QDKP2_IsInGuild(Main) and not QDKP2altsRestore[name]) or QDKP2altsRestore[name] == "") then
 
       local net, total, spent, hours, oogalt = QDKP2_ParseNote(datafield)
-	  if QDKP2_OfficerMode() then
-		  if oogalt then
+
+        --todo non-officer protection here?
+      if oogalt then
+        if QDKP2_OfficerMode()  then 
+            QDKP2_Debug(2,"QDKP2_IsInGuild: " .. oogalt, GetGuildInfo(oogalt) == QDKP2_GUILD_NAME)
+            if GetGuildInfo(oogalt) == QDKP2_GUILD_NAME then
+                --no oogalt detected but we have record of one, must have been removed
+                QDKP2_Debug(2,"GParser detected gmember that used to be an external", oogalt)
+                QDKP2_Debug(2,"is ext ", QDKP2_IsExternal(oogalt)==true)
+                QDKP2extnote[name]=nil
+                QDKP2_UpdateNoteByName(name)
+            else
+              QDKP2_Debug(2, "Guild", oogalt .. " is an Alt of " .. name)
+              --QDKP2_Debug(2,"is ext ", QDKP2_IsExternal(oogalt)==true)
+              --if QDKP2extnote[name] then QDKP2_Debug(2,"oogalt ",QDKP2extnote[name]); end
+
+              if QDKP2extnote[name] and QDKP2extnote[name] ~= oogalt then
+                    --so oogalt detected is not what we expected, changed?
+                    QDKP2_Debug(2,"oogalt change ",QDKP2extnote[name] .. " to " .. oogalt)
+
+                    old_char=QDKP2_FormatName(QDKP2extnote[name])
+                    QDKP2extnote[name] = nil
+                    QDKP2altsRestore[old_char]=""
+                    QDKP2_DelExternal(old_char,true)
+                    QDKP2_NewExternal(oogalt)
+                    QDKP2_MakeAlt(oogalt,name,true)
+                  
+              else
+                    --check if this alt is already created, if not then do so
+                  if not QDKP2_IsExternal(oogalt)==true then
+                    --QDKP2_Debug(2,"creating ext ", oogalt)
+                    QDKP2_NewExternal(oogalt)
+                  end
+                  
+                  if QDKP2_IsAlt(oogalt) == nil and not QDKP2extnote[name] then
+                    --QDKP2_Debug(2,"Not defined as an alt yet",QDKP2_IsAlt(oogalt))
+                    QDKP2_MakeAlt(oogalt,name,true)
+                    --QDKP2_Debug(2,"Not defined as an alt yet 2",QDKP2_IsAlt(oogalt))
+                  end
+              end
+			end
+          else
 			QDKP2_Debug(2,"QDKP2_IsInGuild: " .. oogalt, GetGuildInfo(oogalt) == QDKP2_GUILD_NAME)
 			if GetGuildInfo(oogalt) == QDKP2_GUILD_NAME then
 				--no oogalt detected but we have record of one, must have been removed
-				QDKP2_Debug(2,"GParser detected gmember that used to be an external", oogalt)
-				QDKP2_Debug(2,"is ext ", QDKP2_IsExternal(oogalt)==true)
-				QDKP2extnote[name]=nil
-				QDKP2_UpdateNoteByName(name)
-				--QDKP2_DelExternal(old_char,true)
-			end
+				QDKP2_Debug(2,"GParser detected that the following alt is now in guild but user doesn't have the auth to fix notes. ", oogalt)
+			else
 			  QDKP2_Debug(2, "Guild", oogalt .. " is an Alt of " .. name)
 			  --QDKP2_Debug(2,"is ext ", QDKP2_IsExternal(oogalt)==true)
-			  if QDKP2extnote[name] then QDKP2_Debug(2,"oogalt ",QDKP2extnote[name]); end
+			  --if QDKP2extnote[name] then QDKP2_Debug(2,"oogalt ",QDKP2extnote[name]); end
 
 			  if QDKP2extnote[name] and QDKP2extnote[name] ~= oogalt then
 					--so oogalt detected is not what we expected, changed?
@@ -156,36 +196,37 @@ function QDKP2_DownloadGuild(Revert)
 					QDKP2_MakeAlt(oogalt,name,true)
 				  
 			  else
-					  --check if this alt is already created, if not then do so
+					--check if this alt is already created, if not then do so
 				  if not QDKP2_IsExternal(oogalt)==true then
 					--QDKP2_Debug(2,"creating ext ", oogalt)
 					QDKP2_NewExternal(oogalt)
 				  end
 				  
 				  if QDKP2_IsAlt(oogalt) == nil and not QDKP2extnote[name] then
-					QDKP2_Debug(2,"Not defined as an alt yet",QDKP2_IsAlt(oogalt))
+					--QDKP2_Debug(2,"Not defined as an alt yet",QDKP2_IsAlt(oogalt))
 					QDKP2_MakeAlt(oogalt,name,true)
-					QDKP2_Debug(2,"Not defined as an alt yet 2",QDKP2_IsAlt(oogalt))
+					--QDKP2_Debug(2,"Not defined as an alt yet 2",QDKP2_IsAlt(oogalt))
 				  end
 			  end
+          end
+        end
 
+          
+          --store the link so we can call on it when we need to update the officer notes  in future
+          --QDKP2extnote[name]=oogalt
 
-			  
-			  --store the link so we can call on it when we need to update the officer notes  in future
-			  --QDKP2extnote[name]=oogalt
+      elseif QDKP2extnote[name] then
+      old_char=QDKP2extnote[name]
+        QDKP2extnote[name]=nil
+        --no oogalt detected but we have record of one, must have been removed
+        QDKP2_Debug(2,"GParser detected change to ext note", old_char)
+        QDKP2_Debug(2,"is ext ", QDKP2_IsExternal(old_char)==true)
+        QDKP2_DelExternal(old_char,true)
+      else
+        --QDKP2_Debug(2, "Guild", " no Alts of " .. name)
+        QDKP2extnote[name]=nil
+      end
 
-		  elseif QDKP2extnote[name] then
-		  old_char=QDKP2extnote[name]
-			QDKP2extnote[name]=nil
-			--no oogalt detected but we have record of one, must have been removed
-			QDKP2_Debug(2,"GParser detected change to ext note", old_char)
-			QDKP2_Debug(2,"is ext ", QDKP2_IsExternal(old_char)==true)
-			QDKP2_DelExternal(old_char,true)
-		  else
-			--QDKP2_Debug(2, "Guild", " no Alts of " .. name)
-			QDKP2extnote[name]=nil
-		  end
-		end
 
       if (net + spent ~= total) then
         local msg = string.gsub(QDKP2_LOC_DifferentTot, "$NAME", name)
@@ -427,7 +468,7 @@ function QDKP2_UpdateNoteByName(name, indexList)
     local spent = QDKP2_GetSpent(name)
     local net = total - spent
     local hours = QDKP2_GetHours(name)
-	local oogalt = QDKP2_ExtNote(name)
+    local oogalt = QDKP2_ExtNote(name)
     if QDKP2_IsExternal(name) then
       QDKP2log_ConfirmEntries(name, true)
     end

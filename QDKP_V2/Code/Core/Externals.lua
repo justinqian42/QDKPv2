@@ -20,7 +20,7 @@ function QDKP2_NewDE(name,data)
 end
 
 function QDKP2_NewExternal(name,data)
-  if not QDKP2_OfficerMode() then QDKP2_Msg(QDKP2_LOC_NoRights,"ERROR")(); return; end
+  --if not QDKP2_OfficerMode() then QDKP2_Msg(QDKP2_LOC_NoRights,"ERROR"); return; end
   if not name or name=="" then
     QDKP2_OpenInputBox("Please enter the name of the external",QDKP2_NewExternal,data)
     return
@@ -52,7 +52,7 @@ function QDKP2_NewExternal(name,data)
 end
 
 function QDKP2_DelExternal(name,sure)
-  if not QDKP2_OfficerMode() then QDKP2_Msg(QDKP2_LOC_NoRights,"ERROR")(); return; end
+  if not QDKP2_OfficerMode() then QDKP2_Msg(QDKP2_LOC_NoRights,"ERROR"); return; end
   if not QDKP2externals[name] then
     local msg=string.gsub(QDKP2_LOC_CantDeleteUnexistingExternals,"$NAME",name)
     QDKP2_Msg(msg, "ERROR")

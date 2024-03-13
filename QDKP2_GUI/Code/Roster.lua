@@ -93,8 +93,13 @@ function myClass.Refresh(self, forceResort)
 		QDKP2frame2_selectList_Bid:Hide()
 		QDKP2frame2_selectList_Monitor:Show()
 		--todo only show raid monitor if raid leader is in a diff guild
+		if not IsInGuild() or (IsInGuild() and GetGuildInfo("player") and GetGuildInfo("player") ~= QDKP2_GUILD_NAME) then
+		QDKP2frame2_selectList_Raid:Hide()
+		QDKP2frame2_selectList_RaidMonitor:Show()
+		else
 		QDKP2frame2_selectList_Raid:Show()
 		QDKP2frame2_selectList_RaidMonitor:Hide()
+		end
     end
 	QDKP2frame2_selectList_guild:Show()
 	QDKP2frame2_selectList_guildOnline:Show()

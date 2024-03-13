@@ -24,7 +24,7 @@
 
 function QDKP2_MakeAlt(alt,main,sure)
 -- Function that makes <alt> an alt of <main>. Sure is to avoid the "Are you sure?" dialog.
-  if not QDKP2_OfficerMode() then QDKP2_Msg(QDKP2_LOC_NoRights,"ERROR")(); return; end
+  --if not QDKP2_OfficerMode() then QDKP2_Msg(QDKP2_LOC_NoRights,"ERROR");	return;	end
   if QDKP2_ManagementMode() then QDKP2_Msg("You can't add or clear alt relations while you are managing a session.","WARNING"); return; end
   if not alt or alt=="" then
     QDKP2_Debug(1,"Core","Can't redefine alt relation: <alt> is nil.")
