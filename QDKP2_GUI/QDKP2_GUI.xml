@@ -1540,11 +1540,6 @@
           <OnLeave>
             GameTooltip:Hide();
           </OnLeave>
-          <OnMouseDown>
-            if not QDKP2_BidM_isBidding() then
-            QDKP2GUI_Roster:DragDropManager()
-            end
-          </OnMouseDown>
           <OnReceiveDrag>
             if not QDKP2_BidM_isBidding() then
             QDKP2GUI_Roster:DragDropManager()

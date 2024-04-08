@@ -193,6 +193,8 @@ function QDKP2_Init()
   QDKP2inventoryEnglish = QDKP2inventoryEnglish or {}
   BagId = 0
   SlotId = 1
+  ItemId = 0
+  ItemLink=""
   Temp_BagId = 0
   Temp_SlotId = 1
   assignedDE = ""
