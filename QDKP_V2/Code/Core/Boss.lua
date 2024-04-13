@@ -42,6 +42,9 @@ function QDKP2_BossKilled(boss)
 
   boss = boss_translator[boss] or boss
 
+  --lock MS Changes
+  QDKP2_Disable_MSChanges()
+  
   if QDKP2_BossKilledTime and time() - QDKP2_BossKilledTime < 60 then
     --this sets a 1 minute "cooldown" between boss awards to avoid multiple awards
     --coming for various sources (DBM, BigWigs or simple slain detector)
