@@ -405,7 +405,11 @@ function QDKP2_UpdateSpec(name)
 	if not MSChangesAvailable then return; end
 	if LibStub("LibGroupTalents-1.0"):GetUnitTalentSpec(name) ~= nil then
 		spec = LibStub("LibGroupTalents-1.0"):GetUnitTalentSpec(name)
+		if spec == "Feral Combat" then spec = "Feral"; end
 		role = LibStub("LibGroupTalents-1.0"):GetUnitRole(name)
+		if role == 'caster' or role == 'melee' then role = 'DPS'; end
+		if role == 'tank' then role = 'Tank'; end
+		if role == 'healer' then role = 'Healer'; end
 		cls = QDKP2class[name] or UnitClass(name)
 		QDKP2msChanges[name]['spec'] = spec or '-'
 		if spec == "Feral" or spec == "Blood" or spec == "Unholy" or spec == "Frost" and cls~='Mage' then
