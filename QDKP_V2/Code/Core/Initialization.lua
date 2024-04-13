@@ -82,6 +82,7 @@ function QDKP2_ReadDatabase(GuildName)
   GuildData.stored = GuildData.stored or {}
 
   GuildData.externals = GuildData.externals or {}
+  GuildData.msChanges = GuildData.msChanges or {}
 
   GuildData.ironMan = GuildData.ironMan or {}
 
@@ -121,6 +122,7 @@ function QDKP2_ReadDatabase(GuildName)
   QDKP2stored = GuildData.stored
 
   QDKP2externals = GuildData.externals
+  QDKP2msChanges = GuildData.msChanges
 
   QDKP2ironMan = GuildData.ironMan
 
@@ -198,6 +200,7 @@ function QDKP2_Init()
   Temp_BagId = 0
   Temp_SlotId = 1
   assignedDE = ""
+  MSChangesAvailable = False
   --Register events
   --QDKP2:RegisterEvent("ADDON_LOADED")
   QDKP2:RegisterEvent("GUILD_ROSTER_UPDATE")
@@ -372,3 +375,77 @@ function QDKP2_ResetPlayer(name)
   QDKP2_Msg(name .. " has been initialized successfully")
 end
 
+function QDKP2_GetSpec(name)
+	spec = nil
+	if QDKP2msChanges[name] then
+		QDKP2_UpdateSpec(name)
+		if QDKP2msChanges[name]['ms'] ~= '-' then
+			spec = QDKP2msChanges[name]['ms']
+		else
+			spec = QDKP2msChanges[name]['spec']
+		end	
+	else
+		curSpec = LibStub("LibGroupTalents-1.0"):GetActiveTalentGroup("player")
+		
+		QDKP2msChanges[name] = {}
+		if LibStub("LibGroupTalents-1.0"):GetUnitTalentSpec(name) ~= nil then
+			QDKP2msChanges[name]['spec'] = LibStub("LibGroupTalents-1.0"):GetUnitTalentSpec(name) or '-'
+		else
+			QDKP2msChanges[name]['spec'] = '-'
+		end
+		QDKP2msChanges[name]['class'] = QDKP2class[name] or UnitClass(name)
+		QDKP2msChanges[name]['ms'] = '-'
+		spec = '-'
+	end
+	QDKP2_Debug(2, 'Specs: ', name .. " " .. tostring(QDKP2msChanges[name]['spec']) .. ' ' .. tostring(QDKP2msChanges[name]['ms']))
+	return spec
+end
+
+function QDKP2_UpdateSpec(name)
+	if not MSChangesAvailable then return; end
+	if LibStub("LibGroupTalents-1.0"):GetUnitTalentSpec(name) ~= nil then
+		QDKP2msChanges[name]['spec'] = LibStub("LibGroupTalents-1.0"):GetUnitTalentSpec(name) or '-'
+	else
+		QDKP2msChanges[name]['spec'] = '-'
+	end
+end
+
+function QDKP2_Change_Spec(ms,name)
+	--this function is always available
+	QDKP2msChanges[name]['ms'] = ms
+end
+
+function QDKP2_Enable_MSChanges()
+	MSChangesAvailable = true
+	QDKP2_BidM_SendMessage(nil,"MANAGER","bid_start","MS Changes are now available, whisper me \"?ms YOURSPECHERE\" now. Changes are closed when I say or on first boss death." )
+end
+
+function QDKP2_Disable_MSChanges()
+	MSChangesAvailable = false
+	QDKP2_BidM_SendMessage(nil,"MANAGER","bid_start","MS Changes are now closed!")
+end
+
+function QDKP2_GetMSOnly(name)
+	spec = nil
+	if QDKP2msChanges[name] then
+		QDKP2_UpdateSpec(name)
+		if QDKP2msChanges[name]['ms'] ~= '-' then
+			spec = QDKP2msChanges[name]['ms']
+		else
+			spec = nil
+		end	
+	else
+		curSpec = LibStub("LibGroupTalents-1.0"):GetActiveTalentGroup("player")
+		
+		QDKP2msChanges[name] = {}
+		if LibStub("LibGroupTalents-1.0"):GetUnitTalentSpec(name) ~= nil then
+			QDKP2msChanges[name]['spec'] = LibStub("LibGroupTalents-1.0"):GetUnitTalentSpec(name) or '-'
+		else
+			QDKP2msChanges[name]['spec'] = '-'
+		end
+		QDKP2msChanges[name]['class'] = QDKP2class[name] or UnitClass(name)
+		QDKP2msChanges[name]['ms'] = '-'
+		spec = nil
+	end
+	return spec
+end

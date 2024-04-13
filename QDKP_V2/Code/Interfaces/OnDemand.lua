@@ -30,7 +30,7 @@ function QDKP2_OD_Parse(text)
 end
 ]]--
 
-function QDKP2_OD(text, sender)
+function QDKP2_OD(text, sender, guid)
 
   if not QDKP2_ODS_ENABLE then return; end
 
@@ -66,7 +66,25 @@ function QDKP2_OD(text, sender)
     end
 	if QDKP2_IsAlt(sender)== nil then return {"This character is the main."};end
 	return {"Alt of: " .. QDKP2_GetMain(sender)}
-
+	
+  elseif P1=="?ms" then
+    if not QDKP2_IsInGuild(sender) and not QDKP_OD_EXT then
+      return {"QDKP2 - Only GuildMembers can use the On-Demand whisper system."}
+    end
+    if not MSChangesAvailable then return {"MS changes are currently locked."}; end
+    name = QDKP2_FormatName(sender)
+	if not QDKP2msChanges[sender] then
+		QDKP2msChanges[sender] = {}
+		locClass, engClass, locRace, engRace, gender, name, server = GetPlayerInfoByGUID(guid)
+		QDKP2msChanges[sender]['spec'] = ''
+		QDKP2msChanges[sender]['class'] = engClass
+	end
+	locClass, engClass, locRace, engRace, gender, name, server = GetPlayerInfoByGUID(guid)
+	QDKP2msChanges[sender]['class'] = engClass
+	
+	QDKP2msChanges[sender]['ms'] = P2
+	QDKP2GUI_Roster:Refresh()
+	return {"Character: " .. name .." has MS of: " .. P2}
 	
   elseif P1=="?report" or P1=="?log" then
     if not QDKP2_IsInGuild(sender) and not QDKP_OD_EXT then

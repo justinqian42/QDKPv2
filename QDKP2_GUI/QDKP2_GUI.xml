@@ -1215,10 +1215,15 @@
           <Size><AbsDimension x="50" y="14"/></Size>
           <Anchors><Anchor point="TOPLEFT" relativeTo="$parent_rank" relativePoint="TOPRIGHT"/></Anchors>
         </FontString>
+		
+		<FontString name="$parent_spec" inherits="GameFontHighlightSmall" justifyH="CENTER" text="">
+          <Size><AbsDimension x="100" y="14"/></Size>
+          <Anchors><Anchor point="TOPLEFT" relativeTo="$parent_class" relativePoint="TOPRIGHT"/></Anchors>
+        </FontString>
 
         <FontString name="$parent_net" inherits="GameFontNormalSmall" justifyH="CENTER" text="">
           <Size><AbsDimension x="55" y="14"/></Size>
-          <Anchors><Anchor point="TOPLEFT" relativeTo="$parent_class" relativePoint="TOPRIGHT"/></Anchors>
+          <Anchors><Anchor point="TOPLEFT" relativeTo="$parent_spec" relativePoint="TOPRIGHT"/></Anchors>
         </FontString>
 
         <FontString name="$parent_total" inherits="GameFontNormalSmall" justifyH="CENTER" text="">
@@ -1552,7 +1557,76 @@
           </OnEditFocusGained>
         </Scripts>
       </EditBox>
+	        <Button name="QDKP2_Frame2_MS_Start_Button" inherits="UIPanelButtonTemplate" text="QDKP2_LOC_GUISTARTMS">
+        <Size>
+          <AbsDimension x="80" y="20"/>
+        </Size>
+        <Anchors>
+          <Anchor point="BOTTOMRIGHT">
+            <Offset>
+              <AbsDimension x="-115" y="13"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnClick>
+            QDKP2GUI_Roster:PushedMSStartButton()
+          </OnClick>
+        </Scripts>
+      </Button>
+	  <Button name="QDKP2_Frame2_MS_Clear_Button" inherits="UIPanelButtonTemplate" text="QDKP2_LOC_GUICLEARMS">
+        <Size>
+          <AbsDimension x="80" y="20"/>
+        </Size>
+        <Anchors>
+          <Anchor point="BOTTOMRIGHT">
+            <Offset>
+              <AbsDimension x="-30" y="13"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnClick>
+            QDKP2GUI_Roster:PushedMSClearButton(false)
+          </OnClick>
+        </Scripts>
+      </Button>
 	  
+	  <Button name="QDKP2_Frame2_MS_Close_Button" inherits="UIPanelButtonTemplate" text="QDKP2_LOC_GUICLOSEMS">
+        <Size>
+          <AbsDimension x="80" y="20"/>
+        </Size>
+        <Anchors>
+          <Anchor point="BOTTOMRIGHT">
+            <Offset>
+              <AbsDimension x="-115" y="-12"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnClick>
+            QDKP2GUI_Roster:PushedMSCloseButton()
+          </OnClick>
+        </Scripts>
+      </Button>
+	  
+	  	  <Button name="QDKP2_Frame2_MS_Spam_Button" inherits="UIPanelButtonTemplate" text="QDKP2_LOC_GUISPAMMS">
+        <Size>
+          <AbsDimension x="80" y="20"/> 
+        </Size>
+        <Anchors>
+          <Anchor point="BOTTOMRIGHT">
+            <Offset>
+              <AbsDimension x="-30" y="-12"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnClick>
+            QDKP2GUI_Roster:PushedMSSpamButton()
+          </OnClick>
+        </Scripts>
+      </Button>
       <Button name="QDKP2_Frame2_Bid_Button" inherits="UIPanelButtonTemplate" text="QDKP2_LOC_GUISTARTBID">
         <Size>
           <AbsDimension x="80" y="20"/>
@@ -1877,6 +1951,14 @@
           <Anchor relativePoint="RIGHT" point="RIGHT" relativeTo="QDKP2_frame2_title_class"/>
         </Anchors>
         <Scripts><OnClick>QDKP2GUI_Roster:SortBy("Class")</OnClick></Scripts>
+      </Button>
+	  <Button name="$parent_SortBtn_spec" inherits="UIPanelButtonTemplate" text="QDKP2_LOC_GUIPLAYERSPEC">
+        <Size><AbsDimension x="45" y="25"/></Size>
+        <Anchors>
+          <Anchor relativePoint="LEFT" point="LEFT" relativeTo="QDKP2_frame2_title_spec"/>
+          <Anchor relativePoint="RIGHT" point="RIGHT" relativeTo="QDKP2_frame2_title_spec"/>
+        </Anchors>
+        <Scripts><OnClick>QDKP2GUI_Roster:SortBy("Spec")</OnClick></Scripts>
       </Button>
       <Button name="$parent_SortBtn_net" inherits="UIPanelButtonTemplate" text="QDKP2_LOC_Net">
         <Size><AbsDimension x="53" y="25"/></Size>

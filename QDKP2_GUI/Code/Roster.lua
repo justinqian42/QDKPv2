@@ -132,8 +132,14 @@ function myClass.Refresh(self, forceResort)
 			S:HandleButton(QDKP2_Frame2_Bid_ButtonRoll)
 			S:HandleButton(QDKP2_Frame2_Bid_ButtonClearData)
 			S:HandleButton(QDKP2_Frame2_Cancel_Button)
+			S:HandleButton(QDKP2_Frame2_SortBtn_spec)
 			S:HandleCheckBox(QDKP2frame2_selectList_Monitor)
 			S:HandleCheckBox(QDKP2frame2_selectList_RaidMonitor)
+			S:HandleButton(QDKP2_Frame2_MS_Start_Button)
+			S:HandleButton(QDKP2_Frame2_MS_Clear_Button)
+			S:HandleButton(QDKP2_Frame2_MS_Close_Button)
+			S:HandleButton(QDKP2_Frame2_MS_Spam_Button)
+			
 		end	
 	end
 
@@ -155,6 +161,10 @@ function myClass.Refresh(self, forceResort)
 	  QDKP2_Frame2_Bid_ButtonRoll:Hide()
 	  QDKP2_Frame2_Bid_ButtonClearData:Hide()
 	  QDKP2_Frame2_Cancel_Button:Hide()
+	  QDKP2_Frame2_MS_Start_Button:Hide()
+	  QDKP2_Frame2_MS_Close_Button:Hide()
+	  QDKP2_Frame2_MS_Clear_Button:Hide()
+	  QDKP2_Frame2_MS_Spam_Button:Hide()
       if self.Sel=='guild' then
         QDKP2frame2_selectList_guild:SetChecked(true)
       else
@@ -179,6 +189,17 @@ function myClass.Refresh(self, forceResort)
       QDKP2frame2_selectList_Raid:SetChecked(true)
 	  QDKP2_Frame2_Bid_ButtonClearData:Hide()
 	  QDKP2_Frame2_Cancel_Button:Hide()
+	  if Complete then
+		  QDKP2_Frame2_MS_Start_Button:Show()
+		  QDKP2_Frame2_MS_Close_Button:Show()
+		  QDKP2_Frame2_MS_Clear_Button:Show()
+		  QDKP2_Frame2_MS_Spam_Button:Show()
+	  else
+	  	  QDKP2_Frame2_MS_Start_Button:Hide()
+		  QDKP2_Frame2_MS_Close_Button:Hide()
+		  QDKP2_Frame2_MS_Clear_Button:Hide()
+		  QDKP2_Frame2_MS_Spam_Button:Hide()
+	  end
 	elseif self.Sel=="raidmon" then
       myClass:ShowColumn('deltatotal', true)
       myClass:ShowColumn('deltaspent', true)
@@ -198,6 +219,10 @@ function myClass.Refresh(self, forceResort)
       QDKP2frame2_selectList_RaidMonitor:SetChecked(true)
 	  QDKP2_Frame2_Bid_ButtonClearData:Hide()
 	  QDKP2_Frame2_Cancel_Button:Hide()
+	  QDKP2_Frame2_MS_Start_Button:Hide()
+	  QDKP2_Frame2_MS_Close_Button:Hide()
+	  QDKP2_Frame2_MS_Clear_Button:Hide()
+	  QDKP2_Frame2_MS_Spam_Button:Hide()
 	  if self.Offset > #QDKP2GUI_Roster.RAID_LIST then self.Offset=#QDKP2GUI_Roster.RAID_LIST-1; end
 		if self.Offset < 0 then self.Offset=0; end
 
@@ -309,6 +334,10 @@ function myClass.Refresh(self, forceResort)
 	  QDKP2_Frame2_Bid_ButtonRoll:Show()
 	  QDKP2_Frame2_Bid_ButtonClearData:Hide()
 	  QDKP2_Frame2_Cancel_Button:Hide()
+	  QDKP2_Frame2_MS_Start_Button:Hide()
+	  QDKP2_Frame2_MS_Close_Button:Hide()
+	  QDKP2_Frame2_MS_Clear_Button:Hide()
+	  QDKP2_Frame2_MS_Spam_Button:Hide()
 	  if QDKP2_BidM_isRolling() then
 		QDKP2_Frame2_Bid_ButtonWin:Show()
 		QDKP2_Frame2_Bid_ButtonRoll:Hide()
@@ -354,6 +383,10 @@ function myClass.Refresh(self, forceResort)
       QDKP2_Frame2_Bid_ButtonWin:Hide()
 	  QDKP2_Frame2_Bid_ButtonRoll:Hide()
 	  QDKP2_Frame2_Cancel_Button:Hide()
+	  	  QDKP2_Frame2_MS_Start_Button:Hide()
+	  QDKP2_Frame2_MS_Close_Button:Hide()
+	  QDKP2_Frame2_MS_Clear_Button:Hide()
+	  QDKP2_Frame2_MS_Spam_Button:Hide()
 	  -- todo have item appear here, ideally with tooltip
       QDKP2_Frame2_Bid_Item:Show()
 	  QDKP2_Frame2_Bid_ButtonClearData:Show()
@@ -487,6 +520,7 @@ function myClass.Refresh(self, forceResort)
       if indexAt <= #self.List then
         local name = self.List[indexAt]
         local class=QDKP2class[name] or UnitClass(name)
+		local spec = QDKP2_GetSpec(name)
         local isinguild=QDKP2_IsInGuild(name)
         local colors=myClass.PlayersColor.Default
         if not isinguild then colors=myClass.PlayersColor.NoGuild
@@ -524,6 +558,7 @@ function myClass.Refresh(self, forceResort)
         getglobal(ParentName.."_total"):SetVertexColor(r, g, b, a)
         getglobal(ParentName.."_spent"):SetVertexColor(r, g, b, a)
         getglobal(ParentName.."_hours"):SetVertexColor(r, g, b, a)
+		getglobal(ParentName.."_spec"):SetVertexColor(r, g, b, a)
         getglobal(ParentName.."_deltatotal"):SetVertexColor(r, g, b, a)
         getglobal(ParentName.."_deltaspent"):SetVertexColor(r, g, b, a)
 
@@ -562,6 +597,7 @@ function myClass.Refresh(self, forceResort)
         getglobal(ParentName.."_value"):SetText(tostring(value or '-'))
         getglobal(ParentName.."_rank"):SetText(tostring(rank or '-'));
         getglobal(ParentName.."_class"):SetText(tostring(class or '-'));
+		getglobal(ParentName.."_spec"):SetText(tostring(spec or '-'));
         getglobal(ParentName.."_net"):SetText(tostring(net or '-')..DKP_Ast);
         getglobal(ParentName.."_total"):SetText(tostring(total or '-')..DKP_Ast);
         getglobal(ParentName.."_spent"):SetText(tostring(spent or '-')..DKP_Ast);
@@ -612,7 +648,7 @@ function myClass.PupulateList(self)
         local name = QDKP2_GetRaidRosterInfo(i)
         table.insert(list,name)
 		s_gain,s_spent=QDKP2_GetSessionAmounts(name)
-		
+		local spec = QDKP2_GetSpec(name)
         local class=QDKP2class[name] or UnitClass(name)
         local isinguild=QDKP2_IsInGuild(name)
         local colors=myClass.PlayersColor.Default
@@ -646,6 +682,7 @@ function myClass.PupulateList(self)
 		QDKP2GUI_Roster.RAID_DICT[i]['displayname'] = displayname
 		QDKP2GUI_Roster.RAID_DICT[i]['rank']=QDKP2rank[name]
 		QDKP2GUI_Roster.RAID_DICT[i]['class']=QDKP2class[name]
+		QDKP2GUI_Roster.RAID_DICT[i]['spec']=spec
 		QDKP2GUI_Roster.RAID_DICT[i]['net']=QDKP2_GetNet(name)
 		QDKP2GUI_Roster.RAID_DICT[i]['total']=QDKP2_GetTotal(name)
 		QDKP2GUI_Roster.RAID_DICT[i]['spent']=QDKP2_GetSpent(name)
@@ -659,7 +696,7 @@ function myClass.PupulateList(self)
 		QDKP2GUI_Roster.RAID_DICT[i]['bid']='-'
 		QDKP2GUI_Roster.RAID_DICT[i]['value']='-'
 		QDKP2GUI_Roster.RAID_DICT[i]['loot']='-'
-		QDKP:SendMonitorMessage( 'RAIDLIST', i, '-', name, '-', '-', '-', QDKP2rank[name], QDKP2class[name], QDKP2_GetNet(name), QDKP2_GetTotal(name), QDKP2_GetSpent(name), s_gain, s_spent, r, g, b,a, displayname)
+		QDKP:SendMonitorMessage( 'RAIDLIST', i, '-', name, '-', '-', '-', QDKP2rank[name], QDKP2class[name], QDKP2_GetNet(name), QDKP2_GetTotal(name), QDKP2_GetSpent(name), s_gain, s_spent, r, g, b,a, displayname, spec)
 		
 		
       end
@@ -694,7 +731,7 @@ function myClass.PupulateList(self)
 			value="-"
 		end
 		s_gain,s_spent=QDKP2_GetSessionAmounts(name)
-		
+		local spec = QDKP2_GetSpec(name)
         local class=QDKP2class[name] or UnitClass(name)
         local isinguild=QDKP2_IsInGuild(name)
         local colors=myClass.PlayersColor.Default
@@ -723,6 +760,7 @@ function myClass.PupulateList(self)
 		QDKP2GUI_Roster.MONITOR_DICT[i]['value']=value
 		QDKP2GUI_Roster.MONITOR_DICT[i]['rank']=QDKP2rank[name]
 		QDKP2GUI_Roster.MONITOR_DICT[i]['class']=QDKP2class[name]
+		QDKP2GUI_Roster.MONITOR_DICT[i]['spec']=spec
 		QDKP2GUI_Roster.MONITOR_DICT[i]['net']=QDKP2_GetNet(name)
 		QDKP2GUI_Roster.MONITOR_DICT[i]['total']=QDKP2_GetTotal(name)
 		QDKP2GUI_Roster.MONITOR_DICT[i]['spent']=QDKP2_GetSpent(name)
@@ -835,6 +873,55 @@ end
 
 ---------------------- OnClick functions --------------------------
 
+function myClass.PushedMSStartButton(self)
+	QDKP2_Debug(2,"PushedMSStartButton")
+	QDKP2_Enable_MSChanges()
+	
+end
+
+function myClass.PushedMSClearButton(self, sure)
+	QDKP2_Debug(2,"PushedMSClearButton")
+	if not sure then 
+		QDKP2_AskUser("You are deleting all MS changes.\nThere is no undo. Continue?",myClass.PushedMSClearButton,self,true)
+	else
+		QDKP2_Debug(2,"clearing ms data")
+			for i=1, QDKP2GUI_Roster.ENTRIES do  --fills in the list data
+		  local indexAt = self.Offset+i
+		  local ParentName="QDKP2_frame2_entry"..tostring(i)
+		  if indexAt <= #self.List then
+			local name = self.List[indexAt]
+			QDKP2_Change_Spec('-',name)
+			end
+		end
+		QDKP2GUI_Roster:Refresh()
+	end
+end
+
+function myClass.PushedMSCloseButton(self)
+	QDKP2_Debug(2,"PushedMSCloseButton")
+	QDKP2_Disable_MSChanges()
+
+end
+
+function myClass.PushedMSSpamButton(self)
+	QDKP2_Debug(2,"PushedMSSpamButton")
+	local mess0="MS Changes are:"
+	local mess=""
+	for i=1, QDKP2GUI_Roster.ENTRIES do  --fills in the list data
+      local indexAt = self.Offset+i
+      local ParentName="QDKP2_frame2_entry"..tostring(i)
+      if indexAt <= #self.List then
+        local name = self.List[indexAt]
+		spc = QDKP2_GetMSOnly(name)
+		if spc ~= nil then
+			print(name.." : ", spc)
+			mess=mess .. "; " .. name.." > " .. spc
+		end
+		end
+	end
+	QDKP2_BidM_SendMessage(nil,"MANAGER","bid_start",mess0)
+	QDKP2_BidM_SendMessage(nil,"MANAGER","bid_start",mess)
+end
 
 function myClass.LeftClickEntry(self)
   local name,btnIndex=QDKP2GUI_GetClickedEntry(myClass)
@@ -1317,6 +1404,14 @@ func=function()
   QDKP2_BidM_Reset()
 end
 },
+ChangeSpec={text=QDKP2_LOC_GUICHANGESPEC,
+func=function()
+  if #myClass.SelectedPlayers>1 then return; end
+  a = myClass.SelectedPlayers[1]
+  QDKP2_Debug(2,a)
+  QDKP2_OpenInputBox("Please enter the new MS Spec.",QDKP2_Change_Spec,a)
+end
+},
 CountDown={text=QDKP2_LOC_GUITRIGGERCNT,
 func=function()
   QDKP2_BidM_Countdown()
@@ -1408,6 +1503,7 @@ function myClass.PlayerMenu(self,List)
     end
 	if self.Sel=="raid" then
       table.insert(menu,2,LogVoices.DEAdd)
+		table.insert(menu,2,LogVoices.ChangeSpec)
 	end
     table.insert(menu,LogVoices.QuickMod)
     table.insert(menu,LogVoices.Revert)
@@ -1479,6 +1575,7 @@ end
 -- When a new sorting category is used (say, rank), it will be incresed to max (8) and the others will be
 -- adjusted downwards accordingly
 myClass.Sort.Values={}
+myClass.Sort.Values.Spec = 4096
 myClass.Sort.Values.BidValue = 2048
 myClass.Sort.Values.BidText = 1024
 myClass.Sort.Values.BidRoll = 512
@@ -1505,6 +1602,7 @@ myClass.Sort.Reverse.Spent = true
 myClass.Sort.Reverse.Hours = true
 myClass.Sort.Reverse.SessGain = true
 myClass.Sort.Reverse.SessSpent = true
+myClass.Sort.Reverse.Spec = false
 
 
 -- Incoming val1, val2 are names.
@@ -1545,6 +1643,13 @@ local function SortComparitor(val1, val2)
    increment = Values.Class
    if (test1 < test2) then compare = compare - increment; elseif (test1 > test2) then compare = compare + increment; end
 
+   -- Spec
+   test1 = QDKP2_GetSpec(val1)
+   test2 = QDKP2_GetSpec(val2)
+   if Reverse.Spec then invertBuffer=test2;test2=test1;test1=invertBuffer; end
+   increment = Values.Spec
+   if (test1 < test2) then compare = compare - increment; elseif (test1 > test2) then compare = compare + increment; end
+   
    -- Net
    test1 = QDKP2_GetNet(val1) or QDKP2_MINIMUM_NET
    test2 = QDKP2_GetNet(val2) or QDKP2_MINIMUM_NET
@@ -1649,6 +1754,7 @@ function myClass.SortList(self,Order,List,forceResort)
   if (Order == "Alpha") then lastmax = Values.Alpha
   elseif (Order == "Rank") then lastmax = Values.Rank
   elseif (Order == "Class") then lastmax = Values.Class
+  elseif (Order == "Spec") then lastmax = Values.Spec
   elseif (Order == "Net") then lastmax = Values.Net
   elseif (Order == "Total") then lastmax = Values.Total
   elseif (Order == "Spent") then lastmax = Values.Spent
@@ -1665,6 +1771,7 @@ function myClass.SortList(self,Order,List,forceResort)
   if (Values.Alpha > lastmax) then Values.Alpha = Values.Alpha / 2; end
   if (Values.Rank > lastmax) then Values.Rank = Values.Rank / 2; end
   if (Values.Class > lastmax) then Values.Class = Values.Class / 2; end
+  if (Values.Spec > lastmax) then Values.Spec = Values.Spec / 2; end
   if (Values.Net > lastmax) then Values.Net = Values.Net / 2; end
   if (Values.Total > lastmax) then Values.Total = Values.Total / 2; end
   if (Values.Spent > lastmax) then Values.Spent = Values.Spent / 2; end
@@ -1677,6 +1784,7 @@ function myClass.SortList(self,Order,List,forceResort)
   if      (Order == "Alpha") then Values.Alpha = 2048
   elseif (Order == "Rank") then Values.Rank = 2048
   elseif (Order == "Class") then Values.Class = 2048
+  elseif (Order == "Spec") then Values.Spec = 2048
   elseif (Order == "Net") then Values.Net = 2048
   elseif (Order == "Total") then Values.Total = 2048
   elseif (Order == "Spent") then Values.Spent = 2048

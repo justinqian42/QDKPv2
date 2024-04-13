@@ -185,7 +185,7 @@ end
 
 
 function QDKP2_GetRaidRosterInfo(i)
-  local name, rank, subgroup, level, class, localClass, fileName, zone, online, inguild, standby, removed
+  local name, rank, subgroup, level, class, localClass, fileName, zone, online, inguild, standby, removed, spec
   local GroupSize = 0
   local RaidSize = GetNumRaidMembers()
   local PartySize = GetNumPartyMembers()
@@ -206,6 +206,7 @@ function QDKP2_GetRaidRosterInfo(i)
       name = UnitName(unit)
       level = UnitLevel(unit)
       class = UnitClass(unit)
+	  spec = QDKP2_GetSpec(name)
       zone = "Party"
       online = QDKP2online[name]
       rank = 0
@@ -225,7 +226,7 @@ function QDKP2_GetRaidRosterInfo(i)
   end
   if QDKP2_IsInGuild(name) then inguild = true; end
   if QDKP2raidRemoved[name] then removed = true; end
-  return name, rank, subgroup, level, class, fileName, zone, online, inguild, standby, removed
+  return name, rank, subgroup, level, class, fileName, zone, online, inguild, standby, removed, spec
 end
 
 function QDKP2_GetNumRaidMembers()

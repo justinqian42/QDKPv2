@@ -47,6 +47,7 @@ local lastMsgFiltered = false
 
 local commandPatterns = {
     '^%s*?[dD][kK][pP]%s+(%a+)%s*(.*)',
+	'^%s*?[mM][sS]%s+(%a+)%s*(.*)',
 	'^%s*?[dD][kK][pP]',
 	'^%s*?[mM][aA][iI][nN]',
 	'^%s*?[rR][eE][pP][oO][rR][tT]',
@@ -64,6 +65,7 @@ function QDKP:ChatFrameFilter(...)
     local msg = select(2, ...)
     local msgID = select(12, ...)
     --QDKP2_Debug(2, "Comms", "ChatFrameFilter " .. event ..  "," .. sender ..  "," .. msg ..  "," .. msgID)
+	local guid = select(13, ...)
     -- Do not process WIM History
     if not msgID or msgID<1 then return end
 
@@ -83,8 +85,13 @@ function QDKP:ChatFrameFilter(...)
         if command then
 			--QDKP2_Debug(2, "Comms", "command found " .. command .. " from " .. sender .. " in message " .. msg)
 			local a  = QDKP2_OD(msg, sender)
+			local a  = QDKP2_OD(msg, sender, guid)
 			--QDKP:SendWhisperResponse(a, sender)
 			QDKP2_SendHiddenWhisper(a,sender)
+			if strmatch(msg, '^%s*?[mM][sS]%s+(%a+)%s*(.*)') then
+				lastMsgFiltered = false
+				return false
+			end
 			lastMsgFiltered = true
 			return true
 		end
