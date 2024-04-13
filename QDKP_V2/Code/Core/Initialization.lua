@@ -404,7 +404,13 @@ end
 function QDKP2_UpdateSpec(name)
 	if not MSChangesAvailable then return; end
 	if LibStub("LibGroupTalents-1.0"):GetUnitTalentSpec(name) ~= nil then
-		QDKP2msChanges[name]['spec'] = LibStub("LibGroupTalents-1.0"):GetUnitTalentSpec(name) or '-'
+		spec = LibStub("LibGroupTalents-1.0"):GetUnitTalentSpec(name)
+		role = LibStub("LibGroupTalents-1.0"):GetUnitRole(name)
+		cls = QDKP2class[name] or UnitClass(name)
+		QDKP2msChanges[name]['spec'] = spec or '-'
+		if spec == "Feral" or spec == "Blood" or spec == "Unholy" or spec == "Frost" and cls~='Mage' then
+			QDKP2msChanges[name]['spec'] = spec .. " " .. role
+		end
 	else
 		QDKP2msChanges[name]['spec'] = '-'
 	end

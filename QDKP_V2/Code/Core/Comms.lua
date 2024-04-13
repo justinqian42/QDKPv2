@@ -131,6 +131,7 @@ end
 --currently not used
 function QDKP:SendWhisperResponse(message, target)
     QDKP2_Debug(2, "Comms", "SendWhisperResponse " .. message .. target)
+	local MsgPrefix     = 'QDKP2> '
     SendChatMessage( MsgPrefix .. ( message or ''), 'WHISPER', nil, target );
     return false;
 end
