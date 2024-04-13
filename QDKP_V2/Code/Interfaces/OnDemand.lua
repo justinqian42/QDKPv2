@@ -81,11 +81,13 @@ function QDKP2_OD(text, sender, guid)
 	end
 	locClass, engClass, locRace, engRace, gender, name, server = GetPlayerInfoByGUID(guid)
 	QDKP2msChanges[sender]['class'] = engClass
-	spc = QDKP2_MS_Pattern_Matcher(P2, engClass)
+	spcRaw = P2 
+	if P3 then spcRaw=P2..P3; end
+	spc = QDKP2_MS_Pattern_Matcher(spcRaw, engClass)
 	QDKP2msChanges[sender]['ms'] = spc
 	QDKP2msChanges[sender]['auto'] = false
 	QDKP2GUI_Roster:Refresh()
-	return {"Character: " .. name .." has MS of: " .. P2}
+	return {"Character: " .. name .." has MS of: " .. spc}
 	
   elseif P1=="?report" or P1=="?log" then
     if not QDKP2_IsInGuild(sender) and not QDKP_OD_EXT then
