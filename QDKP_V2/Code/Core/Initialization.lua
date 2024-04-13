@@ -530,5 +530,19 @@ function QDKP2_MS_Pattern_Matcher(text, class)
 			return token
 		end
 	end
+	tank = strmatch(text, '^ta%a*') or strmatch(text, '^to%a*')
+	if tank then
+		if class == 'druid' then return 'Feral Tank'; end
+		if class == 'warrior' then return 'Protection'; end
+		if class == 'paladin' then return 'Protection'; end
+		if class == 'deathknight' then return 'Blood Tank'; end
+	end
+	healer = strmatch(text, '^he%a*')
+	if healer then
+		if class == 'druid' then return 'Restoration'; end
+		if class == 'shaman' then return 'Restoration'; end
+		if class == 'priest' then return 'Discipline'; end
+		if class == 'paladin' then return 'Holy'; end
+	end
 	return text
 end
