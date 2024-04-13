@@ -375,7 +375,7 @@ function QDKP2_ResetPlayer(name)
   QDKP2_Msg(name .. " has been initialized successfully")
 end
 
-function QDKP2_GetSpec(name)
+function QDKP2_GetSpec(name, display)
 	spec = nil
 	if QDKP2msChanges[name] then
 		QDKP2_UpdateSpec(name)
@@ -383,26 +383,21 @@ function QDKP2_GetSpec(name)
 			spec = QDKP2msChanges[name]['ms']
 		else
 			spec = QDKP2msChanges[name]['spec']
+			if display and spec ~= '-' then spec = '*'..QDKP2msChanges[name]['spec']; end
 		end	
 	else
-		curSpec = LibStub("LibGroupTalents-1.0"):GetActiveTalentGroup("player")
-		
-		QDKP2msChanges[name] = {}
-		if LibStub("LibGroupTalents-1.0"):GetUnitTalentSpec(name) ~= nil then
-			QDKP2msChanges[name]['spec'] = LibStub("LibGroupTalents-1.0"):GetUnitTalentSpec(name) or '-'
-		else
-			QDKP2msChanges[name]['spec'] = '-'
-		end
+		QDKP2_UpdateSpec(name, true)
 		QDKP2msChanges[name]['class'] = QDKP2class[name] or UnitClass(name)
 		QDKP2msChanges[name]['ms'] = '-'
+		QDKP2msChanges[name]['auto'] = true
 		spec = '-'
 	end
 	QDKP2_Debug(2, 'Specs: ', name .. " " .. tostring(QDKP2msChanges[name]['spec']) .. ' ' .. tostring(QDKP2msChanges[name]['ms']))
 	return spec
 end
 
-function QDKP2_UpdateSpec(name)
-	if not MSChangesAvailable then return; end
+function QDKP2_UpdateSpec(name, sure)
+	if not MSChangesAvailable and not sure then return; end
 	if LibStub("LibGroupTalents-1.0"):GetUnitTalentSpec(name) ~= nil then
 		spec = LibStub("LibGroupTalents-1.0"):GetUnitTalentSpec(name)
 		if spec == "Feral Combat" then spec = "Feral"; end
@@ -458,4 +453,73 @@ function QDKP2_GetMSOnly(name)
 		spec = nil
 	end
 	return spec
+end
+
+
+
+function QDKP2_MS_Pattern_Matcher(text, class)
+	local commandPatterns = {
+		{pattern='ret%a*',token='Retribution'},
+		{pattern='ho%a*',token='Holy'},
+		{pattern='hp%a*',token='Holy'},
+		{pattern='pro%a*',token='Protection'},
+		{pattern='pp%a*',token='Protection'},
+		{pattern='fur%a*',token='Fury'},
+		{pattern='fwa%a*',token='Fury'},
+		{pattern='ar%a*',token='Arms'},
+		{pattern='uh%a*',token='Unholy'},
+		{pattern='fro%a*',token='Frost'},
+		{pattern='fdk%a*',token='Frost'},
+		{pattern='blo%a*',token='Blood'},
+		{pattern='bdk%a*',token='Blood'},
+		{pattern='com%a*',token='Combat'},
+		{pattern='cro%a*',token='Combat'},
+		{pattern='ass%a*',token='Assassination'},
+		{pattern='aro%a*',token='Assassination'},
+		{pattern='sub%a*',token='Subtlety'},
+		{pattern='sro%a*',token='subtlety'},
+		{pattern='mm%a*',token='Marskman'},
+		{pattern='mar%a*',token='Marksman'},
+		{pattern='sur%a*',token='Survival'},
+		{pattern='bm%a*',token='Beastmaster'},
+		{pattern='beas%a*',token='Beastmaster'},
+		{pattern='ele%a*',token='Elemental'},
+		{pattern='spe%a*',token='Spellhance'},
+		{pattern='res%a*',token='Restoration'},
+		{pattern='rsha%a*',token='Restoration'},
+		{pattern='rdu%a*',token='Restoration'},
+		{pattern='en%a*',token='Enhancement'},
+		{pattern='cat%a*',token='Feral'},
+		{pattern='bear%a*',token='Feral'},
+		{pattern='gua%a*',token='Feral'},
+		{pattern='fe%a*',token='Feral'},
+		{pattern='kit%a*',token='Feral'},
+		{pattern='boo%a*',token='Balance'},
+		{pattern='moo%a*',token='Balance'},
+		{pattern='bal%a*',token='Balance'},
+		{pattern='chic%a*',token='Balance'},
+		{pattern='sha%a*',token='Shadow'},
+		{pattern='sp%a*',token='Shadow'},
+		{pattern='dis%a*',token='Discipline'},
+		{pattern='fir%a*',token='Fire'},
+		{pattern='fma%a*',token='Fire'},
+		{pattern='arc%a*',token='Arcane'},
+		{pattern='ama%a*',token='Arcane'},
+		{pattern='demo%a*',token='Demonology'},
+		{pattern='aff%a*',token='Affliction'},
+		{pattern='des%a*',token='Destruction'},
+	}
+	local numCommandPatterns = #commandPatterns
+	QDKP2_Debug(2, "Pattern Matching ", text .. class)
+	text = string.lower(text)
+	class = string.lower(class)
+	local command = nil
+	for i=1, numCommandPatterns do
+		command = strmatch(text, commandPatterns[i]['pattern'])
+		if command then
+			token = string.gsub(text, commandPatterns[i]['pattern'], commandPatterns[i]['token'])
+			return token
+		end
+	end
+	return text
 end

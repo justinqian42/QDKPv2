@@ -81,8 +81,9 @@ function QDKP2_OD(text, sender, guid)
 	end
 	locClass, engClass, locRace, engRace, gender, name, server = GetPlayerInfoByGUID(guid)
 	QDKP2msChanges[sender]['class'] = engClass
-	
-	QDKP2msChanges[sender]['ms'] = P2
+	spc = QDKP2_MS_Pattern_Matcher(P2, engClass)
+	QDKP2msChanges[sender]['ms'] = spc
+	QDKP2msChanges[sender]['auto'] = false
 	QDKP2GUI_Roster:Refresh()
 	return {"Character: " .. name .." has MS of: " .. P2}
 	

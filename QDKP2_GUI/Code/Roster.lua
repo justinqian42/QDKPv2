@@ -520,7 +520,7 @@ function myClass.Refresh(self, forceResort)
       if indexAt <= #self.List then
         local name = self.List[indexAt]
         local class=QDKP2class[name] or UnitClass(name)
-		local spec = QDKP2_GetSpec(name)
+		local spec = QDKP2_GetSpec(name, true)
         local isinguild=QDKP2_IsInGuild(name)
         local colors=myClass.PlayersColor.Default
         if not isinguild then colors=myClass.PlayersColor.NoGuild
@@ -648,7 +648,7 @@ function myClass.PupulateList(self)
         local name = QDKP2_GetRaidRosterInfo(i)
         table.insert(list,name)
 		s_gain,s_spent=QDKP2_GetSessionAmounts(name)
-		local spec = QDKP2_GetSpec(name)
+		local spec = QDKP2_GetSpec(name, true)
         local class=QDKP2class[name] or UnitClass(name)
         local isinguild=QDKP2_IsInGuild(name)
         local colors=myClass.PlayersColor.Default
