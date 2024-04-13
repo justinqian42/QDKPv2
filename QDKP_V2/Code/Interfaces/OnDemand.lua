@@ -265,6 +265,7 @@ function QDKP2_OD(text, sender, guid)
     if QDKP2_COD then table.insert(output, '"?classdkp <class>"'); end
     if QDKP2_KOD then table.insert(output, '"?rankdkp <rank>"'); end
     if QDKP2_ROD then table.insert(output, '"?log <name> all/current"'); end
+	table.insert(output, '"?ms <spec>"'); end
     --if QDKP2_POD then table.insert(output, '"?prices <keywords>"'); end
     --if QDKP2_AOD then table.insert(output, '"?award <keywords>"'); end
     if table.getn(output)==1 then output={"QDKP2 - No On Demand enabled keywords."}; end
