@@ -386,11 +386,12 @@ function QDKP2_GetSpec(name, display)
 			if display and spec ~= '-' then spec = '*'..QDKP2msChanges[name]['spec']; end
 		end	
 	else
+		QDKP2msChanges[name] = {}
 		QDKP2_UpdateSpec(name, true)
 		QDKP2msChanges[name]['class'] = QDKP2class[name] or UnitClass(name)
 		QDKP2msChanges[name]['ms'] = '-'
 		QDKP2msChanges[name]['auto'] = true
-		spec = '-'
+		spec = QDKP2msChanges[name]['spec']
 	end
 	QDKP2_Debug(2, 'Specs: ', name .. " " .. tostring(QDKP2msChanges[name]['spec']) .. ' ' .. tostring(QDKP2msChanges[name]['ms']))
 	return spec
