@@ -422,13 +422,17 @@ function QDKP2_Change_Spec(ms,name)
 end
 
 function QDKP2_Enable_MSChanges()
+	if not MSChangesAvailable
+		QDKP2_BidM_SendMessage(nil,"MANAGER","bid_start","MS Changes are now available, whisper me \"?ms YOURSPECHERE\" now. Changes are closed when I say or on first boss death." )
+	end
 	MSChangesAvailable = true
-	QDKP2_BidM_SendMessage(nil,"MANAGER","bid_start","MS Changes are now available, whisper me \"?ms YOURSPECHERE\" now. Changes are closed when I say or on first boss death." )
 end
 
 function QDKP2_Disable_MSChanges()
+	if MSChangesAvailable then
+		QDKP2_BidM_SendMessage(nil,"MANAGER","bid_start","MS Changes are now closed!")
+	end
 	MSChangesAvailable = false
-	QDKP2_BidM_SendMessage(nil,"MANAGER","bid_start","MS Changes are now closed!")
 end
 
 function QDKP2_GetMSOnly(name)
