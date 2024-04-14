@@ -84,11 +84,11 @@ function QDKP:ChatFrameFilter(...)
         command, params = strmatch(msg, commandPatterns[i])
         if command then
 			--QDKP2_Debug(2, "Comms", "command found " .. command .. " from " .. sender .. " in message " .. msg)
-			local a  = QDKP2_OD(msg, sender)
+
 			local a  = QDKP2_OD(msg, sender, guid)
 			--QDKP:SendWhisperResponse(a, sender)
 			QDKP2_SendHiddenWhisper(a,sender)
-			if strmatch(msg, '^%s*?[mM][sS]%s+(%a+)%s*(.*)') then
+			if QDKP2_OS_VIEWWHSP or strmatch(msg, '^%s*?[mM][sS]%s+(%a+)%s*(.*)') then
 				lastMsgFiltered = false
 				return false
 			end
@@ -118,7 +118,10 @@ function QDKP:ChatFrameFilterOutbound(...)
     lastMsgFiltered   = false
 
 		-- find QDKP2> in the chat message and prevent these messages from showing up.
-	if QDKP2_OS_VIEWWHSP then return false; end
+	if QDKP2_OS_VIEWWHSP then
+		lastMsgFiltered = false
+		return false
+	end
 	if strfind(msg, '^%s*QDKP2>%s+') then
 	    QDKP2_Debug(2, "Comms", "command found ")
 		--todo change to true
