@@ -26,6 +26,9 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Release Log:
+v2.6.8.6
+- Fix for function to hide/display 'ondemand' whispers.
+
 v2.6.8.5
 - Addition of internal MS changes by sending ?ms Fury via a whisper. Management via raid roster tab.
 
