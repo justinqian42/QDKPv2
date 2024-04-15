@@ -42,6 +42,14 @@ function QDKP2_InitData(GuildName, NoClearLocal)
     QDKP2currentSessions = {}
     QDKP2_BossDeath = {}
     QDKP2_SuppressWhisper = {}
+	BagId = 0
+	SlotId = 1
+	ItemId = 0
+	ItemLink=""
+	assignedDE = ""
+	MSChangesAvailable = true
+
+	BISListTable = {}
   end
 end
 
@@ -193,14 +201,8 @@ function QDKP2_Init()
   QDKP2classEnglish = QDKP2classEnglish or {}
   QDKP2zoneEnglish = QDKP2zoneEnglish or {}
   QDKP2inventoryEnglish = QDKP2inventoryEnglish or {}
-  BagId = 0
-  SlotId = 1
-  ItemId = 0
-  ItemLink=""
-  Temp_BagId = 0
-  Temp_SlotId = 1
-  assignedDE = ""
-  MSChangesAvailable = false
+
+
   --Register events
   --QDKP2:RegisterEvent("ADDON_LOADED")
   QDKP2:RegisterEvent("GUILD_ROSTER_UPDATE")
@@ -314,6 +316,7 @@ function QDKP2_OnLoad()
   QDKP2_RefreshGuild()
   QDPK2_ReadGuildInfo = true
   GuildRoster()
+  BISListTable = GEAR:QDKP2_BIS_List_Creator()
 
   QDKP2:RegisterEvent("RAID_ROSTER_UPDATE")
   QDKP2:RegisterEvent("PARTY_MEMBERS_CHANGED")
@@ -375,7 +378,7 @@ function QDKP2_ResetPlayer(name)
   QDKP2_Msg(name .. " has been initialized successfully")
 end
 
-function QDKP2_GetSpec(name, display)
+function QDKP2_GetSpec(name, display, bis)
 	spec = nil
 	if QDKP2msChanges[name] then
 		QDKP2_UpdateSpec(name)
@@ -393,6 +396,7 @@ function QDKP2_GetSpec(name, display)
 		QDKP2msChanges[name]['auto'] = true
 		spec = QDKP2msChanges[name]['spec']
 	end
+	if bis then spec = QDKP2_BIS_Checker(name, spec); end
 	QDKP2_Debug(2, 'Specs: ', name .. " " .. tostring(QDKP2msChanges[name]['spec']) .. ' ' .. tostring(QDKP2msChanges[name]['ms']))
 	return spec
 end
@@ -551,3 +555,97 @@ function QDKP2_MS_Pattern_Matcher(text, class)
 	end
 	return text
 end
+
+
+function QDKP2_BIS_Checker(name, spec)
+	--todo change to false
+	itemId = ItemId
+	-- item has a bis/prebis entry
+	if (BISListTable[itemId]) then
+		if (BISListTable[itemId].bis) then
+			for key, value in pairs(BISListTable[itemId].bis) do
+				local pClass = string.lower(value[1])
+				local class=QDKP2class[name] or UnitClass(name)
+				class = string.lower(class)
+				if class == pClass then
+					if string.lower(QDKP2_GetSpec(name)) == string.lower(value[2]) then return '[BIS] ' .. spec; end
+				end
+			end
+		end
+		if (BISListTable[itemId].pre) then
+			for key, value in pairs(BISListTable[itemId].pre) do
+				local pClass = string.lower(value[1])
+				local class=QDKP2class[name] or UnitClass(name)
+				class = string.lower(class)
+				if class == pClass then
+					if string.lower(QDKP2_GetSpec(name)) == string.lower(value[2]) then return '[PRE] ' .. spec; end
+				end
+			end
+		end
+		
+	end
+	return spec
+end
+
+local colors = {}
+colors.DEATHKNIGHT = 'c41e3a'
+colors.DRUID = 'f1760c'
+colors.MAGE = '68ccef'
+colors.HUNTER = 'aad372'
+colors.PALADIN = 'f48cba'
+colors.PRIEST = 'ffffff'
+colors.ROGUE = 'fff468'
+colors.SHAMAN = '036bd1'
+colors.WARLOCK = '8c7cbe'
+colors.WARRIOR = 'c69b6d'
+
+function toTitleCase(str)
+  return (str:gsub("(%a)([%w_']*)", function(first, rest)
+      return first:upper() .. rest:lower()
+  end))
+end
+
+function QDKP2_BIS_Header_Setter()
+	--todo change to false
+	itemId = ItemId --ItemId
+	print("QDKP2_BIS_Header_Setter")
+	local str = ''
+	local str2 = ''
+	if (BISListTable[itemId]) then
+      if (BISListTable[itemId].bis) then
+        str = str .. 'BIS: '
+        for key, value in pairs(BISListTable[itemId].bis) do
+          local pClass = value[1]
+		  if string.len(str)>= 220 then
+			str2 = str2 .. '|cFF' .. colors[pClass] .. value[2] .. ' ' .. '|r '
+		  else
+			str = str .. '|cFF' .. colors[pClass] .. value[2] .. ' ' .. '|r '
+		  end
+		  print(str)
+        end
+      end
+
+      if (BISListTable[itemId].pre) then
+        str = str .. 'Pre-BIS: '
+        for key, value in pairs(BISListTable[itemId].pre) do
+          local pClass = value[1]
+		  if string.len(str)>= 220 then
+			str2 = str2 .. '|cFF' .. colors[pClass] .. value[2] .. ' ' .. '|r '
+		  else
+			str = str .. '|cFF' .. colors[pClass] .. value[2] .. ' ' .. '|r '
+		  end
+        end
+      end
+    end
+	local bis = BISListTable[itemId]
+	print(str)
+	if str2 then str = str .. '\n' ..str2; end
+	if bis then
+		QDKP2_Frame2_biscount:SetText(str)
+	else
+		QDKP2_Frame2_biscount:SetText(QDKP2_LOC_GUIBISZONE .. '\n')
+	end
+end
+
+--todo bis list
+--todo bis checker

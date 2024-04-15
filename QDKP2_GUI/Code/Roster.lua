@@ -72,6 +72,7 @@ end
 
 
 function myClass.Refresh(self, forceResort)
+	QDKP2_Frame2:SetWidth(580)
     if not QDKP2_Frame2:IsVisible() then return; end
     QDKP2_Debug(3, "GUI-roster","Refreshing")
     local Complete=QDKP2_OfficerMode()
@@ -142,6 +143,7 @@ function myClass.Refresh(self, forceResort)
 			
 		end	
 	end
+	local fWidth = 580
 
     if self.Sel=="guildonline" or self.Sel=="guild" then
       myClass:ShowColumn('deltatotal', false)
@@ -149,10 +151,13 @@ function myClass.Refresh(self, forceResort)
       myClass:ShowColumn('roll', false)
       myClass:ShowColumn('bid', false)
       myClass:ShowColumn('value', false)
+	  QDKP2_Frame2:SetWidth(fWidth)
       QDKP2_Frame2_sesscount:Hide()
       QDKP2_Frame2_SessionZone:Hide()
       QDKP2_Frame2_bidcount:Hide()
       QDKP2_Frame2_BiddingZone:Hide()
+	  QDKP2_Frame2_biscount:Hide()
+      QDKP2_Frame2_BisZone:Hide()
       QDKP2_Frame2_Bid_Item:Hide()
       QDKP2_Frame2_Bid_Button:Hide()
 	  QDKP2_Frame2_Trade_Button:Hide()
@@ -176,10 +181,14 @@ function myClass.Refresh(self, forceResort)
       myClass:ShowColumn('roll', false)
       myClass:ShowColumn('bid', false)
       myClass:ShowColumn('value', false)
+	  fWidth = fWidth  + 80
+	  QDKP2_Frame2:SetWidth(fWidth)
       QDKP2_Frame2_sesscount:Show()
       QDKP2_Frame2_SessionZone:Show()
       QDKP2_Frame2_bidcount:Hide()
       QDKP2_Frame2_BiddingZone:Hide()
+	  QDKP2_Frame2_biscount:Hide()
+      QDKP2_Frame2_BisZone:Hide()
       QDKP2_Frame2_Bid_Item:Hide()
 	  QDKP2_Frame2_Trade_Button:Hide()
 	  QDKP2_Frame2_DE_Button:Hide()
@@ -206,11 +215,15 @@ function myClass.Refresh(self, forceResort)
       myClass:ShowColumn('roll', false)
       myClass:ShowColumn('bid', false)
       myClass:ShowColumn('value', false)
+	  fWidth = fWidth  + 80
+	  QDKP2_Frame2:SetWidth(fWidth)
       QDKP2_Frame2_sesscount:Show()
       QDKP2_Frame2_SessionZone:Show()
       QDKP2_Frame2_bidcount:Hide()
       QDKP2_Frame2_BiddingZone:Hide()
       QDKP2_Frame2_Bid_Item:Hide()
+	  QDKP2_Frame2_biscount:Hide()
+      QDKP2_Frame2_BisZone:Hide()
 	  QDKP2_Frame2_Trade_Button:Hide()
 	  QDKP2_Frame2_DE_Button:Hide()
       QDKP2_Frame2_Bid_Button:Hide()
@@ -322,10 +335,14 @@ function myClass.Refresh(self, forceResort)
       myClass:ShowColumn('roll', true)
       myClass:ShowColumn('bid', true)
       myClass:ShowColumn('value', true)
+	  fWidth = fWidth  + 220
+	  QDKP2_Frame2:SetWidth(fWidth)
       QDKP2_Frame2_sesscount:Show()
       QDKP2_Frame2_SessionZone:Show()
       QDKP2_Frame2_bidcount:Show()
       QDKP2_Frame2_BiddingZone:Show()
+	  QDKP2_Frame2_biscount:Show()
+      QDKP2_Frame2_BisZone:Show()
       QDKP2_Frame2_Bid_Item:Show()
       QDKP2_Frame2_Bid_Button:Show()
 	  QDKP2_Frame2_Trade_Button:Show()
@@ -338,6 +355,7 @@ function myClass.Refresh(self, forceResort)
 	  QDKP2_Frame2_MS_Close_Button:Hide()
 	  QDKP2_Frame2_MS_Clear_Button:Hide()
 	  QDKP2_Frame2_MS_Spam_Button:Hide()
+	  QDKP2_BIS_Header_Setter(item)
 	  if QDKP2_BidM_isRolling() then
 		QDKP2_Frame2_Bid_ButtonWin:Show()
 		QDKP2_Frame2_Bid_ButtonRoll:Hide()
@@ -373,10 +391,14 @@ function myClass.Refresh(self, forceResort)
       myClass:ShowMonitorColumn('roll', true)
       myClass:ShowMonitorColumn('bid', true)
       myClass:ShowMonitorColumn('value', true)
+	  fWidth = fWidth + 220
+	  QDKP2_Frame2:SetWidth(fWidth)
 	  QDKP2_Frame2_sesscount:Show()
       QDKP2_Frame2_SessionZone:Show()
       QDKP2_Frame2_bidcount:Show()
       QDKP2_Frame2_BiddingZone:Show()
+	  QDKP2_Frame2_biscount:Show()
+      QDKP2_Frame2_BisZone:Show()
 	  QDKP2_Frame2_Trade_Button:Hide()
 	  QDKP2_Frame2_DE_Button:Hide()
       QDKP2_Frame2_Bid_Button:Hide()
@@ -521,6 +543,8 @@ function myClass.Refresh(self, forceResort)
         local name = self.List[indexAt]
         local class=QDKP2class[name] or UnitClass(name)
 		local spec = QDKP2_GetSpec(name, true)
+		if self.Sel=='bid' then spec = QDKP2_GetSpec(name, true, true); end
+		QDKP2_Debug(2,"Spec is ", spec)
         local isinguild=QDKP2_IsInGuild(name)
         local colors=myClass.PlayersColor.Default
         if not isinguild then colors=myClass.PlayersColor.NoGuild
@@ -731,7 +755,7 @@ function myClass.PupulateList(self)
 			value="-"
 		end
 		s_gain,s_spent=QDKP2_GetSessionAmounts(name)
-		local spec = QDKP2_GetSpec(name)
+		local spec = QDKP2_GetSpec(name, true, true)
         local class=QDKP2class[name] or UnitClass(name)
         local isinguild=QDKP2_IsInGuild(name)
         local colors=myClass.PlayersColor.Default
@@ -904,7 +928,6 @@ function myClass.PushedMSCloseButton(self)
 end
 
 function myClass.PushedMSSpamButton(self)
-	QDKP2_Debug(2,"PushedMSSpamButton")
 	local mess0="MS Changes are:"
 	local mess=""
 	for i=1, QDKP2GUI_Roster.ENTRIES do  --fills in the list data
@@ -914,8 +937,8 @@ function myClass.PushedMSSpamButton(self)
         local name = self.List[indexAt]
 		spc = QDKP2_GetMSOnly(name)
 		if spc ~= nil then
-			print(name.." : ", spc)
-			mess=mess .. "; " .. name.." > " .. spc
+			if string.len(mess)>=1 then mess=mess .. "; "; end
+			mess=mess .. name.." > " .. spc
 		end
 		end
 	end
@@ -1001,9 +1024,6 @@ function myClass.DragDropManager(self)
   local what,a1,a2=GetCursorInfo()
   QDKP2_Debug(2,a2)
   if what=='item' then
-	--BagId = Temp_BagId
-	--SlotId = Temp_SlotId
-	--ItemId = a1
 	QDKP2_Debug(2, "DRAGDROP DEBUGGER Bag: " .. tostring(BagId), " Slot: " .. tostring(SlotId))
 	QDKP2_Debug(2, "DRAGDROP DEBUGGER a1: " .. tostring(a1), " a2: " .. tostring(a2))
     this:SetText(a2)

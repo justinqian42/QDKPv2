@@ -70,21 +70,19 @@ function QDKP2_OnEvent(self, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7)
 		QDKP2_Debug(2,"Events","ITEM_LOCKED")
 		QDKP2_Debug(2,"Events - Bag",arg1)
 		QDKP2_Debug(2,"Events - Slot",arg2)
-		Temp_BagId = arg1
-		Temp_SlotId = arg2
-		Temp_ItemID = 0
 
 		if QDKP2_Frame2_Bid_Item and QDKP2_Frame2_Bid_Item:IsShown() and not QDKP2_BidM_isBidding() then
 			if arg2 ~= nil then  -- not equipment items
 				QDKP2_Frame2_Bid_Item:SetScript("OnMouseDown", function()
 					_, _, _, _, _, _, itemLink = GetContainerItemInfo(arg1, arg2)
 					if itemLink then
-						QDKP2_Debug(2,"Itemlink")
+						QDKP2_Debug(1,"Itemlink")
 						BagId = arg1
 						SlotId = arg2
 						ItemLink = itemLink
 						ItemId = tonumber(itemLink:match("item:(%d+)") or 0)
-						QDKP2_Debug(2,"Item info", BagId .. " " .. SlotId .. " " .. ItemId)
+						QDKP2_BIS_Header_Setter()
+						QDKP2_Debug(1,"Item info", BagId .. " " .. SlotId .. " " .. ItemId)
 						QDKP2GUI_Roster:DragDropManager()
 						--LootMasterML:EPGP_DFB_LootFrame_Update(itemLink)
 					end

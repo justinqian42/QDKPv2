@@ -1291,7 +1291,7 @@
           <Anchors>
             <Anchor point="TOPRIGHT">
               <Offset>
-                <AbsDimension x="-30" y="-12"/>
+                <AbsDimension x="-15" y="-12"/>
               </Offset>
             </Anchor>
             <Anchor point="BOTTOMRIGHT">
@@ -1309,12 +1309,30 @@
           <Anchors>
             <Anchor point="TOPLEFT">
               <Offset>
-                <AbsDimension x="180" y="-12"/>
+                <AbsDimension x="120" y="-12"/>
               </Offset>
             </Anchor>
             <Anchor point="BOTTOMLEFT">
               <Offset>
                 <AbsDimension y="45"/>
+              </Offset>
+            </Anchor>
+          </Anchors>
+          <Color r="1" g="0.8" b="0.1" a="0.1" />
+        </Texture>
+		        <Texture name="$parent_BisZone" setAllPoints="true">
+          <Size>
+            <AbsDimension x="700"/>
+          </Size>
+          <Anchors>
+            <Anchor point="TOPLEFT">
+              <Offset>
+                <AbsDimension x="20" y="-332"/>
+              </Offset>
+            </Anchor>
+            <Anchor point="BOTTOMLEFT">
+              <Offset>
+                <AbsDimension y="-295"/>
               </Offset>
             </Anchor>
           </Anchors>
@@ -1338,6 +1356,14 @@
               <Offset><AbsDimension y="-3"/></Offset>
             </Anchor>
             <Anchor point="TOPRIGHT" relativeTo="QDKP2_Frame2_BiddingZone"/>
+          </Anchors>
+        </FontString>
+		        <FontString name="$parent_biscount" inherits="GameFontHighlightSmall" justifyH="LEFT" text="QDKP2_LOC_GUIBISZONE">
+          <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="QDKP2_Frame2_BisZone">
+              <Offset><AbsDimension y="-3"/></Offset>
+            </Anchor>
+            <Anchor point="TOPRIGHT" relativeTo="QDKP2_Frame2_BisZone"/>
           </Anchors>
         </FontString>
         <!--

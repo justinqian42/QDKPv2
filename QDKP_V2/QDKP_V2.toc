@@ -6,7 +6,7 @@
 ## OptionalDeps: AtlasLoot, DBM-Core, BigWigs
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
-## SavedVariables: QDKP2_Data, QDKP2_Debug_List
+## SavedVariables: QDKP2_Data, QDKP2_Debug_List, QDKP2_Gear
 ## SavedVariablesPerCharacter: QDKP2backup
 
 Code\Lib\LibStub.lua
@@ -66,5 +66,7 @@ Code\Interfaces\Exporter.lua
 
 Code\Core\Initialization.lua
 Code\Core\Comms.lua
+Code\Core\Gear.lua
+
 
 QDKP_V2.xml
