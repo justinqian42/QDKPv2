@@ -1532,6 +1532,7 @@ function myClass.PlayerMenu(self,List)
     table.insert(menu,LogVoices.AddAsExternal)
     if self.Sel=="raid" then
       table.insert(menu,2,LogVoices.DEAdd)
+	  table.insert(menu,2,LogVoices.ChangeSpec)
 	end
   elseif #sel==1 then
     local name=self.SelectedPlayers[1]
