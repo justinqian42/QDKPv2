@@ -25,6 +25,11 @@ myClass.MONITOR_DICT = {}
 myClass.RAID_LIST = {}
 myClass.RAID_DICT = {}
 myClass.ITEM = ""
+myClass.BagId = 0
+myClass.SlotId = 1
+myClass.ItemId = 0
+myClass.MonitorItemId = 0
+
 
 myClass.PlayersColor={}
 myClass.PlayersColor.Default={r=1,g=1,b=1}
@@ -358,7 +363,7 @@ function myClass.Refresh(self, forceResort)
 	  QDKP2_Frame2_MS_Close_Button:Hide()
 	  QDKP2_Frame2_MS_Clear_Button:Hide()
 	  QDKP2_Frame2_MS_Spam_Button:Hide()
-	  QDKP2_BIS_Header_Setter(item)
+	  QDKP2_BIS_Header_Setter()
 	  if QDKP2_BidM_isRolling() then
 		QDKP2_Frame2_Bid_ButtonWin:Show()
 		QDKP2_Frame2_Bid_ButtonRoll:Hide()
@@ -422,6 +427,7 @@ function myClass.Refresh(self, forceResort)
 	  --QDKP2_BidM_CatchRoll = true
       --QDKP2_BidM.ACCEPT_BID = true
 	  QDKP2frame2_selectList_Monitor:SetChecked(true)
+	  QDKP2_BIS_Header_Setter(true)
 		--todo adjust for QDKP2GUI_Roster.MONITOR_DICT
 		if QDKP2_StoreHours then
 		  myClass:ShowColumn('hours', true)
@@ -550,7 +556,6 @@ function myClass.Refresh(self, forceResort)
         local class=QDKP2class[name] or UnitClass(name)
 		local spec = QDKP2_GetSpec(name, true)
 		if self.Sel=='bid' then spec = QDKP2_GetSpec(name, true, true); end
-		QDKP2_Debug(2,"Spec is ", spec)
         local isinguild=QDKP2_IsInGuild(name)
         local colors=myClass.PlayersColor.Default
         if not isinguild then colors=myClass.PlayersColor.NoGuild
@@ -619,8 +624,14 @@ function myClass.Refresh(self, forceResort)
             s_gain=''; s_spent=''
           end
         else
-          net='-'; total='-'; spent='-'; hours=''; s_gain=''; s_spent=''
+          net='-'; total='-'; spent='-'; hours='-'; s_gain='-'; s_spent='-'
         end
+		if self.Sel=="guild" or self.Sel=="guildonline" then
+			roll=''; bid=''; value='';hours=''; s_gain=''; s_spent=''
+		end
+		if not QDKP2_StoreHours then
+			hours=''
+		end
         getglobal(ParentName.."_name"):SetText(tostring(nameS));
         getglobal(ParentName.."_roll"):SetText(tostring(roll or '-'))
         getglobal(ParentName.."_bid"):SetText(tostring(bid or '-'))
@@ -706,12 +717,14 @@ function myClass.PupulateList(self)
 		end
 		
 		displayname = QDKP2_GetName(name)
+		local rank = QDKP2rank[name] or '-'
+		local class = QDKP2class[name] or UnitClass(name)
 		table.insert(QDKP2GUI_Roster.RAID_LIST,name)
 		QDKP2GUI_Roster.RAID_DICT[i] = {}
 		QDKP2GUI_Roster.RAID_DICT[i]['name'] = name
 		QDKP2GUI_Roster.RAID_DICT[i]['displayname'] = displayname
-		QDKP2GUI_Roster.RAID_DICT[i]['rank']=QDKP2rank[name]
-		QDKP2GUI_Roster.RAID_DICT[i]['class']=QDKP2class[name]
+		QDKP2GUI_Roster.RAID_DICT[i]['rank']=rank
+		QDKP2GUI_Roster.RAID_DICT[i]['class']=class
 		QDKP2GUI_Roster.RAID_DICT[i]['spec']=spec
 		QDKP2GUI_Roster.RAID_DICT[i]['net']=QDKP2_GetNet(name)
 		QDKP2GUI_Roster.RAID_DICT[i]['total']=QDKP2_GetTotal(name)
@@ -726,7 +739,8 @@ function myClass.PupulateList(self)
 		QDKP2GUI_Roster.RAID_DICT[i]['bid']='-'
 		QDKP2GUI_Roster.RAID_DICT[i]['value']='-'
 		QDKP2GUI_Roster.RAID_DICT[i]['loot']='-'
-		QDKP:SendMonitorMessage( 'RAIDLIST', i, '-', name, '-', '-', '-', QDKP2rank[name], QDKP2class[name], QDKP2_GetNet(name), QDKP2_GetTotal(name), QDKP2_GetSpent(name), s_gain, s_spent, r, g, b,a, displayname, spec)
+		QDKP2GUI_Roster.RAID_DICT[i]['itemid']=QDKP2GUI_Roster.ItemId
+		QDKP:SendMonitorMessage( 'RAIDLIST', i, '-', name, '-', '-', '-', rank, class, QDKP2_GetNet(name), QDKP2_GetTotal(name), QDKP2_GetSpent(name), s_gain, s_spent, r, g, b,a, displayname, spec, QDKP2GUI_Roster.ItemId)
 		
 		
       end
@@ -761,6 +775,8 @@ function myClass.PupulateList(self)
 			value="-"
 		end
 		s_gain,s_spent=QDKP2_GetSessionAmounts(name)
+		if s_gain == nil then s_gain = "-"; end
+		if s_spent == nil then s_spent = "-"; end
 		local spec = QDKP2_GetSpec(name, true, true)
         local class=QDKP2class[name] or UnitClass(name)
         local isinguild=QDKP2_IsInGuild(name)
@@ -782,14 +798,16 @@ function myClass.PupulateList(self)
         if self.Sel=='raid' and QDKP2_IsRemoved(name) then a=0.4; end
 
 		displayname = QDKP2_GetName(name)
+		local rank = QDKP2rank[name] or '-'
+		local class = QDKP2class[name] or UnitClass(name)
 		QDKP2GUI_Roster.MONITOR_DICT[i] = {}
 		QDKP2GUI_Roster.MONITOR_DICT[i]['name'] = name
 		QDKP2GUI_Roster.MONITOR_DICT[i]['displayname'] = displayname
 		QDKP2GUI_Roster.MONITOR_DICT[i]['roll']=roll
 		QDKP2GUI_Roster.MONITOR_DICT[i]['bid']=bid
 		QDKP2GUI_Roster.MONITOR_DICT[i]['value']=value
-		QDKP2GUI_Roster.MONITOR_DICT[i]['rank']=QDKP2rank[name]
-		QDKP2GUI_Roster.MONITOR_DICT[i]['class']=QDKP2class[name]
+		QDKP2GUI_Roster.MONITOR_DICT[i]['rank']=rank
+		QDKP2GUI_Roster.MONITOR_DICT[i]['class']=class
 		QDKP2GUI_Roster.MONITOR_DICT[i]['spec']=spec
 		QDKP2GUI_Roster.MONITOR_DICT[i]['net']=QDKP2_GetNet(name)
 		QDKP2GUI_Roster.MONITOR_DICT[i]['total']=QDKP2_GetTotal(name)
@@ -801,7 +819,8 @@ function myClass.PupulateList(self)
 		QDKP2GUI_Roster.MONITOR_DICT[i]['g']=g
 		QDKP2GUI_Roster.MONITOR_DICT[i]['b']=b
 		QDKP2GUI_Roster.MONITOR_DICT[i]['a']=a
-		QDKP:SendMonitorMessage( 'MONITORLIST', i, QDKP2_BidM.ITEM, name, roll, bid, value, QDKP2rank[name], QDKP2class[name], QDKP2_GetNet(name), QDKP2_GetTotal(name), QDKP2_GetSpent(name), s_gain, s_spent, r, g, b,a, displayname, spec)
+		QDKP2GUI_Roster.MONITOR_DICT[i]['itemid']=QDKP2GUI_Roster.ItemId
+		QDKP:SendMonitorMessage( 'MONITORLIST', i, QDKP2_BidM.ITEM, name, roll, bid, value, rank, class, QDKP2_GetNet(name), QDKP2_GetTotal(name), QDKP2_GetSpent(name), s_gain, s_spent, r, g, b,a, displayname, spec, QDKP2GUI_Roster.ItemId)
 	end
     if not QDKP2GUI_Vars.ShowOutGuild then
       for i,name in pairs(self.List) do
@@ -1040,7 +1059,7 @@ function myClass.DragDropManager(self)
   local what,a1,a2=GetCursorInfo()
   QDKP2_Debug(2,a2)
   if what=='item' then
-	QDKP2_Debug(2, "DRAGDROP DEBUGGER Bag: " .. tostring(BagId), " Slot: " .. tostring(SlotId))
+	QDKP2_Debug(2, "DRAGDROP DEBUGGER Bag: " .. tostring(QDKP2GUI_Roster.BagId), " Slot: " .. tostring(QDKP2GUI_Roster.SlotId))
 	QDKP2_Debug(2, "DRAGDROP DEBUGGER a1: " .. tostring(a1), " a2: " .. tostring(a2))
     this:SetText(a2)
     ClearCursor()
@@ -1051,10 +1070,10 @@ end
 function myClass.PushedTradeButton(self)
 	if myClass.SelectedPlayers and #myClass.SelectedPlayers == 1 then
 		Temp_Winner = myClass.SelectedPlayers[1]
-		QDKP2_Debug(2, "Trade DEBUGER", "Bag: " .. tostring(BagId) .. " Slot: " .. tostring(SlotId) .. " Id: " .. tostring(ItemId)  .. " Link: " .. tostring(ItemLink))
+		QDKP2_Debug(2, "Trade DEBUGER", "Bag: " .. tostring(myClass.BagId) .. " Slot: " .. tostring(myClass.SlotId) .. " Id: " .. tostring(myClass.ItemId)  .. " Link: " .. tostring(ItemLink))
 		if CheckInteractDistance(Temp_Winner, 2) == 1 then
 			ClearCursor()
-			PickupContainerItem(BagId, SlotId)
+			PickupContainerItem(myClass.BagId, myClass.SlotId)
 			if CursorHasItem() then
 				InitiateTrade(Temp_Winner)
 			end
@@ -1137,7 +1156,7 @@ function myClass.PushedDEButton(self)
   if assignedDE and assignedDE ~= "" then
 	  	if CheckInteractDistance(assignedDE, 2) == 1 then
 			ClearCursor()
-			PickupContainerItem(BagId, SlotId)
+			PickupContainerItem(QDKP2GUI_Roster.BagId, QDKP2GUI_Roster.SlotId)
 			if CursorHasItem() then
 				InitiateTrade(assignedDE)
 			end

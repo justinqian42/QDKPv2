@@ -42,9 +42,7 @@ function QDKP2_InitData(GuildName, NoClearLocal)
     QDKP2currentSessions = {}
     QDKP2_BossDeath = {}
     QDKP2_SuppressWhisper = {}
-	BagId = 0
-	SlotId = 1
-	ItemId = 0
+
 	ItemLink=""
 	assignedDE = ""
 	MSChangesAvailable = true
@@ -397,7 +395,6 @@ function QDKP2_GetSpec(name, display, bis)
 		spec = QDKP2msChanges[name]['spec']
 	end
 	if bis then spec = QDKP2_BIS_Checker(name, spec); end
-	QDKP2_Debug(2, 'Specs: ', name .. " " .. tostring(QDKP2msChanges[name]['spec']) .. ' ' .. tostring(QDKP2msChanges[name]['ms']))
 	return spec
 end
 
@@ -559,7 +556,7 @@ end
 
 function QDKP2_BIS_Checker(name, spec)
 	--todo change to false
-	itemId = ItemId
+	itemId = QDKP2GUI_Roster.ItemId
 	-- item has a bis/prebis entry
 	if (BISListTable[itemId]) then
 		if (BISListTable[itemId].bis) then
@@ -605,10 +602,13 @@ function toTitleCase(str)
   end))
 end
 
-function QDKP2_BIS_Header_Setter()
+function QDKP2_BIS_Header_Setter(monitor)
 	--todo change to false
-	itemId = ItemId --ItemId
-	print("QDKP2_BIS_Header_Setter")
+	if monitor then
+		itemId = QDKP2GUI_Roster.MonitorItemId
+	else
+		itemId = QDKP2GUI_Roster.ItemId --ItemId
+	end
 	local str = ''
 	local str2 = ''
 	if (BISListTable[itemId]) then
@@ -621,7 +621,6 @@ function QDKP2_BIS_Header_Setter()
 		  else
 			str = str .. '|cFF' .. colors[pClass] .. value[2] .. ' ' .. '|r '
 		  end
-		  print(str)
         end
       end
 
@@ -638,7 +637,6 @@ function QDKP2_BIS_Header_Setter()
       end
     end
 	local bis = BISListTable[itemId]
-	print(str)
 	if str2 then str = str .. '\n' ..str2; end
 	if bis then
 		QDKP2_Frame2_biscount:SetText(str)

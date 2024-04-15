@@ -300,23 +300,27 @@ function QDKP:CommandReceived(prefix, message, distribution, sender)
 			
 		elseif monCmd == 'RAIDLIST' then	
 			--QDKP2_Debug(2,"RAIDLIST","Received")
-
-			local index, loot, name, roll, bid, value, rank, class, net, total, spent, s_gain, s_spent,r,g,b,a, displayname, spec = unpack(monArgs)
+			
+			--for key,value in pairs(monArgs) do
+			--	print(key,value)
+			--end
+			
+			local index, loot, name, roll, bid, value, rank, class, net, total, spent, s_gain, s_spent,r,g,b,a, displayname, spec, itemid = unpack(monArgs)
 			
             --local loot,nameS,roll,bid,value,rank,class,net,total,spent,hours,s_gain,s_spent = unpack(monArgs)
 			i = tonumber(index)
-			if not roll=='-' then roll=tonumber(roll); end
-			if not bid=='-' then bid=tonumber(bid); end
-			if not value=='-' then value=tonumber(value); end
-			if not net=='-' then net=tonumber(net); end
-			if not total=='-' then total=tonumber(total); end
-			if not spent=='-' then spent=tonumber(spent); end
-			if not s_gain=='-' then s_gain=tonumber(s_gain); end
-			if not s_spent=='-' then s_spent=tonumber(s_spent); end
-			if not r=='-' then r=tonumber(r); end
-			if not g=='-' then g=tonumber(g); end
-			if not b=='-' then b=tonumber(b); end
-			if not a=='-' then a=tonumber(a); end
+			if roll~='-' then roll=tonumber(roll); end
+			if bid~='-' then bid=tonumber(bid); end
+			if value~='-' then value=tonumber(value); end
+			if net~='-' then net=tonumber(net); end
+			if total~='-' then total=tonumber(total); end
+			if spent~='-' then spent=tonumber(spent); end
+			if s_gain~='-' then s_gain=tonumber(s_gain); end
+			if s_spent~='-' then s_spent=tonumber(s_spent); end
+			if r~='-' then r=tonumber(r); end
+			if g~='-' then g=tonumber(g); end
+			if b~='-' then b=tonumber(b); end
+			if a~='-' then a=tonumber(a); end
 
             --if not loot then
                 -- Add check against current loot in monitor
@@ -344,29 +348,32 @@ function QDKP:CommandReceived(prefix, message, distribution, sender)
 			QDKP2GUI_Roster.RAID_DICT[i]['loot']='-'
 			QDKP2GUI_Roster.RAID_DICT[i]['displayname']=displayname
 			QDKP2GUI_Roster.RAID_DICT[i]['spec']=spec
-			
+
 			QDKP2_Events:Fire("DATA_UPDATED","roster")
-			--QDKP2_Debug(2, "RAIDLIST","Args"..  i.. ", " .. loot.. ", " .. name.. ", " .. roll.. ", " .. bid.. ", " .. value.. ", " .. rank.. ", " .. class.. ", " .. net.. ", " ..  total.. ", " ..  spent.. ", " ..  s_gain.. ", " ..  s_spent.. ", " ..  r.. ", " ..  g.. ", " ..  b.. ", " ..  a)
+			QDKP2_Debug(2, "RAIDLIST","Args"..  i.. ", " .. loot.. ", " .. name.. ", " .. roll.. ", " .. bid.. ", " .. value.. ", " .. rank.. ", " .. class.. ", " .. net.. ", " ..  total.. ", " ..  spent.. ", " ..  s_gain.. ", " ..  s_spent.. ", " ..  tostring(r).. ", " ..  tostring(g).. ", " ..  tostring(b).. ", " ..  tostring(a)", " ..  displayname", " ..  spec)
 
         elseif monCmd == 'MONITORLIST' then
-			--QDKP2_Debug(2,"MONITORLIST","Received")
-
-			local index, loot, name, roll, bid, value, rank, class, net, total, spent, s_gain, s_spent,r,g,b,a, displayname, spec = unpack(monArgs)
+			QDKP2_Debug(2,"MONITORLIST","Received")
+			for key,value in pairs(monArgs) do
+				print(key,value)
+			end
+			local index, loot, name, roll, bid, value, rank, class, net, total, spent, s_gain, s_spent,r,g,b,a, displayname, spec, itemid = unpack(monArgs)
 			
             --local loot,nameS,roll,bid,value,rank,class,net,total,spent,hours,s_gain,s_spent = unpack(monArgs)
 			i = tonumber(index)
-			if not roll=='-' then roll=tonumber(roll); end
-			if not bid=='-' then bid=tonumber(bid); end
-			if not value=='-' then value=tonumber(value); end
-			if not net=='-' then net=tonumber(net); end
-			if not total=='-' then total=tonumber(total); end
-			if not spent=='-' then spent=tonumber(spent); end
-			if not s_gain=='-' then s_gain=tonumber(s_gain); end
-			if not s_spent=='-' then s_spent=tonumber(s_spent); end
-			if not r=='-' then r=tonumber(r); end
-			if not g=='-' then g=tonumber(g); end
-			if not b=='-' then b=tonumber(b); end
-			if not a=='-' then a=tonumber(a); end
+			if roll~='-' then roll=tonumber(roll); end
+			if bid~='-' then bid=tonumber(bid); end
+			if value~='-' then value=tonumber(value); end
+			if net~='-' then net=tonumber(net); end
+			if total~='-' then total=tonumber(total); end
+			if spent~='-' then spent=tonumber(spent); end
+			if s_gain~='-' then s_gain=tonumber(s_gain); end
+			if s_spent~='-' then s_spent=tonumber(s_spent); end
+			if r~='-' then r=tonumber(r); end
+			if g~='-' then g=tonumber(g); end
+			if b~='-' then b=tonumber(b); end
+			if a~='-' then a=tonumber(a); end
+			if itemid ~='-' then itemid=tonumber(itemid); end
 
             --if not loot then
                 -- Add check against current loot in monitor
@@ -394,6 +401,8 @@ function QDKP:CommandReceived(prefix, message, distribution, sender)
 			QDKP2GUI_Roster.MONITOR_DICT[i]['a']=a
 			QDKP2GUI_Roster.MONITOR_DICT[i]['displayname']=displayname
 			QDKP2GUI_Roster.MONITOR_DICT[i]['spec']=spec
+			QDKP2GUI_Roster.MonitorItemId=itemid
+
 			
 			for k,v in pairs(QDKP2GUI_Roster.MONITOR_DICT[i]) do
 				if QDKP2GUI_Roster.MONITOR_DICT[i][k]=="QDKPPH" then
