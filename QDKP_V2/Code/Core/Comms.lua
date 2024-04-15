@@ -350,7 +350,7 @@ function QDKP:CommandReceived(prefix, message, distribution, sender)
 			QDKP2GUI_Roster.RAID_DICT[i]['spec']=spec
 
 			QDKP2_Events:Fire("DATA_UPDATED","roster")
-			QDKP2_Debug(2, "RAIDLIST","Args"..  i.. ", " .. loot.. ", " .. name.. ", " .. roll.. ", " .. bid.. ", " .. value.. ", " .. rank.. ", " .. class.. ", " .. net.. ", " ..  total.. ", " ..  spent.. ", " ..  s_gain.. ", " ..  s_spent.. ", " ..  tostring(r).. ", " ..  tostring(g).. ", " ..  tostring(b).. ", " ..  tostring(a)", " ..  displayname", " ..  spec)
+			--QDKP2_Debug(2, "RAIDLIST","Args"..  i.. ", " .. loot.. ", " .. name.. ", " .. roll.. ", " .. bid.. ", " .. value.. ", " .. rank.. ", " .. class.. ", " .. net.. ", " ..  total.. ", " ..  spent.. ", " ..  s_gain.. ", " ..  s_spent.. ", " ..  tostring(r).. ", " ..  tostring(g).. ", " ..  tostring(b).. ", " ..  tostring(a)", " ..  displayname", " ..  spec)
 
         elseif monCmd == 'MONITORLIST' then
 			QDKP2_Debug(2,"MONITORLIST","Received")

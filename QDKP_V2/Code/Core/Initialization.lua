@@ -419,7 +419,11 @@ end
 
 function QDKP2_Change_Spec(ms,name)
 	--this function is always available
-	QDKP2msChanges[name]['ms'] = ms
+	local class=QDKP2class[name] or UnitClass(name)
+	class = string.lower(class)
+	text = QDKP2_MS_Pattern_Matcher(ms, class)
+	QDKP2msChanges[name]['ms'] = text
+	QDKP2GUI_Roster:Refresh()
 end
 
 function QDKP2_Enable_MSChanges()
@@ -472,7 +476,7 @@ function QDKP2_MS_Pattern_Matcher(text, class)
 		{pattern='^pp%a*',token='Protection'},
 		{pattern='^fur%a*',token='Fury'},
 		{pattern='^fwa%a*',token='Fury'},
-		{pattern='^ar%a*',token='Arms'},
+		{pattern='^arm%a*',token='Arms'},
 		{pattern='^un%a*d%a*',token='Unholy DPS'},
 		{pattern='^un%a*t%a*',token='Unholy Tank'},
 		{pattern='^un%a*',token='Unholy'},
