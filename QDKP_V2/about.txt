@@ -26,6 +26,10 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Release Log:
+v2.6.9.0
+- BIS list added, specs will be marked with BIS/PREBIS if applicable for loot. Bundled Gear.lua file is an exemplar that can be modified to suit individual needs.
+- Adjustment to mschanges spam due to character limit in messages.
+
 v2.6.8.7
 - Adjustment to mschanges open/closing functions.
 

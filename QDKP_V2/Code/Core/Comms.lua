@@ -301,7 +301,7 @@ function QDKP:CommandReceived(prefix, message, distribution, sender)
 		elseif monCmd == 'RAIDLIST' then	
 			--QDKP2_Debug(2,"RAIDLIST","Received")
 
-			local index, loot, name, roll, bid, value, rank, class, net, total, spent, s_gain, s_spent,r,g,b,a, displayname = unpack(monArgs)
+			local index, loot, name, roll, bid, value, rank, class, net, total, spent, s_gain, s_spent,r,g,b,a, displayname, spec = unpack(monArgs)
 			
             --local loot,nameS,roll,bid,value,rank,class,net,total,spent,hours,s_gain,s_spent = unpack(monArgs)
 			i = tonumber(index)
@@ -343,6 +343,7 @@ function QDKP:CommandReceived(prefix, message, distribution, sender)
 			QDKP2GUI_Roster.RAID_DICT[i]['value']='-'
 			QDKP2GUI_Roster.RAID_DICT[i]['loot']='-'
 			QDKP2GUI_Roster.RAID_DICT[i]['displayname']=displayname
+			QDKP2GUI_Roster.RAID_DICT[i]['spec']=spec
 			
 			QDKP2_Events:Fire("DATA_UPDATED","roster")
 			--QDKP2_Debug(2, "RAIDLIST","Args"..  i.. ", " .. loot.. ", " .. name.. ", " .. roll.. ", " .. bid.. ", " .. value.. ", " .. rank.. ", " .. class.. ", " .. net.. ", " ..  total.. ", " ..  spent.. ", " ..  s_gain.. ", " ..  s_spent.. ", " ..  r.. ", " ..  g.. ", " ..  b.. ", " ..  a)
@@ -350,7 +351,7 @@ function QDKP:CommandReceived(prefix, message, distribution, sender)
         elseif monCmd == 'MONITORLIST' then
 			--QDKP2_Debug(2,"MONITORLIST","Received")
 
-			local index, loot, name, roll, bid, value, rank, class, net, total, spent, s_gain, s_spent,r,g,b,a, displayname = unpack(monArgs)
+			local index, loot, name, roll, bid, value, rank, class, net, total, spent, s_gain, s_spent,r,g,b,a, displayname, spec = unpack(monArgs)
 			
             --local loot,nameS,roll,bid,value,rank,class,net,total,spent,hours,s_gain,s_spent = unpack(monArgs)
 			i = tonumber(index)
@@ -392,6 +393,7 @@ function QDKP:CommandReceived(prefix, message, distribution, sender)
 			QDKP2GUI_Roster.MONITOR_DICT[i]['b']=b
 			QDKP2GUI_Roster.MONITOR_DICT[i]['a']=a
 			QDKP2GUI_Roster.MONITOR_DICT[i]['displayname']=displayname
+			QDKP2GUI_Roster.MONITOR_DICT[i]['spec']=spec
 			
 			for k,v in pairs(QDKP2GUI_Roster.MONITOR_DICT[i]) do
 				if QDKP2GUI_Roster.MONITOR_DICT[i][k]=="QDKPPH" then

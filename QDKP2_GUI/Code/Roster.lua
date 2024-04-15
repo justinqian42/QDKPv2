@@ -249,6 +249,7 @@ function myClass.Refresh(self, forceResort)
 		
 		local name = list_entry['name']
 		local class=list_entry['class']
+		local spec=list_entry['spec']
 		local isinguild=QDKP2_IsInGuild(name)
 
 		r=list_entry['r']
@@ -263,6 +264,7 @@ function myClass.Refresh(self, forceResort)
         getglobal(ParentName.."_bid"):SetVertexColor(r, g, b, a)
         getglobal(ParentName.."_value"):SetVertexColor(r, g, b, a)
         getglobal(ParentName.."_rank"):SetVertexColor(r, g, b, a)
+		getglobal(ParentName.."_spec"):SetVertexColor(r, g, b, a)
         if not QDKP2_USE_CLASS_BASED_COLORS then
           local classColor=QDKP2_GetClassColor(class)
 		  getglobal(ParentName.."_class"):SetVertexColor(classColor.r, classColor.g, classColor.b, a)
@@ -307,6 +309,7 @@ function myClass.Refresh(self, forceResort)
 		getglobal(ParentName.."_value"):SetText(tostring(value or '-'))
 		getglobal(ParentName.."_rank"):SetText(tostring(rank or '-'));
 		getglobal(ParentName.."_class"):SetText(tostring(class or '-'));
+		getglobal(ParentName.."_spec"):SetText(tostring(spec or '-'));
 		getglobal(ParentName.."_net"):SetText(tostring(net or '-')..DKP_Ast);
 		getglobal(ParentName.."_total"):SetText(tostring(total or '-')..DKP_Ast);
 		getglobal(ParentName.."_spent"):SetText(tostring(spent or '-')..DKP_Ast);
@@ -442,6 +445,7 @@ function myClass.Refresh(self, forceResort)
 		local list_entry = QDKP2GUI_Roster.MONITOR_DICT[indexAt]
 		local name = list_entry['name']
 		local class=list_entry['class']
+		local spec=list_entry['spec']
 		local isinguild=QDKP2_IsInGuild(name)
 		QDKP2GUI_Roster.ITEM = list_entry['loot']
 
@@ -457,6 +461,7 @@ function myClass.Refresh(self, forceResort)
         getglobal(ParentName.."_bid"):SetVertexColor(r, g, b, a)
         getglobal(ParentName.."_value"):SetVertexColor(r, g, b, a)
         getglobal(ParentName.."_rank"):SetVertexColor(r, g, b, a)
+		getglobal(ParentName.."_spec"):SetVertexColor(r, g, b, a)
         if not QDKP2_USE_CLASS_BASED_COLORS then
           local classColor=QDKP2_GetClassColor(class)
 		  getglobal(ParentName.."_class"):SetVertexColor(classColor.r, classColor.g, classColor.b, a)
@@ -501,13 +506,14 @@ function myClass.Refresh(self, forceResort)
 		getglobal(ParentName.."_value"):SetText(tostring(value or '-'))
 		getglobal(ParentName.."_rank"):SetText(tostring(rank or '-'));
 		getglobal(ParentName.."_class"):SetText(tostring(class or '-'));
+		getglobal(ParentName.."_spec"):SetText(tostring(spec or '-'));
 		getglobal(ParentName.."_net"):SetText(tostring(net or '-')..DKP_Ast);
 		getglobal(ParentName.."_total"):SetText(tostring(total or '-')..DKP_Ast);
 		getglobal(ParentName.."_spent"):SetText(tostring(spent or '-')..DKP_Ast);
 		getglobal(ParentName.."_hours"):SetText(tostring(hours or '-'));
 		getglobal(ParentName.."_deltatotal"):SetText(tostring(s_gain or '-'));
 		getglobal(ParentName.."_deltaspent"):SetText(tostring(s_spent or '-'));
-		QDKP2_Debug(2, "SETMON","Args"..  i.. ", " .. name.. ", " .. roll.. ", " .. bid.. ", " .. value.. ", " .. rank.. ", " .. class.. ", " .. net.. ", " ..  total.. ", " ..  spent.. ", " ..  hours.. ", " ..  s_gain.. ", " ..  s_spent)
+		QDKP2_Debug(2, "SETMON","Args"..  i.. ", " .. name.. ", " .. roll.. ", " .. bid.. ", " .. value.. ", " .. rank.. ", " .. class.. ", " .. net.. ", " ..  total.. ", " ..  spent.. ", " ..  hours.. ", " ..  s_gain.. ", " ..  s_spent.. ", " ..  spec)
 
 		if self:isSelectedPlayer(name) then getglobal(ParentName.."_Highlight"):Show()
 		else getglobal(ParentName.."_Highlight"):Hide()
@@ -795,7 +801,7 @@ function myClass.PupulateList(self)
 		QDKP2GUI_Roster.MONITOR_DICT[i]['g']=g
 		QDKP2GUI_Roster.MONITOR_DICT[i]['b']=b
 		QDKP2GUI_Roster.MONITOR_DICT[i]['a']=a
-		QDKP:SendMonitorMessage( 'MONITORLIST', i, QDKP2_BidM.ITEM, name, roll, bid, value, QDKP2rank[name], QDKP2class[name], QDKP2_GetNet(name), QDKP2_GetTotal(name), QDKP2_GetSpent(name), s_gain, s_spent, r, g, b,a, displayname)
+		QDKP:SendMonitorMessage( 'MONITORLIST', i, QDKP2_BidM.ITEM, name, roll, bid, value, QDKP2rank[name], QDKP2class[name], QDKP2_GetNet(name), QDKP2_GetTotal(name), QDKP2_GetSpent(name), s_gain, s_spent, r, g, b,a, displayname, spec)
 	end
     if not QDKP2GUI_Vars.ShowOutGuild then
       for i,name in pairs(self.List) do
@@ -928,8 +934,9 @@ function myClass.PushedMSCloseButton(self)
 end
 
 function myClass.PushedMSSpamButton(self)
-	local mess0="MS Changes are:"
-	local mess=""
+	local mess="MS Changes are:"
+	local mess2=""
+	local mess3=""
 	for i=1, QDKP2GUI_Roster.ENTRIES do  --fills in the list data
       local indexAt = self.Offset+i
       local ParentName="QDKP2_frame2_entry"..tostring(i)
@@ -937,13 +944,22 @@ function myClass.PushedMSSpamButton(self)
         local name = self.List[indexAt]
 		spc = QDKP2_GetMSOnly(name)
 		if spc ~= nil then
-			if string.len(mess)>=1 then mess=mess .. "; "; end
-			mess=mess .. name.." > " .. spc
+			if (string.len(mess)+string.len(" " .. name.." > " .. spc .. ";"))<=255 then
+				mess=mess .. " " .. name.." > " .. spc .. ";"
+			elseif (string.len(mess2)+string.len("; " .. name.." > " .. spc .. ";"))<=255 then
+				mess2=mess2 .." " .. name.." > " .. spc .. ";"
+			elseif (string.len(mess3)+string.len("; " .. name.." > " .. spc .. ";"))<=255 then
+				mess3=mess3 .." " .. name.." > " .. spc .. ";"
+			else
+				print("WARNING OVERFLOW ON MS SPAM")
+			end
+
 		end
-		end
+	  end
 	end
-	QDKP2_BidM_SendMessage(nil,"MANAGER","bid_start",mess0)
 	QDKP2_BidM_SendMessage(nil,"MANAGER","bid_start",mess)
+	if string.len(mess2)>=1 then QDKP2_BidM_SendMessage(nil,"MANAGER","bid_start",mess2);end
+	if string.len(mess2)>=1 then QDKP2_BidM_SendMessage(nil,"MANAGER","bid_start",mess3);end
 end
 
 function myClass.LeftClickEntry(self)
