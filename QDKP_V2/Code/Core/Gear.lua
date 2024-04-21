@@ -4,8 +4,8 @@ function GEAR:QDKP2_BIS_List_Creator()
 	BISListTable = {}
 	BISListTable[50647] = {}
 	BISListTable[50647].pre = {}
-	table.insert(BISListTable[50647].pre, {'DEATHKNIGHT','Frost'})
-	table.insert(BISListTable[50647].pre, {'DEATHKNIGHT','Unholy'})
+	table.insert(BISListTable[50647].pre, {'DEATHKNIGHT','Frost DPS'})
+	table.insert(BISListTable[50647].pre, {'DEATHKNIGHT','Unholy DPS'})
 	table.insert(BISListTable[50647].pre, {'DRUID','Feral DPS'})
 	table.insert(BISListTable[50647].pre, {'PALADIN','Retribution'})
 	BISListTable[50675] = {}
@@ -48,8 +48,8 @@ function GEAR:QDKP2_BIS_List_Creator()
 	table.insert(BISListTable[50398].bis, {'WARLOCK','Destruction'})
 	BISListTable[52572] = {}
 	BISListTable[52572].bis = {}
-	table.insert(BISListTable[52572].bis, {'DEATHKNIGHT','Blood'})
-	table.insert(BISListTable[52572].bis, {'DEATHKNIGHT','Frost'})
+	table.insert(BISListTable[52572].bis, {'DEATHKNIGHT','Blood DPS'})
+	table.insert(BISListTable[52572].bis, {'DEATHKNIGHT','Frost DPS'})
 	table.insert(BISListTable[52572].bis, {'DEATHKNIGHT','Unholy'})
 	table.insert(BISListTable[52572].bis, {'PALADIN','Ret Strength'})
 	BISListTable[50402] = {}
@@ -102,9 +102,9 @@ function GEAR:QDKP2_BIS_List_Creator()
 	table.insert(BISListTable[50724].bis, {'SHAMAN','Restoration'})
 	BISListTable[50639] = {}
 	BISListTable[50639].pre = {}
-	table.insert(BISListTable[50639].pre, {'DEATHKNIGHT','Blood'})
-	table.insert(BISListTable[50639].pre, {'DEATHKNIGHT','Frost'})
-	table.insert(BISListTable[50639].pre, {'DEATHKNIGHT','Unholy'})
+	table.insert(BISListTable[50639].pre, {'DEATHKNIGHT','Blood DPS'})
+	table.insert(BISListTable[50639].pre, {'DEATHKNIGHT','Frost DPS'})
+	table.insert(BISListTable[50639].pre, {'DEATHKNIGHT','Unholy DPS'})
 	table.insert(BISListTable[50639].pre, {'PALADIN','Ret Strength'})
 	table.insert(BISListTable[50639].pre, {'WARRIOR','Fury'})
 	BISListTable[50687] = {}
@@ -124,7 +124,7 @@ function GEAR:QDKP2_BIS_List_Creator()
 	table.insert(BISListTable[50672].bis, {'PALADIN','Protection'})
 	table.insert(BISListTable[50672].bis, {'WARRIOR','Protection'})
 	BISListTable[50672].pre = {}
-	table.insert(BISListTable[50672].pre, {'DEATHKNIGHT','Frost'})
+	table.insert(BISListTable[50672].pre, {'DEATHKNIGHT','Frost DPS'})
 	BISListTable[50609] = {}
 	BISListTable[50609].bis = {}
 	table.insert(BISListTable[50609].bis, {'DRUID','Restoration'})
@@ -190,9 +190,9 @@ function GEAR:QDKP2_BIS_List_Creator()
 	table.insert(BISListTable[54583].bis, {'WARLOCK','Destruction'})
 	BISListTable[50620] = {}
 	BISListTable[50620].bis = {}
-	table.insert(BISListTable[50620].bis, {'DEATHKNIGHT','Blood'})
-	table.insert(BISListTable[50620].bis, {'DEATHKNIGHT','Frost'})
-	table.insert(BISListTable[50620].bis, {'DEATHKNIGHT','Unholy'})
+	table.insert(BISListTable[50620].bis, {'DEATHKNIGHT','Blood DPS'})
+	table.insert(BISListTable[50620].bis, {'DEATHKNIGHT','Frost DPS'})
+	table.insert(BISListTable[50620].bis, {'DEATHKNIGHT','Unholy DPS'})
 	table.insert(BISListTable[50620].bis, {'PALADIN','Ret Strength'})
 	table.insert(BISListTable[50620].bis, {'WARRIOR','Fury'})
 	BISListTable[50684] = {}
@@ -345,7 +345,7 @@ function GEAR:QDKP2_BIS_List_Creator()
 	table.insert(BISListTable[50663].bis, {'WARLOCK','Destruction'})
 	BISListTable[50737] = {}
 	BISListTable[50737].bis = {}
-	table.insert(BISListTable[50737].bis, {'DEATHKNIGHT','Frost'})
+	table.insert(BISListTable[50737].bis, {'DEATHKNIGHT','Frost DPS'})
 	table.insert(BISListTable[50737].bis, {'ROGUE','Combat'})
 	table.insert(BISListTable[50737].bis, {'SHAMAN','Enhancement'})
 	table.insert(BISListTable[50737].bis, {'SHAMAN','Spellhance'})
@@ -431,8 +431,8 @@ function GEAR:QDKP2_BIS_List_Creator()
 	table.insert(BISListTable[50735].bis, {'PALADIN','Retribution'})
 	BISListTable[54581] = {}
 	BISListTable[54581].bis = {}
-	table.insert(BISListTable[54581].bis, {'DEATHKNIGHT','Blood'})
-	table.insert(BISListTable[54581].bis, {'DEATHKNIGHT','Frost'})
+	table.insert(BISListTable[54581].bis, {'DEATHKNIGHT','Blood DPS'})
+	table.insert(BISListTable[54581].bis, {'DEATHKNIGHT','Frost DPS'})
 	table.insert(BISListTable[54581].bis, {'DEATHKNIGHT','Unholy'})
 	table.insert(BISListTable[54581].bis, {'DRUID','Feral DPS'})
 	table.insert(BISListTable[54581].bis, {'PALADIN','Retribution'})
@@ -714,12 +714,12 @@ function GEAR:QDKP2_BIS_List_Creator()
 	table.insert(BISListTable[50991].bis, {'WARRIOR','Protection'})
 	BISListTable[50343] = {}
 	BISListTable[50343].pre = {}
-	table.insert(BISListTable[50343].pre, {'DEATHKNIGHT','Blood'})
+	table.insert(BISListTable[50343].pre, {'DEATHKNIGHT','Blood DPS'})
 	table.insert(BISListTable[50343].pre, {'PALADIN','Retribution'})
 	table.insert(BISListTable[50343].pre, {'SHAMAN','Enhancement'})
 	BISListTable[50677] = {}
 	BISListTable[50677].bis = {}
-	table.insert(BISListTable[50677].bis, {'DEATHKNIGHT','Blood'})
+	table.insert(BISListTable[50677].bis, {'DEATHKNIGHT','Blood DPS'})
 	table.insert(BISListTable[50677].bis, {'DEATHKNIGHT','Unholy'})
 	table.insert(BISListTable[50677].bis, {'PALADIN','Ret Strength'})
 	return BISListTable
