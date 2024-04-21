@@ -26,6 +26,11 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Release Log:
+v2.6.9.1
+- Small bug fixes.
+- Manual MS Changes added to PUGs via Raid leader.
+- Added spec parsing toraid leader inputs.
+
 v2.6.9.0
 - BIS list added, specs will be marked with BIS/PREBIS if applicable for loot. Bundled Gear.lua file is an exemplar that can be modified to suit individual needs.
 - Adjustment to mschanges spam due to character limit in messages.
