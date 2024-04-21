@@ -956,15 +956,15 @@ function myClass.PushedMSSpamButton(self)
 	local mess="MS Changes are:"
 	local mess2=""
 	local mess3=""
-	for i=1, QDKP2GUI_Roster.ENTRIES do  --fills in the list data
-      local indexAt = self.Offset+i
-      local ParentName="QDKP2_frame2_entry"..tostring(i)
-      if indexAt <= #self.List then
-        local name = self.List[indexAt]
+	for i=1, #self.List do  --fills in the list data
+        local name = self.List[i]
 		spc = QDKP2_GetMSOnly(name)
+		print(spc)
 		if spc ~= nil then
+			--ensure we can fit the next person into a single whisper
 			if (string.len(mess)+string.len(" " .. name.." > " .. spc .. ";"))<=255 then
 				mess=mess .. " " .. name.." > " .. spc .. ";"
+			--it wont so throw it into a second chat
 			elseif (string.len(mess2)+string.len("; " .. name.." > " .. spc .. ";"))<=255 then
 				mess2=mess2 .." " .. name.." > " .. spc .. ";"
 			elseif (string.len(mess3)+string.len("; " .. name.." > " .. spc .. ";"))<=255 then
@@ -974,7 +974,6 @@ function myClass.PushedMSSpamButton(self)
 			end
 
 		end
-	  end
 	end
 	QDKP2_BidM_SendMessage(nil,"MANAGER","bid_start",mess)
 	if string.len(mess2)>=1 then QDKP2_BidM_SendMessage(nil,"MANAGER","bid_start",mess2);end

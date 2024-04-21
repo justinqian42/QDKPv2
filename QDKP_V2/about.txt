@@ -26,6 +26,9 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Release Log:
+v2.6.9.2
+- Small bug fix for MS Spams.
+
 v2.6.9.1
 - Small bug fixes.
 - Manual MS Changes added to PUGs via Raid leader.
