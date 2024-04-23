@@ -2,6 +2,11 @@ GEAR = LibStub("AceAddon-3.0"):NewAddon("GEAR", "AceConsole-3.0", "AceComm-3.0",
 
 function GEAR:QDKP2_BIS_List_Creator()
 	BISListTable = {}
+	BISListTable[6948] = {}
+	BISListTable[6948].bis = {}
+	table.insert(BISListTable[6948].bis, {'PALADIN','Retribution'})
+	BISListTable[6948].pre = {}
+	table.insert(BISListTable[6948].pre, {'MAGE','Frost'})
 	BISListTable[50647] = {}
 	BISListTable[50647].pre = {}
 	table.insert(BISListTable[50647].pre, {'DEATHKNIGHT','Frost DPS'})
@@ -338,7 +343,6 @@ function GEAR:QDKP2_BIS_List_Creator()
 	table.insert(BISListTable[50625].bis, {'PALADIN','Protection'})
 	BISListTable[50625].pre = {}
 	table.insert(BISListTable[50625].pre, {'DEATHKNIGHT','Blood Tank'})
-	table.insert(BISListTable[50625].pre, {'PALADIN','Protection'})
 	table.insert(BISListTable[50625].pre, {'WARRIOR','Protection'})
 	BISListTable[50663] = {}
 	BISListTable[50663].bis = {}
