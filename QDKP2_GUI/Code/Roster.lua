@@ -1699,8 +1699,15 @@ local function SortComparitor(val1, val2)
    if (test1 < test2) then compare = compare - increment; elseif (test1 > test2) then compare = compare + increment; end
 
    -- Spec
-   test1 = QDKP2_GetSpec(val1, false, true) or ""
-   test2 = QDKP2_GetSpec(val2, false, true) or ""
+   if myClass.Sel == 'raid' or myClass.Sel == 'raidmon' or myClass.Sel == 'guild' or myClass.Sel == 'guildonline'then
+   test1 = QDKP2_GetSpec(val1, false, false) or ""
+   test2 = QDKP2_GetSpec(val2, false, false) or ""
+   
+  end
+   if myClass.Sel == 'bid' or myClass.Sel == 'monitor' then
+		test1 = QDKP2_GetSpec(val1, false, true) or ""
+		test2 = QDKP2_GetSpec(val2, false, true) or ""
+   end
    if test1 == '-' then  test1 = ""; end
    if test2 == '-' then  test2 = ""; end
    test1 = string.lower(test1)
