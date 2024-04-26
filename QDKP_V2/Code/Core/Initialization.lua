@@ -45,7 +45,7 @@ function QDKP2_InitData(GuildName, NoClearLocal)
 
 	ItemLink=""
 	assignedDE = ""
-	MSChangesAvailable = true
+	MSChangesAvailable = false
 
 	BISListTable = {}
   end

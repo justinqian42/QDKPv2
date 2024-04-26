@@ -354,9 +354,9 @@ function QDKP:CommandReceived(prefix, message, distribution, sender)
 
         elseif monCmd == 'MONITORLIST' then
 			QDKP2_Debug(2,"MONITORLIST","Received")
-			for key,value in pairs(monArgs) do
-				print(key,value)
-			end
+			--for key,value in pairs(monArgs) do
+			--	print(key,value)
+			--end
 			local index, loot, name, roll, bid, value, rank, class, net, total, spent, s_gain, s_spent,r,g,b,a, displayname, spec, itemid = unpack(monArgs)
 			
             --local loot,nameS,roll,bid,value,rank,class,net,total,spent,hours,s_gain,s_spent = unpack(monArgs)
