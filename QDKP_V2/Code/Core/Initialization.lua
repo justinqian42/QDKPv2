@@ -421,6 +421,10 @@ function QDKP2_Change_Spec(ms,name)
 	--this function is always available
 	local class=QDKP2class[name] or UnitClass(name)
 	class = string.lower(class)
+	if ms == "" then ms = '-'; end
+	if ms == nil then ms = "-"; end
+	if ms == " " then ms = "-"; end
+	ms = string.gsub(ms, "%s+", "")
 	text = QDKP2_MS_Pattern_Matcher(ms, class)
 	QDKP2msChanges[name]['ms'] = text
 	QDKP2GUI_Roster:Refresh()
@@ -485,8 +489,8 @@ function QDKP2_MS_Pattern_Matcher(text, class)
 		{pattern='^fro%a*t%a*',token='Frost Tank'},
 		{pattern='^fro%a*',token='Frost'},
 		{pattern='^fdk%a*',token='Frost'},
-		{pattern='^blo%a*d%a*',token='Blood DPS'},
 		{pattern='^blo%a*t%a*',token='Blood Tank'},
+		{pattern='^blo%a*d%a*',token='Blood DPS'},
 		{pattern='^blo%a*',token='Blood'},
 		{pattern='^bdk%a*',token='Blood'},
 		{pattern='^com%a*',token='Combat'},

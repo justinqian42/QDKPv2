@@ -1463,7 +1463,7 @@ func=function()
   if #myClass.SelectedPlayers>1 then return; end
   a = myClass.SelectedPlayers[1]
   QDKP2_Debug(2,a)
-  QDKP2_OpenInputBox("Please enter the new MS Spec.",QDKP2_Change_Spec,a)
+  QDKP2_OpenInputBox("Please enter the new spec or reset wtih - .",QDKP2_Change_Spec,a)
 end
 },
 CountDown={text=QDKP2_LOC_GUITRIGGERCNT,
@@ -1556,7 +1556,7 @@ function myClass.PlayerMenu(self,List)
     if QDKP2_IsExternal(name) then
       table.insert(menu,LogVoices.ExternalRem)
     end
-	if self.Sel=="raid" then
+	if self.Sel=="raid" or self.Sel=="bid" then
       table.insert(menu,2,LogVoices.DEAdd)
 		table.insert(menu,2,LogVoices.ChangeSpec)
 	end
