@@ -684,7 +684,7 @@ function myClass.PupulateList(self)
       local list={}
 	  QDKP2GUI_Roster.RAID_LIST = {}
 	  QDKP2GUI_Roster.RAID_DICT = {}
-	  QDKP:SendMonitorMessage( 'CLEARRAIDLIST')
+	  if QDKP2_ManagementMode() then QDKP:SendMonitorMessage( 'CLEARRAIDLIST'); end
       for i=1,QDKP2_GetNumRaidMembers() do
         local name = QDKP2_GetRaidRosterInfo(i)
         table.insert(list,name)
@@ -740,7 +740,7 @@ function myClass.PupulateList(self)
 		QDKP2GUI_Roster.RAID_DICT[i]['value']='-'
 		QDKP2GUI_Roster.RAID_DICT[i]['loot']='-'
 		QDKP2GUI_Roster.RAID_DICT[i]['itemid']=QDKP2GUI_Roster.ItemId
-		QDKP:SendMonitorMessage( 'RAIDLIST', i, '-', name, '-', '-', '-', rank, class, QDKP2_GetNet(name), QDKP2_GetTotal(name), QDKP2_GetSpent(name), s_gain, s_spent, r, g, b,a, displayname, spec, QDKP2GUI_Roster.ItemId)
+		if QDKP2_ManagementMode() then QDKP:SendMonitorMessage( 'RAIDLIST', i, '-', name, '-', '-', '-', rank, class, QDKP2_GetNet(name), QDKP2_GetTotal(name), QDKP2_GetSpent(name), s_gain, s_spent, r, g, b,a, displayname, spec, QDKP2GUI_Roster.ItemId); end
 		
 		
       end
@@ -753,7 +753,7 @@ function myClass.PupulateList(self)
 	QDKP2GUI_Roster.MONITOR_LIST = {}
 	QDKP2GUI_Roster.MONITOR_DICT = {}
 	--todo add clear dict signal
-	QDKP:SendMonitorMessage( 'CLEARMONITORLIST')
+	if QDKP2_ManagementMode() then QDKP:SendMonitorMessage( 'CLEARMONITORLIST'); end
 	
 	for i,v in pairs(self.List) do
 		--for k,v in pairs(self.List[i]) do
@@ -820,7 +820,7 @@ function myClass.PupulateList(self)
 		QDKP2GUI_Roster.MONITOR_DICT[i]['b']=b
 		QDKP2GUI_Roster.MONITOR_DICT[i]['a']=a
 		QDKP2GUI_Roster.MONITOR_DICT[i]['itemid']=QDKP2GUI_Roster.ItemId
-		QDKP:SendMonitorMessage( 'MONITORLIST', i, QDKP2_BidM.ITEM, name, roll, bid, value, rank, class, QDKP2_GetNet(name), QDKP2_GetTotal(name), QDKP2_GetSpent(name), s_gain, s_spent, r, g, b,a, displayname, spec, QDKP2GUI_Roster.ItemId)
+		if QDKP2_ManagementMode() then QDKP:SendMonitorMessage( 'MONITORLIST', i, QDKP2_BidM.ITEM, name, roll, bid, value, rank, class, QDKP2_GetNet(name), QDKP2_GetTotal(name), QDKP2_GetSpent(name), s_gain, s_spent, r, g, b,a, displayname, spec, QDKP2GUI_Roster.ItemId); end
 	end
     if not QDKP2GUI_Vars.ShowOutGuild then
       for i,name in pairs(self.List) do
@@ -959,7 +959,6 @@ function myClass.PushedMSSpamButton(self)
 	for i=1, #self.List do  --fills in the list data
         local name = self.List[i]
 		spc = QDKP2_GetMSOnly(name)
-		print(spc)
 		if spc ~= nil then
 			--ensure we can fit the next person into a single whisper
 			if (string.len(mess)+string.len(" " .. name.." > " .. spc .. ";"))<=255 then
@@ -1103,7 +1102,7 @@ function myClass.PushedBidButton(self)
   myClass:Refresh()
   QDKP2_Frame2_Bid_Item:ClearFocus()
   --todo
-  QDKP:SendMonitorMessage('ADDLOOT', QDKP2_BidM.ITEM, "PRIORITY_HIGH" )
+  if QDKP2_ManagementMode() then QDKP:SendMonitorMessage('ADDLOOT', QDKP2_BidM.ITEM, "PRIORITY_HIGH" ); end
 
 end
 
@@ -1114,7 +1113,7 @@ function myClass.PushedCancelButton(self)
   myClass:Refresh()
   QDKP2_Frame2_Bid_Item:ClearFocus()
   --todo
-  QDKP:SendMonitorMessage('REMOVELOOT', QDKP2_BidM.ITEM, "PRIORITY_HIGH" )
+  if QDKP2_ManagementMode() then QDKP:SendMonitorMessage('REMOVELOOT', QDKP2_BidM.ITEM, "PRIORITY_HIGH" ); end
 
 end
 

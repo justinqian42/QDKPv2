@@ -400,7 +400,7 @@ function QDKP2_CLI_ProcessCommand(text)
     if switch == false then
       QDKP2_DEBUG = 0
       QDKP2_Msg("Debug disabled")
-    elseif switch == true then
+    elseif switch == true or W2 == "full" or W2 == "info" then
       QDKP2_DEBUG = 2
       QDKP2_Msg("Debug enabled. Level=2 (Full)")
     elseif W2 == "verbose" then

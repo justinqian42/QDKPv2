@@ -113,7 +113,7 @@ function QDKP2_BidM_CancelBid()
   QDKP2_BidM.ITEM=nil
   QDKP2_BidM_Reset()
   --todo
-  QDKP:SendMonitorMessage( 'REMOVELOOT', QDKP2_BidM.ITEM, "PRIORITY_HIGH" )
+  if QDKP2_ManagementMode() then QDKP:SendMonitorMessage( 'REMOVELOOT', QDKP2_BidM.ITEM, "PRIORITY_HIGH" ); end
 end
 
 function QDKP2_BidM_DE()
