@@ -86,8 +86,6 @@ function QDKP2_OnEvent(self, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7)
 						QDKP2_Debug(1,"Item info", QDKP2GUI_Roster.BagId .. " " .. QDKP2GUI_Roster.SlotId .. " " .. QDKP2GUI_Roster.ItemId)
 						QDKP2GUI_Roster:DragDropManager()
 						--LootMasterML:EPGP_DFB_LootFrame_Update(itemLink)
-					else
-						print("stage 3 fail")
 					end
 					ClearCursor()
 				end)
@@ -103,8 +101,6 @@ function QDKP2_OnEvent(self, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7)
 						QDKP2_Debug(1,"Item info", QDKP2GUI_Roster.BagId .. " " .. QDKP2GUI_Roster.SlotId .. " " .. QDKP2GUI_Roster.ItemId)
 						QDKP2GUI_Roster:DragDropManager()
 						--LootMasterML:EPGP_DFB_LootFrame_Update(itemLink)
-					else
-						print("stage 3 fail")
 					end
 					ClearCursor()
 				end)

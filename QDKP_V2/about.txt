@@ -26,6 +26,10 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Release Log:
+v2.6.9.4
+- MSChanges fixes.
+- Trade fixes.
+
 v2.6.9.3
 - Sorting fixes.
 
