@@ -10,6 +10,7 @@
 
 local myClass={}
 
+myClass.List = {}
 myClass.Offset=0
 myClass.Sel="guild"
 myClass.ENTRIES=20
@@ -119,7 +120,7 @@ function myClass.Refresh(self, forceResort)
 	--todo remove when done
 	--QDKP2frame2_selectList_Monitor:Show()
 	--QDKP2frame2_selectList_RaidMonitor:Show()
-    myClass:PupulateList()
+    myClass:PopulateList()
 	
 	if ElvUI then
 		local E, L, V, P, G = unpack(ElvUI)
@@ -668,15 +669,25 @@ function myClass.Update(self)
   GuildRoster()
 end
 
-function myClass.PupulateList(self)
+function myClass.PopulateList(self)
   if self.Sel=='guild' then
-    self.List=QDKP2name
+    local tempList={}
+    for i,name in pairs(QDKP2name) do
+      if not QDKP2_IsAlt(name) then
+		table.insert(tempList,name)
+	  end
+    end
+	table.wipe(self.List)
+	QDKP2_CopyTable(tempList, self.List)
+	table.sort(self.List)
     QDKP2frame2_selectList_guild:SetChecked(true)
   elseif self.Sel=='guildonline' then
-    self.List={}
+    local tempList2={}
     for i,name in pairs(QDKP2name) do
-      if QDKP2online[name] and not QDKP2_IsExternal(name) then table.insert(self.List,name); end
+      if QDKP2online[name] and not QDKP2_IsExternal(name) then table.insert(tempList2,name); end
     end
+	table.wipe(self.List)
+	QDKP2_CopyTable(tempList2, self.List)
   elseif self.Sel=='raidmon' then
     self.List=QDKP2_CopyTable(QDKP2GUI_Roster.RAID_LIST)
   elseif self.Sel=='raid' then
@@ -1036,7 +1047,7 @@ end
 function myClass.ChangeList(self,Type)
   QDKP2_Debug(2, "GUI-Roster","Changing view to "..tostring(Type))
   self.Sel=Type
-  myClass:PupulateList()
+  myClass:PopulateList()
   local list={}
   for i,v in pairs(self.List) do
     if myClass:isSelectedPlayer(v) then table.insert(list,v); end
@@ -1798,6 +1809,7 @@ function myClass.SortList(self,Order,List,forceResort)
 -- the default in QDKP2_Order, and in that case it won't sort if the order hasn't changed.
 
   List=List or myClass.List
+  forceResort=true
 
   if (not Order) and (myClass.Sort.LastLen == #List) and not (forceResort) then return; end --no need to resort if the sorting or the entriesh haven't changed.
   local Values=myClass.Sort.Values
