@@ -651,9 +651,12 @@ function myClass.Refresh(self, forceResort)
 		  "OnEnter",
 		  function(self)
 			GameTooltip_SetDefaultAnchor(GameTooltip, self)
-			--GameTooltip:AddLine(name)
-			local alt_list = QDKP2_GetAlts(name)
+			
+			local main = QDKP2_GetMain(name)
+			GameTooltip:AddLine(main)
+			local alt_list = QDKP2_GetAlts(main)
 			if #alt_list > 0 then
+			GameTooltip:AddLine(" ")
 			  GameTooltip:AddLine("Alts:")
 			  for i, name in pairs (alt_list) do
 				GameTooltip:AddLine(name)
