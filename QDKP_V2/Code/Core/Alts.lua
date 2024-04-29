@@ -168,4 +168,13 @@ function QDKP2_AltsStillToCome(name,list,index)
   end
 end
 
+function QDKP2_GetAlts(main)
+	local altList = {}
 
+	for i, name in pairs(QDKP2alts) do
+		if name == main then
+		table.insert(altList,i)
+		end
+	end
+	return altList
+end

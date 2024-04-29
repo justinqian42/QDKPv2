@@ -646,7 +646,24 @@ function myClass.Refresh(self, forceResort)
         getglobal(ParentName.."_hours"):SetText(tostring(hours or '-'));
         getglobal(ParentName.."_deltatotal"):SetText(tostring(s_gain or '-'));
         getglobal(ParentName.."_deltaspent"):SetText(tostring(s_spent or '-'));
-
+		
+		getglobal(ParentName):SetScript(
+		  "OnEnter",
+		  function(self)
+			GameTooltip_SetDefaultAnchor(GameTooltip, self)
+			--GameTooltip:AddLine(name)
+			local alt_list = QDKP2_GetAlts(name)
+			if #alt_list > 0 then
+			  GameTooltip:AddLine("Alts:")
+			  for i, name in pairs (alt_list) do
+				GameTooltip:AddLine(name)
+			  end
+			end
+			GameTooltip:ClearAllPoints()
+			GameTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT")
+			GameTooltip:Show()
+		  end)
+		getglobal(ParentName):SetScript("OnLeave", function() GameTooltip:Hide() end)
 
         if self:isSelectedPlayer(name) then getglobal(ParentName.."_Highlight"):Show()
         else getglobal(ParentName.."_Highlight"):Hide()
