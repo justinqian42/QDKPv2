@@ -1291,7 +1291,7 @@
           <Anchors>
             <Anchor point="TOPRIGHT">
               <Offset>
-                <AbsDimension x="-15" y="-12"/>
+                <AbsDimension x="-38" y="-12"/>
               </Offset>
             </Anchor>
             <Anchor point="BOTTOMRIGHT">
@@ -1309,7 +1309,7 @@
           <Anchors>
             <Anchor point="TOPLEFT">
               <Offset>
-                <AbsDimension x="120" y="-12"/>
+                <AbsDimension x="182" y="-12"/>
               </Offset>
             </Anchor>
             <Anchor point="BOTTOMLEFT">
@@ -1322,7 +1322,7 @@
         </Texture>
 		        <Texture name="$parent_BisZone" setAllPoints="true">
           <Size>
-            <AbsDimension x="700"/>
+            <AbsDimension x="700" y="35"/>
           </Size>
           <Anchors>
             <Anchor point="TOPLEFT">
@@ -1330,13 +1330,7 @@
                 <AbsDimension x="20" y="-332"/>
               </Offset>
             </Anchor>
-            <Anchor point="BOTTOMLEFT">
-              <Offset>
-                <AbsDimension y="-295"/>
-              </Offset>
-            </Anchor>
           </Anchors>
-          <Color r="1" g="0.8" b="0.1" a="0.1" />
         </Texture>
       </Layer>
       <Layer level="ARTWORK">

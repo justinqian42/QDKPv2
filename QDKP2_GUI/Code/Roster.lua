@@ -79,7 +79,6 @@ end
 
 
 function myClass.Refresh(self, forceResort)
-	QDKP2_Frame2:SetWidth(580)
     if not QDKP2_Frame2:IsVisible() then return; end
     QDKP2_Debug(3, "GUI-roster","Refreshing")
     local Complete=QDKP2_OfficerMode()
@@ -358,7 +357,7 @@ function myClass.Refresh(self, forceResort)
       myClass:ShowColumn('roll', true)
       myClass:ShowColumn('bid', true)
       myClass:ShowColumn('value', true)
-	  fWidth = fWidth  + 220
+	  fWidth = fWidth  + 225
 	  QDKP2_Frame2:SetWidth(fWidth)
       QDKP2_Frame2_sesscount:Show()
       QDKP2_Frame2_SessionZone:Show()
@@ -414,7 +413,7 @@ function myClass.Refresh(self, forceResort)
       myClass:ShowMonitorColumn('roll', true)
       myClass:ShowMonitorColumn('bid', true)
       myClass:ShowMonitorColumn('value', true)
-	  fWidth = fWidth + 220
+	  fWidth = fWidth + 225
 	  QDKP2_Frame2:SetWidth(fWidth)
 	  QDKP2_Frame2_sesscount:Show()
       QDKP2_Frame2_SessionZone:Show()
