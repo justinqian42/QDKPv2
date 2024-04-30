@@ -152,6 +152,7 @@ function myClass.Refresh(self, forceResort)
 	end
 	local fWidth = 580
 
+	QDKP2frame2_selectList_alts:Hide()
     if self.Sel=="guildonline" or self.Sel=="guild" then
       myClass:ShowColumn('deltatotal', false)
       myClass:ShowColumn('deltaspent', false)
@@ -179,6 +180,7 @@ function myClass.Refresh(self, forceResort)
 	  QDKP2_Frame2_MS_Spam_Button:Hide()
       if self.Sel=='guild' then
         QDKP2frame2_selectList_guild:SetChecked(true)
+		QDKP2frame2_selectList_alts:Show()
       else
         QDKP2frame2_selectList_guildOnline:SetChecked(true)
       end
