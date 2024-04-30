@@ -148,10 +148,21 @@ function myClass.Refresh(self, forceResort)
 			S:HandleButton(QDKP2_Frame2_MS_Close_Button)
 			S:HandleButton(QDKP2_Frame2_MS_Spam_Button)
 			S:HandleCheckBox(QDKP2frame2_selectList_alts)
+			for i = 30, 41 do
+				local child = select(i, QDKP2_Frame2:GetChildren())
+				if child:IsObjectType("Button") then
+					child:StripTextures()
+					child:SetHighlightTexture("Interface\\AddOns\\ElvUI\\Media\\Textures\\Highlight.tga", "Add")
+					S:HandleButtonHighlight(child, 1, 0.8, 0.1)
+				end
+			end
+
 		end	
 	end
-	local fWidth = 580
-
+				for i = 1, 20 do
+				_G["QDKP2_frame2_entry" .. i]:Size(580, 14)
+			end
+	local fWidth = 620
 	QDKP2frame2_selectList_alts:Hide()
     if self.Sel=="guildonline" or self.Sel=="guild" then
       myClass:ShowColumn('deltatotal', false)
@@ -683,6 +694,12 @@ function myClass.Refresh(self, forceResort)
     local numEntries=QDKP2GUI_Roster.ENTRIES
     if #self.List<numEntries then numEntries=#self.List; end
     FauxScrollFrame_Update(QDKP2_frame2_scrollbar,#self.List,numEntries,16);
+	if QDKP2_Frame2:GetWidth() < 600 then QDKP2_Frame2:SetWidth(620); end
+	if _G["QDKP2_frame2_entry" .. 1]:GetWidth() < 580 then
+		for i = 1, 20 do
+			_G["QDKP2_frame2_entry" .. i]:Size(580, 14)
+		end
+	end
 end
 
 function myClass.Update(self)

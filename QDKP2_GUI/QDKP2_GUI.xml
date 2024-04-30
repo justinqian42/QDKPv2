@@ -1272,7 +1272,7 @@
 
   <Frame name="QDKP2_Frame2" inherits="QDKP2DialogTitled">
     <Size>
-      <AbsDimension x="780" y="380" />
+      <AbsDimension x="780" y="400" />
     </Size>
     <Anchors>
       <Anchor relativePoint="TOPLEFT" point="TOPLEFT">
