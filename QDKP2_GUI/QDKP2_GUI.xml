@@ -1417,7 +1417,26 @@
           </OnClick>
         </Scripts>
       </CheckButton>
-
+      <CheckButton name="QDKP2frame2_selectList_alts" inherits="UICheckButtonTemplate" id="16" text="">
+        <Size>
+          <AbsDimension x="20" y="20"/>
+        </Size>
+        <Anchors>
+          <Anchor relativePoint="BOTTOMLEFT" point="BOTTOMLEFT" >
+            <Offset>
+              <AbsDimension x="15" y="36"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnLoad>
+            QDKP2frame2_selectList_altsText:SetText(QDKP2_LOC_GUIALTS);
+          </OnLoad>
+          <OnClick>
+            QDKP2GUI_Roster:ChangeAlts();
+          </OnClick>
+        </Scripts>
+      </CheckButton>
       <CheckButton name="QDKP2frame2_selectList_guildOnline" inherits="UICheckButtonTemplate" id="17" text="">
         <Size>
           <AbsDimension x="20" y="20"/>

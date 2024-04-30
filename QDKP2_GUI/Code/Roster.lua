@@ -30,6 +30,7 @@ myClass.BagId = 0
 myClass.SlotId = 1
 myClass.ItemId = 0
 myClass.MonitorItemId = 0
+myClass.DisplayAlts = false
 
 
 myClass.PlayersColor={}
@@ -146,7 +147,7 @@ function myClass.Refresh(self, forceResort)
 			S:HandleButton(QDKP2_Frame2_MS_Clear_Button)
 			S:HandleButton(QDKP2_Frame2_MS_Close_Button)
 			S:HandleButton(QDKP2_Frame2_MS_Spam_Button)
-			
+			S:HandleCheckBox(QDKP2frame2_selectList_alts)
 		end	
 	end
 	local fWidth = 580
@@ -692,11 +693,17 @@ end
 function myClass.PopulateList(self)
   if self.Sel=='guild' then
     local tempList={}
-    for i,name in pairs(QDKP2name) do
-      if not QDKP2_IsAlt(name) then
-		table.insert(tempList,name)
-	  end
-    end
+	if myClass.DisplayAlts then
+		for i,name in pairs(QDKP2name) do
+			table.insert(tempList,name)
+		end
+	else
+		for i,name in pairs(QDKP2name) do
+		  if not QDKP2_IsAlt(name) then
+			table.insert(tempList,name)
+		  end
+		end
+	end
 	table.wipe(self.List)
 	QDKP2_CopyTable(tempList, self.List)
 	table.sort(self.List)
@@ -1083,6 +1090,10 @@ function myClass.ChangeList(self,Type)
   myClass:SelectPlayer(list) --this is to clean the selection if the previous selected players are no longer available.
 end
 
+function myClass.ChangeAlts(self)
+	myClass.DisplayAlts = not myClass.DisplayAlts
+	myClass:Refresh(self)
+end
 
 function myClass.DragDropManager(self)
   local what,a1,a2=GetCursorInfo()
