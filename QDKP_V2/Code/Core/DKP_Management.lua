@@ -543,7 +543,7 @@ function QDKP2_Decay(TypeOrList,Perc)
     Perc=tonumber(Perc)
   end
   if not Perc then
-    QDKP2_Debug(1,"Core","Decay needs a valide <Perc> value")
+    QDKP2_Debug(1,"Core","Decay needs a valid <Perc> value")
     return
   end
   QDKP2_Debug(2,"Core","Decaying "..tostring(Perc).."% DKP to "..tostring(TypeOrList))
