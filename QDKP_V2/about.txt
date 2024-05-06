@@ -26,6 +26,9 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Release Log:
+v2.6.10.2
+- Tooltip fixes for monitor views. Tooltips will only be effective if in same guild as the managing leader though.
+
 v2.6.10.1
 - UI corrections.
 
