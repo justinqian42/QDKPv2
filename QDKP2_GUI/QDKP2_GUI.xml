@@ -1559,6 +1559,148 @@
       </CheckButton>
   -->
 
+
+      <!-- Title (used to align the sort buttons -->
+      <Button name="QDKP2_frame2_title" inherits="QDKP2_frame2_entry_template">
+        <Anchors><Anchor relativePoint="TOPLEFT" point="TOPLEFT" >
+          <Offset><AbsDimension x="20" y="-33"/></Offset>
+        </Anchor></Anchors>
+        <Scripts>
+          <OnLoad>
+            QDKP2_frame2_title_Background:Hide()
+            self:Hide()
+          </OnLoad>
+          <OnClick>
+          </OnClick>
+        </Scripts>
+      </Button>
+
+
+      <!--  first five elements in the list -->
+      <Button name="QDKP2_frame2_entry1" inherits="QDKP2_frame2_entry_template">
+        <Anchors><Anchor relativePoint="BOTTOMLEFT" point="TOPLEFT" relativeTo="QDKP2_frame2_title">
+          <Offset><AbsDimension y="-10"/></Offset>
+        </Anchor></Anchors>
+      </Button>
+
+      <Button name="QDKP2_frame2_entry2" inherits="QDKP2_frame2_entry_template">
+        <Anchors>
+          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry1" point="TOPLEFT" />
+        </Anchors>
+      </Button>
+
+      <Button name="QDKP2_frame2_entry3" inherits="QDKP2_frame2_entry_template" id="12">
+        <Anchors>
+          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry2" point="TOPLEFT" />
+        </Anchors>
+      </Button>
+
+      <Button name="QDKP2_frame2_entry4" inherits="QDKP2_frame2_entry_template" id="12">
+        <Anchors>
+          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry3" point="TOPLEFT" />
+        </Anchors>
+      </Button>
+
+      <Button name="QDKP2_frame2_entry5" inherits="QDKP2_frame2_entry_template" id="12">
+        <Anchors>
+          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry4" point="TOPLEFT" />
+        </Anchors>
+      </Button>
+
+
+      <!-- Frames 6-10 on list-->
+      <Button name="QDKP2_frame2_entry6" inherits="QDKP2_frame2_entry_template" id="12">
+        <Anchors>
+          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry5" point="TOPLEFT" />
+        </Anchors>
+      </Button>
+
+      <Button name="QDKP2_frame2_entry7" inherits="QDKP2_frame2_entry_template" id="12">
+        <Anchors>
+          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry6" point="TOPLEFT" />
+        </Anchors>
+      </Button>
+
+      <Button name="QDKP2_frame2_entry8" inherits="QDKP2_frame2_entry_template" id="12">
+        <Anchors>
+          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry7" point="TOPLEFT" />
+        </Anchors>
+      </Button>
+
+      <Button name="QDKP2_frame2_entry9" inherits="QDKP2_frame2_entry_template" id="12">
+        <Anchors>
+          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry8" point="TOPLEFT" />
+        </Anchors>
+      </Button>
+
+      <Button name="QDKP2_frame2_entry10" inherits="QDKP2_frame2_entry_template" id="12">
+        <Anchors>
+          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry9" point="TOPLEFT" />
+        </Anchors>
+      </Button>
+
+      <!--   Frame 2 entries 11-15-->
+      <Button name="QDKP2_frame2_entry11" inherits="QDKP2_frame2_entry_template">
+        <Anchors>
+          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry10" point="TOPLEFT" />
+        </Anchors>
+      </Button>
+
+      <Button name="QDKP2_frame2_entry12" inherits="QDKP2_frame2_entry_template">
+        <Anchors>
+          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry11" point="TOPLEFT" />
+        </Anchors>
+      </Button>
+
+      <Button name="QDKP2_frame2_entry13" inherits="QDKP2_frame2_entry_template" id="12">
+        <Anchors>
+          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry12" point="TOPLEFT" />
+        </Anchors>
+      </Button>
+
+      <Button name="QDKP2_frame2_entry14" inherits="QDKP2_frame2_entry_template" id="12">
+        <Anchors>
+          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry13" point="TOPLEFT" />
+        </Anchors>
+      </Button>
+
+      <Button name="QDKP2_frame2_entry15" inherits="QDKP2_frame2_entry_template" id="12">
+        <Anchors>
+          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry14" point="TOPLEFT" />
+        </Anchors>
+      </Button>
+
+
+      <!-- Frames 16-20 on list-->
+      <Button name="QDKP2_frame2_entry16" inherits="QDKP2_frame2_entry_template" id="12">
+        <Anchors>
+          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry15" point="TOPLEFT" />
+        </Anchors>
+      </Button>
+
+      <Button name="QDKP2_frame2_entry17" inherits="QDKP2_frame2_entry_template" id="12">
+        <Anchors>
+          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry16" point="TOPLEFT" />
+        </Anchors>
+      </Button>
+
+      <Button name="QDKP2_frame2_entry18" inherits="QDKP2_frame2_entry_template" id="12">
+        <Anchors>
+          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry17" point="TOPLEFT" />
+        </Anchors>
+      </Button>
+
+      <Button name="QDKP2_frame2_entry19" inherits="QDKP2_frame2_entry_template" id="12">
+        <Anchors>
+          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry18" point="TOPLEFT" />
+        </Anchors>
+      </Button>
+
+      <Button name="QDKP2_frame2_entry20" inherits="QDKP2_frame2_entry_template">
+        <Anchors>
+          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry19" point="TOPLEFT" />
+        </Anchors>
+      </Button>
       <EditBox name="QDKP2_Frame2_Bid_Item" inherits="InputBoxTemplate">
         <Size>
           <AbsDimension x="150" y="25"/>
@@ -1797,148 +1939,6 @@
         </Scripts>
       </Button>
 
-
-      <!-- Title (used to align the sort buttons -->
-      <Button name="QDKP2_frame2_title" inherits="QDKP2_frame2_entry_template">
-        <Anchors><Anchor relativePoint="TOPLEFT" point="TOPLEFT" >
-          <Offset><AbsDimension x="20" y="-33"/></Offset>
-        </Anchor></Anchors>
-        <Scripts>
-          <OnLoad>
-            QDKP2_frame2_title_Background:Hide()
-            self:Hide()
-          </OnLoad>
-          <OnClick>
-          </OnClick>
-        </Scripts>
-      </Button>
-
-
-      <!--  first five elements in the list -->
-      <Button name="QDKP2_frame2_entry1" inherits="QDKP2_frame2_entry_template">
-        <Anchors><Anchor relativePoint="BOTTOMLEFT" point="TOPLEFT" relativeTo="QDKP2_frame2_title">
-          <Offset><AbsDimension y="-10"/></Offset>
-        </Anchor></Anchors>
-      </Button>
-
-      <Button name="QDKP2_frame2_entry2" inherits="QDKP2_frame2_entry_template">
-        <Anchors>
-          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry1" point="TOPLEFT" />
-        </Anchors>
-      </Button>
-
-      <Button name="QDKP2_frame2_entry3" inherits="QDKP2_frame2_entry_template" id="12">
-        <Anchors>
-          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry2" point="TOPLEFT" />
-        </Anchors>
-      </Button>
-
-      <Button name="QDKP2_frame2_entry4" inherits="QDKP2_frame2_entry_template" id="12">
-        <Anchors>
-          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry3" point="TOPLEFT" />
-        </Anchors>
-      </Button>
-
-      <Button name="QDKP2_frame2_entry5" inherits="QDKP2_frame2_entry_template" id="12">
-        <Anchors>
-          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry4" point="TOPLEFT" />
-        </Anchors>
-      </Button>
-
-
-      <!-- Frames 6-10 on list-->
-      <Button name="QDKP2_frame2_entry6" inherits="QDKP2_frame2_entry_template" id="12">
-        <Anchors>
-          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry5" point="TOPLEFT" />
-        </Anchors>
-      </Button>
-
-      <Button name="QDKP2_frame2_entry7" inherits="QDKP2_frame2_entry_template" id="12">
-        <Anchors>
-          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry6" point="TOPLEFT" />
-        </Anchors>
-      </Button>
-
-      <Button name="QDKP2_frame2_entry8" inherits="QDKP2_frame2_entry_template" id="12">
-        <Anchors>
-          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry7" point="TOPLEFT" />
-        </Anchors>
-      </Button>
-
-      <Button name="QDKP2_frame2_entry9" inherits="QDKP2_frame2_entry_template" id="12">
-        <Anchors>
-          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry8" point="TOPLEFT" />
-        </Anchors>
-      </Button>
-
-      <Button name="QDKP2_frame2_entry10" inherits="QDKP2_frame2_entry_template" id="12">
-        <Anchors>
-          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry9" point="TOPLEFT" />
-        </Anchors>
-      </Button>
-
-      <!--   Frame 2 entries 11-15-->
-      <Button name="QDKP2_frame2_entry11" inherits="QDKP2_frame2_entry_template">
-        <Anchors>
-          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry10" point="TOPLEFT" />
-        </Anchors>
-      </Button>
-
-      <Button name="QDKP2_frame2_entry12" inherits="QDKP2_frame2_entry_template">
-        <Anchors>
-          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry11" point="TOPLEFT" />
-        </Anchors>
-      </Button>
-
-      <Button name="QDKP2_frame2_entry13" inherits="QDKP2_frame2_entry_template" id="12">
-        <Anchors>
-          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry12" point="TOPLEFT" />
-        </Anchors>
-      </Button>
-
-      <Button name="QDKP2_frame2_entry14" inherits="QDKP2_frame2_entry_template" id="12">
-        <Anchors>
-          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry13" point="TOPLEFT" />
-        </Anchors>
-      </Button>
-
-      <Button name="QDKP2_frame2_entry15" inherits="QDKP2_frame2_entry_template" id="12">
-        <Anchors>
-          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry14" point="TOPLEFT" />
-        </Anchors>
-      </Button>
-
-
-      <!-- Frames 16-20 on list-->
-      <Button name="QDKP2_frame2_entry16" inherits="QDKP2_frame2_entry_template" id="12">
-        <Anchors>
-          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry15" point="TOPLEFT" />
-        </Anchors>
-      </Button>
-
-      <Button name="QDKP2_frame2_entry17" inherits="QDKP2_frame2_entry_template" id="12">
-        <Anchors>
-          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry16" point="TOPLEFT" />
-        </Anchors>
-      </Button>
-
-      <Button name="QDKP2_frame2_entry18" inherits="QDKP2_frame2_entry_template" id="12">
-        <Anchors>
-          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry17" point="TOPLEFT" />
-        </Anchors>
-      </Button>
-
-      <Button name="QDKP2_frame2_entry19" inherits="QDKP2_frame2_entry_template" id="12">
-        <Anchors>
-          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry18" point="TOPLEFT" />
-        </Anchors>
-      </Button>
-
-      <Button name="QDKP2_frame2_entry20" inherits="QDKP2_frame2_entry_template">
-        <Anchors>
-          <Anchor relativePoint="BOTTOMLEFT" relativeTo="QDKP2_frame2_entry19" point="TOPLEFT" />
-        </Anchors>
-      </Button>
 
 
 

@@ -147,20 +147,11 @@ function myClass.Refresh(self, forceResort)
 			S:HandleButton(QDKP2_Frame2_MS_Close_Button)
 			S:HandleButton(QDKP2_Frame2_MS_Spam_Button)
 			S:HandleCheckBox(QDKP2frame2_selectList_alts)
-			for i = 30, 41 do
-				local child = select(i, QDKP2_Frame2:GetChildren())
-				if child:IsObjectType("Button") then
-					child:StripTextures()
-					child:SetHighlightTexture("Interface\\AddOns\\ElvUI\\Media\\Textures\\Highlight.tga", "Add")
-					S:HandleButtonHighlight(child, 1, 0.8, 0.1)
-				end
-			end
-
 		end	
 	end
-				for i = 1, 20 do
-				_G["QDKP2_frame2_entry" .. i]:Size(580, 14)
-			end
+	for i = 1, 20 do
+		_G["QDKP2_frame2_entry" .. i]:Size(580, 14)
+	end
 	local fWidth = 620
 	QDKP2frame2_selectList_alts:Hide()
     if self.Sel=="guildonline" or self.Sel=="guild" then
