@@ -33,25 +33,53 @@ QDKP2_Instances = {
 
 QDKP2_Bosses = {
 
-{ name = "Malygos", 			DKP_10N = 0, DKP_10H = 0, DKP_25N = 0, DKP_25H = 0},
+{ name = "Malygos", DKP_25N = 0 },
 
-{ name = "Sartharion",			DKP_10N = 0, DKP_10H = 0, DKP_25N = 0, DKP_25H = 0},
+{ name = "Sartharion", DKP_25N = 0 },
 
-{ name = "Onyxia",			DKP_10N = 0, DKP_10H = 0, DKP_25N = 0, DKP_25H = 0},
+{ name = "Onyxia", DKP_25N = 0 },
 
-{ name = "Archavon", 			DKP_10N = 0, DKP_10H = 0, DKP_25N = 0, DKP_25H = 0},
-{ name = "Emalon", 			DKP_10N = 0, DKP_10H = 0, DKP_25N = 0, DKP_25H = 0},
-{ name = "Koralon",			DKP_10N = 0, DKP_10H = 0, DKP_25N = 0, DKP_25H = 0},
-{ name = "Toravon",			DKP_10N = 0, DKP_10H = 0, DKP_25N = 0, DKP_25H = 0},
+{ name = "Archavon", DKP_25N = 0 },
+{ name = "Emalon", DKP_25N = 0 },
+{ name = "Koralon", DKP_25N = 0 },
+{ name = "Toravon", DKP_25N = 0 },
 
-{ name = "Kel'Thuzad", 			DKP_10N = nil, DKP_10H = nil, DKP_25N = nil, DKP_25H = nil},
+{ name = "Kel'Thuzad", DKP_25N = nil },
 
-{ name = "Flame Leviathan", 		DKP_10N = nil, DKP_10H = nil, DKP_25N = nil, DKP_25H = nil},
-{ name = "Yogg-Saron", 			DKP_10N = nil, DKP_10H = nil, DKP_25N = nil, DKP_25H = nil},
-{ name = "Algalon the Observer", 	DKP_10N = nil, DKP_10H = nil, DKP_25N = nil, DKP_25H = nil},
+{ name = "Flame Leviathan", DKP_25N = 0},
+{ name = "Razorscale", DKP_25N = 0},
+{ name = "Ignis the Furnace Master", DKP_25N = 0},
+{ name = "XT-002 Deconstructor", DKP_25N = 0},
+{ name = "The Iron Council", DKP_25N = 0},
+{ name = "Kologarn", DKP_25N = 0},
+{ name = "Auriaya", DKP_25N = 0},
+{ name = "Hodir", DKP_25N = 0},
+{ name = "Thorim", DKP_25N = 0},
+{ name = "Freya", DKP_25N = 0},
+{ name = "Mimiron", DKP_25N = 0},
+{ name = "General Vezax", DKP_25N = 0},
+{ name = "Yogg-Saron", DKP_25N = 0},
+{ name = "Algalon the Observer", DKP_25N = 0},
 
-{ name = "The Lich King",		DKP_10N = nil, DKP_10H = nil, DKP_25N = nil, DKP_25H = nil},
+{ name = "Lord Marrowgar", DKP_25N = 100, DKP_25H = 200},
+{ name = "Lady Deathwhisper", DKP_25N = 100, DKP_25H = 200},
+{ name = "Icecrown Gunship Battle", DKP_25N = 100, DKP_25H = 200},
+{ name = "Deathbringer Saurfang", DKP_25N = 100, DKP_25H = 200},
+{ name = "Festergut", DKP_25N = 100, DKP_25H = 200},
+{ name = "Rotface", DKP_25N = 100, DKP_25H = 200},
+{ name = "Professor Putricide", DKP_25N = 100, DKP_25H = 200},
+{ name = "Blood Prince Council", DKP_25N = 100, DKP_25H = 200},
+{ name = "Blood-Queen Lana'thel", DKP_25N = 100, DKP_25H = 200},
+{ name = "Valithria Dreamwalker", DKP_25N = 100, DKP_25H = 200},
+{ name = "Sindragosa", DKP_25N = 100, DKP_25H = 200},
+{ name = "The Lich King", DKP_25N = 300, DKP_25H = 400},
+{ name = "Halion", DKP_25N = 600, DKP_25H = 1200},
 
+{ name = "Northrend Beasts", DKP_25N = 0, DKP_25H = 0},
+{ name = "Lord Jaraxxus", DKP_25N = 0, DKP_25H = 0},
+{ name = "Faction Champions", DKP_25N = 0, DKP_25H = 0},
+{ name = "Val'kyr Twins", DKP_25N = 0, DKP_25H = 0},
+{ name = "Anub'arak", DKP_25N = 0, DKP_25H = 0}
 }
 
 
@@ -145,8 +173,20 @@ QDKP2_AlwaysOpenToolbox = false
 -- CaSe InSeNsItIvE
 
 QDKP2_ChargeLoots = {
-  { item = "Uber Sword of Facerolling", DKP = 100},
-  { item = "Spam Cape", DKP = 25},
+  { item = "Phylactery of the Nameless Lich", DKP = 1500 },
+  { item = "Charred Twilight Scale", DKP = 1500 },
+  { item = "Solace of the Defeated", DKP = 1500 },
+  { item = "Solace of the Fallen", DKP = 1500 },
+  { item = "Death's Verdict", DKP = 1500 },
+  { item = "Deathbringer's Will", DKP = 1500 },
+  { item = "Dislodged Foreign Object", DKP = 1500 },
+  { item = "Sindragosa's Flawless Fang", DKP = 300 },
+  { item = "Reign of the Unliving", DKP = 500 },
+  { item = "Satrina's Impeding Scarab", DKP = 300 },
+  { item = "Althor's Abacus", DKP = 100 },
+  { item = "Sharpened Twilight Scale", DKP = 1500 },
+  { item = "Petrified Twilight Scale", DKP = 300 },
+  { item = "Glowing Twilight Scale", DKP = 300 }
 }
 
 
@@ -210,7 +250,7 @@ QDKP2_NotLogLoots = {
 
 QDKP2_BidM_Keywords={
 --{keywords="need,greed"},			  --basic keywords to be used in a loot council guild (no bids).
-{keywords="$n,bid $n,need $n,os $n,$n os,$n ос,ос $n"},			--$n stands for any valid numeric value. this will catch bids.
+{keywords="$n,bid $n,need $n,os $n,$n os,$n ос,ос $n,$nос,ос$n,$nos,os$n"},			--$n stands for any valid numeric value. this will catch bids.
 --{keywords="half", value="$net/2"}, 		--The "value" keyword is used to tell QDKP how to calculate the "Value" field.
 {keywords="all,max,all in",value="$net"}, 	--this is just the complementary of the previous keyword.
 {keywords="min,minimum",value="$minbid"}, 	--this places the minimum bid. if your guild doesn't have a minimum bid, simply remove it
@@ -263,7 +303,7 @@ QDKP2_BidM_AnnounceStart     = true 	-- If true, announce the bid start to the r
 QDKP2_BidM_AnnounceWinner    = true	-- if true, announce the winner to the raid channel
 QDKP2_BidM_AnnounceCancel    = true	-- If true, announce when you cancel a bid in progress to the raid channel
 
-QDKP2_BidM_CountStop        	= true	-- Do you want to trigger a countdown when you announce a winner?
+QDKP2_BidM_CountStop        	= false	-- Do you want to trigger a countdown when you announce a winner?
 QDKP2_BidM_CatchRoll        	= true	-- if true, QDKP will catch rolls.
 QDKP2_BidM_CountAmount     	= 3		-- The countdown length. QDKP will tick with 2 seconds delay.
 QDKP2_BidM_AllowMultipleBid	= true	-- can a player modify a bid? if false, it will be a one shot bid only. /roll are always one shot only.
@@ -274,10 +314,10 @@ QDKP2_BidM_AckBids 		= false	-- if true, QDKP will whisper an acknowledge every 
 QDKP2_BidM_AckRejBids     	= true 	-- if true, rejected bids are announced by a whisper if got via whisper, or to the raid if read from the raid chat.
 QDKP2_BidM_OverBid         	= false	-- if true, players will be able to bid more DKP than they have.
 QDKP2_BidM_DebugValues       	= true 	-- if true, QDKP will print a debug string if a bid fail due to bad value/dkp expression in the keywords.
-QDKP2_BidM_CanOutGuild       	= true   	-- if false, players that are not in the guild won't be able to bid for items. DKP bid is disabled anyway, since they don't have dkp.
+QDKP2_BidM_CanOutGuild       	= true  	-- if false, players that are not in the guild won't be able to bid for items. DKP bid is disabled anyway, since they don't have dkp.
 QDKP2_BidM_RoundValue        	= true   	-- if true, QDKP will round the "value" field to the nearest integer.
 QDKP2_BidM_AutoRoll		= false  	-- If true, QDKP will do an internal roll if someone places a bid that needs a roll value to be calculated.if false, reject the bid asking to /roll first.
-QDKP2_BidM_MinBid            	= 5	-- Enter here the minimum bid allowed in your guild.
+QDKP2_BidM_MinBid            	= 1	-- Enter here the minimum bid allowed in your guild.
 QDKP2_BidM_MaxBid            	= 9999999  -- Enter here the maximum bid allowed in your guild (if any)
 
 -- These are the channels QDKP sends notifications to.
@@ -321,15 +361,15 @@ QDKP2_PROMPT_AWDS = false
 QDKP2_LOCALTIME_MANUALDELTA=0
 
 ------------------------------- GUI -------------------------------------------------------
-QDKP2_USE_CLASS_BASED_COLORS=false	--if this is set to true, player entries in the log will be colored by class like
+QDKP2_USE_CLASS_BASED_COLORS=true	--if this is set to true, player entries in the log will be colored by class like
 					--they're in WoW raid's window.
 QDKP2_LOCALIZE_MESSAGES = false		--if this is set to false, only GUI will be localized but all messages sent in English
 
 ------------------------------- LOG ----------------------------------------
 
-QDKP2_LOG_MAXSIZE = 50		--the maximum number of voices to store in a player's log, for each session.
-QDKP2_LOG_RAIDMAXSIZE = 100	--the maximum number of voices to store in the raid's log, for each session.
-QDKP2_LOG_MAXSESSIONS = 25	--the maximum number of sessions you can store in your log. Please mind that increasing
+QDKP2_LOG_MAXSIZE = 200	--the maximum number of voices to store in a player's log, for each session.
+QDKP2_LOG_RAIDMAXSIZE = 200	--the maximum number of voices to store in the raid's log, for each session.
+QDKP2_LOG_MAXSESSIONS = 200	--the maximum number of sessions you can store in your log. Please mind that increasing
 				--this number will increase the amount of RAM used by QDKP, along with its CPU usage.
 
 ------------------------------ TIMER ------------------------------------------------------
@@ -337,13 +377,13 @@ QDKP2_LOG_MAXSESSIONS = 25	--the maximum number of sessions you can store in you
 -- time in minutes between timer raid tick. You MUST use a multiple of 6 like 6, 12, 18, 24,...60 etc
 -- after this time the players gets the proper amount of time (eg: if you set this = 12, players will
 -- get 0.2 hours every 12 minutes, if you set it to 30 they'll get 0.5 every 30 minutes etc.)
-QDKP2_TIME_UNTIL_UPLOAD = 12
+QDKP2_TIME_UNTIL_UPLOAD = 60
 
 -- tells to show or not a message when a player gains the hourly bonus
 QDKP_TIMER_SHOW_AWARDS = false
 
 -- should the timer ticks be logged in the raid's log?
-QDKP_TIMER_RAIDLOG_TICK = true
+QDKP_TIMER_RAIDLOG_TICK = false
 
 
 ----------------------------- FORMAT -------------------------------------------------------
@@ -371,7 +411,7 @@ QDKP2_ExternalNoteMode = true
 --Setting this to false will disable the raiding hours counter.
 --Removing the hours will make more room for DKP digits, letting bigger amounts to be stored just as
 --the previous option.
-QDKP2_StoreHours = true
+QDKP2_StoreHours = false
 
 QDKP2_NOTE_BREAK    = " " --what breaks up stuff in the note
 QDKP2_NOTE_DASH	    = ":" --separator between value name and value ex. Net:54, ":" is the DASH
@@ -380,10 +420,10 @@ QDKP2_NOTE_DASH	    = ":" --separator between value name and value ex. Net:54, "
 QDKP2_AutoLinkAlts = true
 
  -- If the date is within this value of hours, it will be displayed in hh:mm:ss rather than the day name
-QDKP2_DATE_TIME_TO_HOURS = 10
+QDKP2_DATE_TIME_TO_HOURS = 18
 
 -- If the date is within this value of days, it will be displayed with the dayname rather than the complete date format
-QDKP2_DATE_TIME_TO_DAYS = 4
+QDKP2_DATE_TIME_TO_DAYS = 6
 
 -- These are the strings used in log reports
 QDKP2_Reports_Header = "Report of $NAME's log ($TYPE)" -- this is the header of the reports
@@ -391,25 +431,6 @@ QDKP2_Reports_Tail = "End of report"
 
 --This is the header of the TXT and HTML exports of DKP amounts.
 QDKP2_Export_TXT_Header="QDKP2 - DKP Values of guild <$GUILDNAME> exported on $TIME"
-
---[[
-NOTIFY
-this is the template used by the notify function. You can change it as you wish,
-including the following variables.
-Available Variables:
-$NAME: Name of the member
-$GUILDNAME: Name of your guild
-$RANK: Rank of the member
-$CLASS: Class of the member
-$NET: Net amount of DKP of the member
-$TOTAL: Total amount of DKP of the member
-$SPENT: Total amount of DKP spent by the member
-$TIME: Total amount of raiding time of the member
-$SESSGAINED: Amount of DKP gained by the member in the current session
-$SESSSPENT: amount of DKP spent by the member in the current session
-$SESSTIME: raiding time of the current session
-$SESSNAME: Name of the current session
-]]--
 
 ------------------------ ON-DEMAND INFORMATIONS -----------------------------
 -- The on-demand system is a simple data bot triggered by whispers, used to give informations
@@ -460,13 +481,13 @@ QDKP2_LOD_MAXLEN=6
 
 -- This is the channel to announce the modifications to.
 -- Can be 'guild', 'raid', 'party','officer', 'say', 'yell', raid_warning' or 'battleground'
-QDKP2_AnnounceChannel='guild'
+QDKP2_AnnounceChannel='raid'
 
 --This is the list of the events that should be announced. Set to true the ones that you want to be announced.
 QDKP2_AnnounceAwards 	= true	-- This includes Raid Awards, Boss kill bonus AND the IronMan Award
 QDKP2_AnnounceIronman   = false	-- This includes the start and the stop events of the IronMan bonus, but not the award itself.
-QDKP2_AnnounceDKPChange = true	-- All player-based modifications, like loot payments or custom DKP modifications.
-QDKP2_AnnounceNegative	= true	-- This will make an announce when a player's DKP pools becomes negative
+QDKP2_AnnounceDKPChange = false	-- All player-based modifications, like loot payments or custom DKP modifications.
+QDKP2_AnnounceNegative	= false	-- This will make an announce when a player's DKP pools becomes negative
 QDKP2_AnnounceTimertick	= false	-- This will announce the timer ticks to the raid (spammy)
 
 
@@ -474,8 +495,8 @@ QDKP2_AnnounceTimertick	= false	-- This will announce the timer ticks to the rai
 -- You can also set the message that will be sent to your guild member.
 -- Watch out: This feature will create a message EVERY TIME you change a player's DKP. This includes modification of existing
 --            log entries. For your sanity, QDKP will hide all these whispers from your chat window.
-QDKP2_AnnounceWhisper           = true
-QDKP2_AnnounceWhisperExternals  = false
+QDKP2_AnnounceWhisper	         = true
+QDKP2_AnnounceWhisperExternals	 = true
 
 -- The following is used to inform players when they failed to get an award, whispering them why they lost it.
 QDKP2_AnnounceFailAw    = true -- notify a player when he fails to get a raid award / boss kill bonus?
@@ -512,7 +533,7 @@ QDKP2_AWARD_OFFLINE_TIMER     = false		-- Can they get the Timer Award if Offlin
 QDKP2_AWARD_OFFLINE_ZEROSUM   = false		-- Can they get Zerosum DKP if Offline
 QDKP2_AWARD_OFFLINE_IRONMAN   = false		-- Can they get the Ironman Bonus if Offline
 
-QDKP2_AWARD_ZONE_RAIDAWARD    = "100%"		-- "%" of raid award earned if the player is in a different zone
+QDKP2_AWARD_ZONE_RAIDAWARD    = "0%"		-- "%" of raid award earned if the player is in a different zone
 QDKP2_AWARD_ZONE_TIMER        = "100%"		-- "%" of timer award earned if the player is in a different zone
 QDKP2_AWARD_ZONE_ZEROSUM      = "100%"		-- "%" of zerosum awarded if the player is in a different zone
 QDKP2_AWARD_ZONE_IRONMAN      = "100%"		-- "%" of ironman bonus awarded if the player is in a different zone
@@ -527,10 +548,10 @@ QDKP2_AWARD_ALT_TIMER         = true		-- Can an Alt be given the timer award?
 QDKP2_AWARD_ALT_ZEROSUM       = true		-- Can an Alt be given zerosum dkp?
 QDKP2_AWARD_ALT_IRONMAN       = true		-- Can an Alt be given the ironman bonus?
 
-QDKP2_AWARD_STANDBY_RAIDAWARD = "50%"		-- What % of the raid award should a standby recieve?
-QDKP2_AWARD_STANDBY_TIMER     = "50%"		-- What % of the timer award should a standby recieve?
-QDKP2_AWARD_STANDBY_ZEROSUM   = "50%"		-- What % of the zerosum should a standby recieve?
-QDKP2_AWARD_STANDBY_IRONMAN   = "50%"		-- What % of the ironman bonus should a standby recieve?
+QDKP2_AWARD_STANDBY_RAIDAWARD = "0%"		-- What % of the raid award should a standby recieve?
+QDKP2_AWARD_STANDBY_TIMER     = "0%"		-- What % of the timer award should a standby recieve?
+QDKP2_AWARD_STANDBY_ZEROSUM   = "0%"		-- What % of the zerosum should a standby recieve?
+QDKP2_AWARD_STANDBY_IRONMAN   = "0%"		-- What % of the ironman bonus should a standby recieve?
 
 QDKP2_AWARD_EXTERNAL_RAIDAWARD= true		-- Can an External Player (someone not in guild) recieve the raid award?
 QDKP2_AWARD_EXTERNAL_TIMER    = true		-- Can an External recieve the timer award?
@@ -562,7 +583,7 @@ QDKP2_SENDTRIG_TIMER_AWARD = true --upload when someone has gained the hourly bo
 QDKP2_SENDTRIG_IRONMAN = true     --upload after the ironman award
 QDKP2_SENDTRIG_CHARGE = true      --upload when a player is charged for a loot
 QDKP2_SENDTRIG_MODIFY = false     --upload when a player's amounts are manually edited
-QDKP2_SENDTRIG_ZS = true          --upload when a ZeroSum award is done
+QDKP2_SENDTRIG_ZS = false         --upload when a ZeroSum award is done
 
 
 --------------------------- WARNINGS --------------------------------------------------
@@ -594,12 +615,12 @@ QDKP2_CHECK_TRIES = 3
 ------------------------ DEFAULTS ---------------------
 QDKP2_AutoBossEarn_Default 	= "on" 	-- Default state of AutoBossMod. Can be "on" or "off"
 QDKP2_DetectBid_Default 	= "off"	-- Default state of Detect Bid System. Can be "on" or "off"
-QDKP2_UseFixedPrice_Default 	= "on"	-- Default state of Fixed Item Price. Can be "on" or "off"
-QDKP2GUI_Default_RaidBonus	= 10
-QDKP2GUI_Default_TimerBonus   	= 10
-QDKP2GUI_Default_IMBonus      	= 10
-QDKP2GUI_Default_QuickMod     	= 10
-QDKP2GUI_Default_QuickPerc1	= 50
-QDKP2GUI_Default_QuickPerc2	= 80
+QDKP2_UseFixedPrice_Default 	= "off"	-- Default state of Fixed Item Price. Can be "on" or "off"
+QDKP2GUI_Default_RaidBonus	= 0
+QDKP2GUI_Default_TimerBonus   	= 0
+QDKP2GUI_Default_IMBonus      	= 0
+QDKP2GUI_Default_QuickMod     	= 20
+QDKP2GUI_Default_QuickPerc1	= 10
+QDKP2GUI_Default_QuickPerc2	= 15
 QDKP2GUI_Default_ShowOutGuild 	= true
 

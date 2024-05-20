@@ -26,6 +26,9 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Release Log:
+v2.6.10.3
+- Update to default options.ini for those too lazy to elvel to 80.
+
 v2.6.10.2
 - Tooltip fixes for monitor views. Tooltips will only be effective if in same guild as the managing leader though.
 
