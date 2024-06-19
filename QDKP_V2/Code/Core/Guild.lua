@@ -116,7 +116,7 @@ function QDKP2_DownloadGuild(Revert)
       --todo non-officer struggles
 	  if QDKP2_OfficerMode() then
 		  QDKP2_DelExternal(name, true)
-		  QDKP2_DownloadGuild(Revert)
+		  --QDKP2_DownloadGuild(Revert)
 		  return
 	  end
     end
