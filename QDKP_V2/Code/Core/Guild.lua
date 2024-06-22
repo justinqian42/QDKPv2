@@ -104,20 +104,27 @@ function QDKP2_DownloadGuild(Revert)
       name = ""
     end
     QDKP2_Debug(3, "Guild", "Processing " .. name)
-
-    if isInGuild and QDKP2_IsExternal(name) then
+	local duplicated = false
+    if isInGuild and rankIndex and QDKP2_IsExternal(name) then
+	  -- this has detected someone in guild and also registered as an external
+	  
+	  local altName = name
+	  local altsMain = QDKP2altsRestore[name]
       QDKP2_Msg(string.gsub(QDKP2_LOC_ExternalJoined, "$NAME", name), "WARNING")
 
       if not datafield or #datafield == 0 then
         QDKP2stored[name] = { 0, 0, 0 }
 		QDKP2extnote[name]=nil
-        QDKP2_UpdateNoteByName(name)
+
       end
-      --todo non-officer struggles
-	  if QDKP2_OfficerMode() then
-		  QDKP2_DelExternal(name, true)
-		  --QDKP2_DownloadGuild(Revert)
-		  return
+	  QDKP2externals[name]=nil
+
+	  if QDKP2extnote[altsMain] == name then
+		QDKP2extnote[altsMain]=nil
+	  end
+	  if QDKP2_OfficerMode()  then 
+		QDKP2_UpdateNoteByName(altsMain)
+		QDKP2_UpdateNoteByName(name)
 	  end
     end
 
@@ -136,6 +143,18 @@ function QDKP2_DownloadGuild(Revert)
 
         --todo non-officer protection here?
       if oogalt then
+		if not QDKP2_OfficerMode() then
+			print("non-officer")
+			print(oogalt)
+			if QDKP2rank[oogalt] then
+				if QDKP2rank[oogalt] ~= "*External*" then
+					print("ERROR this char exists", QDKP2rank[oogalt])
+					duplicated = true
+					QDKP2externals[oogalt] = nil
+					QDKP2extnote[name] = nil
+				end
+			end
+		end
         if QDKP2_OfficerMode()  then 
             QDKP2_Debug(2,"QDKP2_IsInGuild: " .. oogalt, GetGuildInfo(oogalt) == QDKP2_GUILD_NAME)
             if GetGuildInfo(oogalt) == QDKP2_GUILD_NAME then
@@ -216,7 +235,7 @@ function QDKP2_DownloadGuild(Revert)
           --QDKP2extnote[name]=oogalt
 
       elseif QDKP2extnote[name] then
-      old_char=QDKP2extnote[name]
+		old_char=QDKP2extnote[name]
         QDKP2extnote[name]=nil
         --no oogalt detected but we have record of one, must have been removed
         QDKP2_Debug(2,"GParser detected change to ext note", old_char)

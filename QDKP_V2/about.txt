@@ -26,6 +26,10 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Release Log:
+v2.6.10.4
+- Fix to oogalts being invited into guild causing a stak overflow.
+- MSChanges being opened will always spam the RW announcing it.
+
 v2.6.10.3
 - Update to default options.ini for those too lazy to elvel to 80.
 
