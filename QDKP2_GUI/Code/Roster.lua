@@ -31,6 +31,7 @@ myClass.SlotId = 1
 myClass.ItemId = 0
 myClass.MonitorItemId = 0
 myClass.DisplayAlts = false
+myClass.BID_LIST={}
 
 
 myClass.PlayersColor={}
@@ -146,6 +147,10 @@ function myClass.Refresh(self, forceResort)
 			S:HandleButton(QDKP2_Frame2_MS_Clear_Button)
 			S:HandleButton(QDKP2_Frame2_MS_Close_Button)
 			S:HandleButton(QDKP2_Frame2_MS_Spam_Button)
+			S:HandleButton(QDKP2_Frame2_Bid_StdBid)
+			S:HandleButton(QDKP2_Frame2_Bid_StdBid1)
+			S:HandleButton(QDKP2_Frame2_Bid_StdBid50)
+			S:HandleButton(QDKP2_Frame2_Bid_StdBid500)
 			S:HandleCheckBox(QDKP2frame2_selectList_alts)
 		end	
 	end
@@ -179,6 +184,10 @@ function myClass.Refresh(self, forceResort)
 	  QDKP2_Frame2_MS_Close_Button:Hide()
 	  QDKP2_Frame2_MS_Clear_Button:Hide()
 	  QDKP2_Frame2_MS_Spam_Button:Hide()
+	  QDKP2_Frame2_Bid_StdBid:Hide()
+	  QDKP2_Frame2_Bid_StdBid1:Hide()
+	  QDKP2_Frame2_Bid_StdBid50:Hide()
+	  QDKP2_Frame2_Bid_StdBid500:Hide()
       if self.Sel=='guild' then
         QDKP2frame2_selectList_guild:SetChecked(true)
 		QDKP2frame2_selectList_alts:Show()
@@ -208,6 +217,10 @@ function myClass.Refresh(self, forceResort)
       QDKP2frame2_selectList_Raid:SetChecked(true)
 	  QDKP2_Frame2_Bid_ButtonClearData:Hide()
 	  QDKP2_Frame2_Cancel_Button:Hide()
+	  QDKP2_Frame2_Bid_StdBid:Hide()
+	  QDKP2_Frame2_Bid_StdBid1:Hide()
+	  QDKP2_Frame2_Bid_StdBid50:Hide()
+	  QDKP2_Frame2_Bid_StdBid500:Hide()
 	  if Complete then
 		  QDKP2_Frame2_MS_Start_Button:Show()
 		  QDKP2_Frame2_MS_Close_Button:Show()
@@ -246,6 +259,10 @@ function myClass.Refresh(self, forceResort)
 	  QDKP2_Frame2_MS_Close_Button:Hide()
 	  QDKP2_Frame2_MS_Clear_Button:Hide()
 	  QDKP2_Frame2_MS_Spam_Button:Hide()
+	  QDKP2_Frame2_Bid_StdBid:Hide()
+	  QDKP2_Frame2_Bid_StdBid1:Hide()
+	  QDKP2_Frame2_Bid_StdBid50:Hide()
+	  QDKP2_Frame2_Bid_StdBid500:Hide()
 	  if self.Offset > #QDKP2GUI_Roster.RAID_LIST then self.Offset=#QDKP2GUI_Roster.RAID_LIST-1; end
 		if self.Offset < 0 then self.Offset=0; end
 
@@ -387,6 +404,10 @@ function myClass.Refresh(self, forceResort)
 	  QDKP2_Frame2_MS_Close_Button:Hide()
 	  QDKP2_Frame2_MS_Clear_Button:Hide()
 	  QDKP2_Frame2_MS_Spam_Button:Hide()
+	  QDKP2_Frame2_Bid_StdBid:Show()
+	  QDKP2_Frame2_Bid_StdBid1:Show()
+	  QDKP2_Frame2_Bid_StdBid50:Show()
+	  QDKP2_Frame2_Bid_StdBid500:Show()
 	  QDKP2_BIS_Header_Setter()
 	  if QDKP2_BidM_isRolling() then
 		QDKP2_Frame2_Bid_ButtonWin:Show()
@@ -437,10 +458,14 @@ function myClass.Refresh(self, forceResort)
       QDKP2_Frame2_Bid_ButtonWin:Hide()
 	  QDKP2_Frame2_Bid_ButtonRoll:Hide()
 	  QDKP2_Frame2_Cancel_Button:Hide()
-	  	  QDKP2_Frame2_MS_Start_Button:Hide()
+	  QDKP2_Frame2_MS_Start_Button:Hide()
 	  QDKP2_Frame2_MS_Close_Button:Hide()
 	  QDKP2_Frame2_MS_Clear_Button:Hide()
 	  QDKP2_Frame2_MS_Spam_Button:Hide()
+	  QDKP2_Frame2_Bid_StdBid:Show()
+	  QDKP2_Frame2_Bid_StdBid1:Show()
+	  QDKP2_Frame2_Bid_StdBid50:Show()
+	  QDKP2_Frame2_Bid_StdBid500:Show()
 	  -- todo have item appear here, ideally with tooltip
       QDKP2_Frame2_Bid_Item:Show()
 	  QDKP2_Frame2_Bid_ButtonClearData:Show()
@@ -1227,6 +1252,19 @@ function myClass.PushedBidRollButton(self)
   end
   myClass:Refresh()
   QDKP2_Frame2_Bid_Item:ClearFocus()
+end
+  
+function myClass.PushedStdBidButton(self,plusInt)
+	if plusInt == "max" then SendChatMessage("All in", "RAID"); end
+    local xx = 0
+	for i,v in pairs(QDKP2GUI_Roster.MONITOR_DICT) do
+		if tonumber(v['bid']) > xx then
+			xx = tonumber(v['bid'])
+		end
+	end
+	xx = xx + plusInt
+    SendChatMessage(xx, "RAID")
+
 end
 
 function myClass.PushedBidWinButton(self)

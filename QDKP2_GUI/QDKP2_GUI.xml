@@ -1832,7 +1832,7 @@
         <Anchors>
           <Anchor relativePoint="LEFT" point="RIGHT" relativeTo="QDKP2_Frame2_Bid_Item">
             <Offset>
-              <AbsDimension x="-2" y="0"/>
+              <AbsDimension x="-5" y="0"/>
             </Offset>
           </Anchor>
         </Anchors>
@@ -1928,7 +1928,7 @@
         <Anchors>
           <Anchor relativePoint="LEFT" point="RIGHT" relativeTo="QDKP2_Frame2_Bid_Item">
             <Offset>
-              <AbsDimension x="-2" y="0"/>
+              <AbsDimension x="-5" y="0"/>
             </Offset>
           </Anchor>
         </Anchors>
@@ -1938,8 +1938,72 @@
           </OnClick>
         </Scripts>
       </Button>
-
-
+	        <Button name="QDKP2_Frame2_Bid_StdBid" inherits="UIPanelButtonTemplate" text="QDKP2_LOC_GUISTDBID">
+        <Size>
+          <AbsDimension x="80" y="20"/>
+        </Size>
+        <Anchors>
+          <Anchor relativePoint="LEFT" point="RIGHT" relativeTo="QDKP2_Frame2_Bid_Item">
+            <Offset>
+              <AbsDimension x="-169" y="0"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnClick>
+            QDKP2GUI_Roster:PushedStdBidButton("max")
+          </OnClick>
+        </Scripts>
+      </Button>
+	        <Button name="QDKP2_Frame2_Bid_StdBid1" inherits="UIPanelButtonTemplate" text="QDKP2_LOC_GUISTDBID1">
+        <Size>
+          <AbsDimension x="25" y="20"/>
+        </Size>
+        <Anchors>
+          <Anchor relativePoint="LEFT" point="RIGHT" relativeTo="QDKP2_Frame2_Bid_Item">
+            <Offset>
+              <AbsDimension x="-169" y="-20"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnClick>
+            QDKP2GUI_Roster:PushedStdBidButton(1)
+          </OnClick>
+        </Scripts>
+      </Button>	        <Button name="QDKP2_Frame2_Bid_StdBid50" inherits="UIPanelButtonTemplate" text="QDKP2_LOC_GUISTDBID50">
+        <Size>
+          <AbsDimension x="25" y="20"/>
+        </Size>
+        <Anchors>
+          <Anchor relativePoint="LEFT" point="RIGHT" relativeTo="QDKP2_Frame2_Bid_Item">
+            <Offset>
+              <AbsDimension x="-196" y="-20"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnClick>
+            QDKP2GUI_Roster:PushedStdBidButton(50)
+          </OnClick>
+        </Scripts>
+      </Button>	        <Button name="QDKP2_Frame2_Bid_StdBid500" inherits="UIPanelButtonTemplate" text="QDKP2_LOC_GUISTDBID500">
+        <Size>
+          <AbsDimension x="25" y="20"/>
+        </Size>
+        <Anchors>
+          <Anchor relativePoint="LEFT" point="RIGHT" relativeTo="QDKP2_Frame2_Bid_Item">
+            <Offset>
+              <AbsDimension x="-223" y="-20"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnClick>
+            QDKP2GUI_Roster:PushedStdBidButton(500)
+          </OnClick>
+        </Scripts>
+      </Button>
 
 
       <!-- Title buttons-->

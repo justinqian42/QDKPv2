@@ -279,7 +279,14 @@ function QDKP:CommandReceived(prefix, message, distribution, sender)
 			a=1
             --local loot = unpack(monArgs)
 			--QDKP2_Debug(2, "Monitor", "Addloot " .. loot)
-            
+			
+        elseif monCmd == 'ADDBID' then
+
+            -- in an attempt to speed the monitors up, lets just receive all candidate data for new loot in big chunk
+            -- not candidate by candidate, updates hereafter are still one by one.
+			charName, bidValue = unpack(monArgs)
+            QDKP2GUI_Roster.BID_LIST[charName] = bidValue
+   
 
         elseif monCmd == 'CLEARMONITORLIST'then
 
@@ -296,7 +303,8 @@ function QDKP:CommandReceived(prefix, message, distribution, sender)
             -- not candidate by candidate, updates hereafter are still one by one.
 
             QDKP2GUI_Roster.RAID_DICT = {}
-			QDKP2GUI_Roster.RAID_LIST = {}			
+			QDKP2GUI_Roster.RAID_LIST = {}	
+			QDKP2GUI_Roster.BID_LIST = {}			
 			
 		elseif monCmd == 'RAIDLIST' then	
 			--QDKP2_Debug(2,"RAIDLIST","Received")

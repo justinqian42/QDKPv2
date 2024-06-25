@@ -150,6 +150,7 @@ end
 function QDKP2_BidM_Reset()
 -- Clears allthe bid. Does not stop a ongoing bidding.
   QDKP2_BidM.LIST={}
+  QDKP2GUI_Roster.BID_LIST = {}	
   QDKP2_Events:Fire("DATA_UPDATED","roster")
 end
 
@@ -388,6 +389,11 @@ function QDKP2_BidM_BidWatcher(txt,player,channel)
             QDKP2log_Entry(player,mess, QDKP2LOG_BIDDING)
             QDKP2_Events:Fire("DATA_UPDATED","log")
           end
+		  if QDKP2_ManagementMode() then
+			QDKP2GUI_Roster.BID_LIST[player] = newBet.value
+			QDKP:SendMonitorMessage( 'ADDBID', player,  newBet.value)
+		  end
+
           QDKP2_Events:Fire("DATA_UPDATED","roster")
           return true
         else
