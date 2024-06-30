@@ -33,7 +33,7 @@ local function DecodeItemLink(str,format)
 		local istart, istop, istring = string.find(str, "|c%x+|H(.+)|h%[.*%]|h|r")
 		if istart then
 			local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice = GetItemInfo(istring)
-			if format=="html" and itemName then
+			if format=="html" or format=="discord" and itemName then
 				local _, itemId, enchantId, jewelId1, jewelId2, jewelId3, jewelId4, suffixId, uniqueId, linkLevel = string.split(":", istring)
 				local _,_,_,color=GetItemQualityColor(itemRarity)
 				color=string.sub(color,5)
@@ -69,12 +69,14 @@ end
 --Export
 function GenericExporter:MakeTable(Format,rowList)
 	local width={}
-	table.insert(rowList,1,{}) --making room for header
-	for i,culumn in ipairs(self.Columns) do
-		if not culumn.isDisabled or not culumn.isDisabled(x,Format) then
-			table.insert(width,culumn.width)
-			table.insert(rowList[1],culumn.header)
-			rowList[1].color='#E5D000'
+	if Format ~= 'discord' then
+		table.insert(rowList,1,{}) --making room for header
+		for i,culumn in ipairs(self.Columns) do
+			if not culumn.isDisabled or not culumn.isDisabled(x,Format) then
+				table.insert(width,culumn.width)
+				table.insert(rowList[1],culumn.header)
+				rowList[1].color='#E5D000'
+			end
 		end
 	end
 
@@ -277,14 +279,9 @@ function PurchaseLogListExport:Export(Format,LogList)
 	end
 	for index,row in pairs(rowList2) do
 		if row[3] ~= "" and tonumber(row[3]) < 0 then 
-			--print(row[3])
-			--print(type(row[3]))
 			row[3] = tonumber(row[3]) * -1
 			row[3] = "@ " .. row[3]
 			table.insert(rowList,row)
-			--for item, col in pairs(row) do
-			--	print(item, col)
-			--end
 		end
 	end
 	header=self:MakeHeader(Format,LogExport_TXT_Header)
@@ -463,37 +460,33 @@ function QDKP2_BuildAsciiTable(rowList,culWidth,header,culBord,rowBord)
 end
 
 function QDKP2_BuildDiscordColorString(inputString,colorCode)
+	linkcell=DecodeItemLink(tostring(inputString or ''),'discord')
+	plaincell=DecodeItemLink(tostring(inputString or ''))
 	colourCode = 35
 	form = "\u001b[1;" ..colourCode..";"..inputString --{ansiCode1};{ansiCode2};{ansiCode3}mTest
-	print(form)
-	return form
+	--print(cell)
+	return plaincell
 end
 
 function QDKP2_BuildDiscordTable(rowList,culWidth,header,culBord,rowBord)
-  local testLine=makeTextLine(culWidth or {},culWidth,culBord)
-  local sep2="\n"
+  local sep2=""
   local out=""
   local spacer = "\t"
   for i,row in ipairs(rowList) do
 	local colour = row['color']
-    out=out..nl
-	for j,k in pairs(row) do
+    	for j,k in pairs(row) do
+		if j == 1 then out = out .. "* "; end
 		tst = string.sub(k, 1, 1)
-		print(tst == "|")
 		if tst == "|" then
 			-- found an item link
 			out = out..QDKP2_BuildDiscordColorString(k,colour)..spacer
 		elseif j ~= 'color' then
+			if k == "" then k = spacer; end
 			out = out..k..spacer
 		end
     end
-    if i==1 and header then
-      out=out..nl..sep2
-    elseif rowBord and i%rowBord == 0 then
-      out=out..nl
-    end
+	out=out..nl
   end
-  out=out..nl
   return out
 end
 

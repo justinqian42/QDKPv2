@@ -144,11 +144,11 @@ function QDKP2_DownloadGuild(Revert)
         --todo non-officer protection here?
       if oogalt then
 		if not QDKP2_OfficerMode() then
-			print("non-officer")
-			print(oogalt)
+			--print("non-officer")
+			--print(oogalt)
 			if QDKP2rank[oogalt] then
 				if QDKP2rank[oogalt] ~= "*External*" then
-					print("ERROR this char exists", QDKP2rank[oogalt])
+					--print("ERROR this char exists", QDKP2rank[oogalt])
 					duplicated = true
 					QDKP2externals[oogalt] = nil
 					QDKP2extnote[name] = nil

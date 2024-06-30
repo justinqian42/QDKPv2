@@ -570,7 +570,6 @@ function QDKP2log_GetModEntryTextPur(Log, isRaid)
       output = output .. QDKP2_LOC_ExtMod
     elseif reason then
 		if spent and not gained and not hours and GetItemIcon(reason) then
-		--print(reason)
         return reason
       else
         output = output .. QDKP2_LOC_GenericReas
