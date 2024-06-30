@@ -541,6 +541,14 @@ func=function()
 end,
 },
 
+ExportPurchaseSession={text="Export Session (purchases)",
+func=function()
+	local SID=myClass.MenuVoice.SubListID
+	QDKP2_Export_Popup("purchaselogsession",nil,SID)
+end,
+},
+
+
 ExportExtSession={text="Export Session (detailed)",
 func=function()
   local SID=myClass.MenuVoice.SubListID
@@ -628,7 +636,8 @@ function myClass.VoiceMenu(self,Voice,exe)
     if myClass.Type ~= "player" or myClass.MainSelection~='RAID' then
       table.insert(menu,LogVoices.ViewSession)
     end
-		table.insert(menu,LogVoices.ExportSession)
+	table.insert(menu,LogVoices.ExportPurchaseSession)
+	table.insert(menu,LogVoices.ExportSession)
     table.insert(menu,LogVoices.ExportExtSession)
   end
   if Voice.Type==QDKP2LOG_LOOT then

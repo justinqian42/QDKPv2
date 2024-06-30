@@ -486,6 +486,137 @@ function QDKP2log_GetModEntryText(Log, isRaid)
   return output
 end
 
+function QDKP2log_GetModEntryTextPurName(Log, isRaid)
+  if not Log then
+    return "NULL Entry";
+  end
+  local LinkedName, AltLinkedName
+  local Type = QDKP2log_GetType(Log)
+  local Bit0, Bit1, Bit2, Bit3, Var1, Var2 = QDKP2log_GetFlags(Log)
+  local RaidAw, ZeroSum, MainEntry = Bit0, Bit1, Bit2 --for easier reading
+  local output = ""
+  local DataLog = Log
+
+  if Type == QDKP2LOG_LINK or (ZeroSum and not MainEntry) then
+    Log, LinkedName, AltLinkedName = QDKP2log_FindLink(Log)
+    if QDKP2_IsInvalidEntry(Type) then
+      return Log[QDKP2LOG_FIELD_ACTION];
+    end
+    if not ZeroSum or MainEntry then
+      LinkedName = LinkedName or '*' .. UNKNOWN .. '*'
+      if AltLinkedName then
+        output = output .. AltLinkedName .. " (" .. LinkedName .. ") "
+      else
+        output = output .. LinkedName .. " "
+      end
+      DataLog = Log
+      Bit0, Bit1, Bit2, Bit3, Var1, Var2 = QDKP2log_GetFlags(Log)
+      RaidAw, ZeroSum, MainEntry = Bit0, Bit1, Bit2
+      Type = QDKP2log_GetType(Log)
+    end
+  end
+  return output
+ end
+
+function QDKP2log_GetModEntryTextPur(Log, isRaid)
+  if not Log then
+    return "NULL Entry";
+  end
+  local LinkedName, AltLinkedName
+  local Type = QDKP2log_GetType(Log)
+  local Bit0, Bit1, Bit2, Bit3, Var1, Var2 = QDKP2log_GetFlags(Log)
+  local RaidAw, ZeroSum, MainEntry = Bit0, Bit1, Bit2 --for easier reading
+  local output = ""
+  local DataLog = Log
+
+  if Type == QDKP2LOG_LINK or (ZeroSum and not MainEntry) then
+    Log, LinkedName, AltLinkedName = QDKP2log_FindLink(Log)
+    if QDKP2_IsInvalidEntry(Type) then
+      return Log[QDKP2LOG_FIELD_ACTION];
+    end
+    if not ZeroSum or MainEntry then
+      LinkedName = LinkedName or '*' .. UNKNOWN .. '*'
+      DataLog = Log
+      Bit0, Bit1, Bit2, Bit3, Var1, Var2 = QDKP2log_GetFlags(Log)
+      RaidAw, ZeroSum, MainEntry = Bit0, Bit1, Bit2
+      Type = QDKP2log_GetType(Log)
+    end
+  end
+  local reason = Log[QDKP2LOG_FIELD_ACTION]
+
+  if Type == QDKP2LOG_SESSION then
+    local SessList, SessName = QDKP2_GetSessionInfo(reason)
+    SessName = SessName or '<' .. UNKNOWN .. '>'
+    if isRaid then
+      output = output .. QDKP2_LOC_Session .. " $SESSION"
+    else
+      output = output .. QDKP2_LOC_SessJoin
+    end
+    output = string.gsub(output, "$SESSION", SessName)
+
+  elseif QDKP2_IsDKPEntry(Type) then
+    local gained, spent, hours, Mod, Ngained = QDKP2log_GetAmounts(DataLog)
+
+    if (not Ngained and not spent and not hours) then
+      if (RaidAw or ZeroSum) and not MainEntry then
+        Ngained = 0
+      else
+        Ngained = 0
+        spent = 0
+      end
+    end
+
+    if Type == QDKP2LOG_EXTERNAL then
+      output = output .. QDKP2_LOC_ExtMod
+    elseif reason then
+		if spent and not gained and not hours and GetItemIcon(reason) then
+		--print(reason)
+        return reason
+      else
+        output = output .. QDKP2_LOC_GenericReas
+      end
+      output = string.gsub(output, "$REASON", tostring(reason))
+    else
+      if RaidAw and not MainEntry then
+        output = output .. QDKP2_LOC_RaidAw
+      elseif RaidAw then
+        output = output .. QDKP2_LOC_RaidAwMain
+      elseif ZeroSum and not MainEntry then
+        output = output .. QDKP2_LOC_ZeroSumAw
+      elseif ZeroSum then
+        output = output .. QDKP2_LOC_ZeroSumSp
+      else
+        output = output .. QDKP2_LOC_Generic
+      end
+    end
+    if ZeroSum then
+      local giver = ""
+      if AltLinkedName then
+        giver = AltLinkedName .. " (" .. LinkedName .. ")"
+      elseif LinkedName then
+        giver = LinkedName
+      end
+      output = string.gsub(output, "$GIVER", giver)
+      gained = tostring(Ngained)
+      if Mod and Mod ~= 100 then
+        gained = gained .. "x" .. tostring(Mod) .. "%%"
+      end
+      output = string.gsub(output, "$AMOUNT", gained)
+      output = string.gsub(output, "$SPENT", tostring(spent))
+    end
+
+    local AwardSpendText = QDKP2_GetAwardSpendText(Ngained, spent, hours, Mod)
+    output = string.gsub(output, "$AWARDSPENDTEXT", AwardSpendText)
+
+  else
+    output = output .. reason
+  end
+  if not output or string.len(output) == 0 then
+    output = "<NIL>";
+  end
+  return "MANUAL SPEND"
+end
+
 --dummy of GetModEntryText,
 --Returns the description of the last log entry of name.
 --session is optional.

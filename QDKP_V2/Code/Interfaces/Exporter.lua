@@ -51,7 +51,7 @@ end
 
 --Generic exporter prototype
 local GenericExporter={}
-GenericExporter.Formats={"Text","HTML","XML"}
+GenericExporter.Formats={"Text","HTML","Discord","XML"}
 function GenericExporter:GetData(EntryList,Format)
 	local rowList={}
 	for i,x in ipairs(EntryList) do
@@ -77,8 +77,11 @@ function GenericExporter:MakeTable(Format,rowList)
 			rowList[1].color='#E5D000'
 		end
 	end
+
   if Format=='text' then
 		return QDKP2_BuildAsciiTable(rowList,width,true,true)
+  elseif Format=='discord' then
+		return QDKP2_BuildDiscordTable(rowList,width,true,true)
   elseif Format=='html' then
 		return QDKP2_BuildHtmlTable(rowList,'#FFFFFF','#202020','#B0B0B0',true,true)
   end
@@ -128,7 +131,7 @@ local GuildExport=QDKP2_CopyTable(GenericExporter)
 function GuildExport:Export(Format)
   local nameList = self:GetMembers()
   local out
-	local rowList=self:GetData(nameList,Format)
+  local rowList=self:GetData(nameList,Format)
   if Format=='xml' then
     out=GenericXMLHeader..'\n'
     out=out..'<QDKP2EXPORT-DKP list="guild" time="'..time()..'" guild="'..tostring(GetGuildInfo("player"))..'" exporter="'..tostring(UnitName('player'))..'" >\n'
@@ -226,7 +229,7 @@ function RaidExport:GetMembers() return QDKP2raid; end
 
 --LogList exporter
 local LogListExport=QDKP2_CopyTable(GenericExporter)
-LogListExport.Formats={"Text","HTML"}
+LogListExport.Formats={"Text","HTML","Discord"}
 function LogListExport:Export(Format,LogList)
 	local rowList=self:GetData(LogList,Format)
 	for i=1,#LogList do
@@ -235,6 +238,7 @@ function LogListExport:Export(Format,LogList)
 	header=self:MakeHeader(Format,LogExport_TXT_Header)
 	body=self:MakeTable(Format,rowList,width).."\n"
 	tail=self:MakeTail(Format)
+	if Format == "Discord" then return body; end
 	return header..body..tail
 end
 LogListExport.Columns={
@@ -260,6 +264,53 @@ query=QDKP2log_GetModEntryText,
 },
 }
 
+
+--LogList exporter
+local PurchaseLogListExport=QDKP2_CopyTable(GenericExporter)
+PurchaseLogListExport.Formats={"Text","Discord","HTML"}
+function PurchaseLogListExport:Export(Format,LogList)
+	local rowList2=self:GetData(LogList,Format)
+	local rowList={}
+
+	for i=1,#LogList do
+		rowList2[i].color=ColortableToHtml(QDKP2log_GetEntryColor(QDKP2log_GetType(LogList[i])))
+	end
+	for index,row in pairs(rowList2) do
+		if row[3] ~= "" and tonumber(row[3]) < 0 then 
+			--print(row[3])
+			--print(type(row[3]))
+			row[3] = tonumber(row[3]) * -1
+			row[3] = "@ " .. row[3]
+			table.insert(rowList,row)
+			--for item, col in pairs(row) do
+			--	print(item, col)
+			--end
+		end
+	end
+	header=self:MakeHeader(Format,LogExport_TXT_Header)
+	body=self:MakeTable(Format,rowList,width).."\n"
+	tail=self:MakeTail(Format)
+	if Format == "Discord" then return body; end
+	return header..body..tail
+end
+PurchaseLogListExport.Columns={
+{header="Name",
+xmlHeader="name",
+width=30,
+query=QDKP2log_GetModEntryTextPurName
+},
+{header="Item",
+xmlHeader="item",
+width=54,
+query=QDKP2log_GetModEntryTextPur,
+},
+{header="Cost",
+xmlHeader="cost",
+width=10,
+query=function(log) return QDKP2log_GetChange(log) or ''; end,
+},
+}
+
 --Log Session exporter
 local LogSessionExport=QDKP2_CopyTable(LogListExport)
 function LogSessionExport:Export(Format,SID)
@@ -268,15 +319,19 @@ function LogSessionExport:Export(Format,SID)
 	return LogListExport:Export(Format,LogList)
 end
 
+--Purchase Log Session exporter
+local PurchaseLogSessionExport=QDKP2_CopyTable(LogListExport)
+function PurchaseLogSessionExport:Export(Format,SID)
+	local LogList=QDKP2log_GetPlayer(SID,"RAID")
+	if not LogList then return ''; end
+	return PurchaseLogListExport:Export(Format,LogList)
+end
 
 --Extended Log Session exporter
 local ExtLogSessionExport=QDKP2_CopyTable(LogListExport)
 function ExtLogSessionExport:Export(Format,SID)
 	local LogList,NameList=QDKP2log_GetSessionDetails(SID)
 	QDKP2_Export_PlayerNames=NameList
-	--local turn={}
-	--for i,v in ipairs(LogList) do turn[#LogList-i+1]=v; end
-	--LogList=turn
 	return LogListExport.Export(self,Format,LogList)
 end
 
@@ -297,6 +352,7 @@ guild=GuildExport,
 raid=RaidExport,
 loglist=LogListExport,
 logsession=LogSessionExport,
+purchaselogsession=PurchaseLogSessionExport,
 extlogsession=ExtLogSessionExport,
 }
 
@@ -403,6 +459,41 @@ function QDKP2_BuildAsciiTable(rowList,culWidth,header,culBord,rowBord)
     end
   end
   out=out..nl..sep1
+  return out
+end
+
+function QDKP2_BuildDiscordColorString(inputString,colorCode)
+	colourCode = 35
+	form = "\u001b[1;" ..colourCode..";"..inputString --{ansiCode1};{ansiCode2};{ansiCode3}mTest
+	print(form)
+	return form
+end
+
+function QDKP2_BuildDiscordTable(rowList,culWidth,header,culBord,rowBord)
+  local testLine=makeTextLine(culWidth or {},culWidth,culBord)
+  local sep2="\n"
+  local out=""
+  local spacer = "\t"
+  for i,row in ipairs(rowList) do
+	local colour = row['color']
+    out=out..nl
+	for j,k in pairs(row) do
+		tst = string.sub(k, 1, 1)
+		print(tst == "|")
+		if tst == "|" then
+			-- found an item link
+			out = out..QDKP2_BuildDiscordColorString(k,colour)..spacer
+		elseif j ~= 'color' then
+			out = out..k..spacer
+		end
+    end
+    if i==1 and header then
+      out=out..nl..sep2
+    elseif rowBord and i%rowBord == 0 then
+      out=out..nl
+    end
+  end
+  out=out..nl
   return out
 end
 
