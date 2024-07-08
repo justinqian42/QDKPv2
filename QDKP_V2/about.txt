@@ -26,6 +26,9 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Release Log:
+v2.6.12.1
+- Roster bug fix.
+
 v2.6.12.0
 - Added purchases only export.
 - Added discord export alternative (simpler formatting with tabs and removal of set column widths)

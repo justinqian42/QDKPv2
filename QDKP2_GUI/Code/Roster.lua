@@ -1757,13 +1757,13 @@ end
 -- When a new sorting category is used (say, rank), it will be incresed to max (8) and the others will be
 -- adjusted downwards accordingly
 myClass.Sort.Values={}
-myClass.Sort.Values.Spec = 4096
-myClass.Sort.Values.BidValue = 2048
-myClass.Sort.Values.BidText = 1024
-myClass.Sort.Values.BidRoll = 512
-myClass.Sort.Values.Alpha = 256
-myClass.Sort.Values.Rank  = 128
-myClass.Sort.Values.Class = 64
+myClass.Sort.Values.BidValue = 4096
+myClass.Sort.Values.BidText = 2048
+myClass.Sort.Values.BidRoll = 1024
+myClass.Sort.Values.Alpha = 512
+myClass.Sort.Values.Rank  = 256
+myClass.Sort.Values.Class = 128
+myClass.Sort.Values.Spec = 64
 myClass.Sort.Values.Net = 32
 myClass.Sort.Values.Total = 16
 myClass.Sort.Values.Spent = 8
@@ -1778,13 +1778,14 @@ myClass.Sort.Reverse.BidRoll = true
 myClass.Sort.Reverse.Alpha = false
 myClass.Sort.Reverse.Rank = false
 myClass.Sort.Reverse.Class = false
+myClass.Sort.Reverse.Spec = false
 myClass.Sort.Reverse.Net = true
 myClass.Sort.Reverse.Total = true
 myClass.Sort.Reverse.Spent = true
 myClass.Sort.Reverse.Hours = true
 myClass.Sort.Reverse.SessGain = true
 myClass.Sort.Reverse.SessSpent = true
-myClass.Sort.Reverse.Spec = false
+
 
 
 -- Incoming val1, val2 are names.
@@ -1827,14 +1828,16 @@ local function SortComparitor(val1, val2)
 
    -- Spec
    if myClass.Sel == 'raid' or myClass.Sel == 'raidmon' or myClass.Sel == 'guild' or myClass.Sel == 'guildonline'then
-   test1 = QDKP2_GetSpec(val1, false, false) or ""
-   test2 = QDKP2_GetSpec(val2, false, false) or ""
+     test1 = QDKP2_GetSpec(val1, false, false) or ""
+     test2 = QDKP2_GetSpec(val2, false, false) or ""
+   end
    
-  end
+   -- this is for display of the BIS/PREBIS in these modes and then specifically making sure to include it for sorting purposes
    if myClass.Sel == 'bid' or myClass.Sel == 'monitor' then
 		test1 = QDKP2_GetSpec(val1, false, true) or ""
 		test2 = QDKP2_GetSpec(val2, false, true) or ""
    end
+   
    if test1 == '-' then  test1 = ""; end
    if test2 == '-' then  test2 = ""; end
    test1 = string.lower(test1)
