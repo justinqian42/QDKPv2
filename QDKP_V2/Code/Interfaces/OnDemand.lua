@@ -41,17 +41,18 @@ function QDKP2_OD(text, sender, guid)
     if not QDKP2_IsInGuild(sender) and not QDKP_OD_EXT then
       return {"QDKP2 - Only GuildMembers can use the On-Demand whisper system."}
     end
+
     if not P2 then P2=sender
     else P2 = QDKP2_FormatName(P2)
     end
     if not QDKP2_NOD then
       return {"QDKP2 - This feature is disabled."}
-    elseif not (P2==sender or QDKP2_IOD_REQALL) then
+    elseif not (P2==sender or sender==QDKP2_GetMain(P2) or QDKP2_IOD_REQALL) then
       return {"QDKP2 - You can't ask for other player's data."}
-    elseif not QDKP2_IsInGuild(P2) then
+    elseif not QDKP2_IsInGuild(sender) then
       return {"QDKP2 - "..P2..": Invalid Guild Member Name."}
     else
-      if P2==sender then
+      if P2==sender or sender==QDKP2_GetMain(P2) then
         return {QDKP2_MakeNotifyMsg(P2, false)}
       else
         return {QDKP2_MakeNotifyMsg(P2,true)}
@@ -64,13 +65,14 @@ function QDKP2_OD(text, sender, guid)
     if not P2 then P2=sender
     else P2 = QDKP2_FormatName(P2)
     end
-	if QDKP2_IsAlt(sender)== nil then return {"This character is the main."};end
-	return {"Alt of: " .. QDKP2_GetMain(sender)}
+	if QDKP2_IsAlt(P2)== nil then return {"This character is the main."};end
+	return {"Alt of: " .. QDKP2_GetMain(P2)}
 	
   elseif P1=="?ms" then
-    if not QDKP2_IsInGuild(sender) and not QDKP_OD_EXT then
-      return {"QDKP2 - Only GuildMembers can use the On-Demand whisper system."}
-    end
+    -- Removed protection from non-Guildies being added here
+    --if not QDKP2_IsInGuild(sender) and not QDKP_OD_EXT then
+    --  return {"QDKP2 - Only GuildMembers can use the On-Demand whisper system."}
+    --end
     if not MSChangesAvailable then return {"MS changes are currently locked."}; end
     name = QDKP2_FormatName(sender)
 	if not QDKP2msChanges[sender] then

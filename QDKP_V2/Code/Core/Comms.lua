@@ -46,7 +46,6 @@ local lastMsgID = nil
 local lastMsgFiltered = false
 
 local commandPatterns = {
-    '^%s*?[dD][kK][pP]%s+(%a+)%s*(.*)',
 	'^%s*?[mM][sS]%s+(%a+)%s*(.*)',
 	'^%s*?[dD][kK][pP]',
 	'^%s*?[mM][aA][iI][nN]',
