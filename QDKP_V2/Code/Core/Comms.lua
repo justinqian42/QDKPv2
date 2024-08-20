@@ -646,6 +646,7 @@ function QDKP:HandleDKPCommand(text, sender)
     end
     local output={  "QDKP2 - On Demand enabled keywords list:"}
 	table.insert(output, '"?main <name>"' )
+	table.insert(output, '"?setmain <name of char to link DKP with>"' )
     if QDKP2_NOD then table.insert(output, '"?dkp <name>"' ); end
     if QDKP2_COD then table.insert(output, '"?classdkp <class>"'); end
     if QDKP2_KOD then table.insert(output, '"?rankdkp <rank>"'); end
