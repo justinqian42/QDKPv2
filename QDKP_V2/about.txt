@@ -26,6 +26,9 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Release Log:
+v2.6.13.1
+- Added a spam links button that checks for 0DKP chars and puts their name into the raid chat. This is to detect unlinked chars.
+
 v2.6.13.0
 - Added the ability for raid members to set their own DKP main/alt correlation using ?setmain or ?setalt.
 	- Requires QDKP_OD_EXT = true in options.ini

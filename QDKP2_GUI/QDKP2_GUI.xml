@@ -1808,6 +1808,23 @@
           </OnClick>
         </Scripts>
       </Button>
+	  	  	  <Button name="QDKP2_Frame2_Spam_Links_Button" inherits="UIPanelButtonTemplate" text="QDKP2_LOC_GUISPAMLINKS">
+        <Size>
+          <AbsDimension x="80" y="20"/> 
+        </Size>
+        <Anchors>
+          <Anchor point="BOTTOMRIGHT">
+            <Offset>
+              <AbsDimension x="-200" y="13"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnClick>
+            QDKP2GUI_Roster:PushedSpamLinksButton()
+          </OnClick>
+        </Scripts>
+      </Button>
       <Button name="QDKP2_Frame2_Bid_Button" inherits="UIPanelButtonTemplate" text="QDKP2_LOC_GUISTARTBID">
         <Size>
           <AbsDimension x="80" y="20"/>

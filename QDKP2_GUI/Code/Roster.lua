@@ -152,6 +152,7 @@ function myClass.Refresh(self, forceResort)
 			S:HandleButton(QDKP2_Frame2_Bid_StdBid50)
 			S:HandleButton(QDKP2_Frame2_Bid_StdBid500)
 			S:HandleCheckBox(QDKP2frame2_selectList_alts)
+			S:HandleButton(QDKP2_Frame2_Spam_Links_Button)
 		end	
 	end
 	for i = 1, 20 do
@@ -188,6 +189,7 @@ function myClass.Refresh(self, forceResort)
 	  QDKP2_Frame2_Bid_StdBid1:Hide()
 	  QDKP2_Frame2_Bid_StdBid50:Hide()
 	  QDKP2_Frame2_Bid_StdBid500:Hide()
+	  QDKP2_Frame2_Spam_Links_Button:Hide()
       if self.Sel=='guild' then
         QDKP2frame2_selectList_guild:SetChecked(true)
 		QDKP2frame2_selectList_alts:Show()
@@ -221,16 +223,19 @@ function myClass.Refresh(self, forceResort)
 	  QDKP2_Frame2_Bid_StdBid1:Hide()
 	  QDKP2_Frame2_Bid_StdBid50:Hide()
 	  QDKP2_Frame2_Bid_StdBid500:Hide()
+	  
 	  if Complete then
 		  QDKP2_Frame2_MS_Start_Button:Show()
 		  QDKP2_Frame2_MS_Close_Button:Show()
 		  QDKP2_Frame2_MS_Clear_Button:Show()
 		  QDKP2_Frame2_MS_Spam_Button:Show()
+		  QDKP2_Frame2_Spam_Links_Button:Show()
 	  else
 	  	  QDKP2_Frame2_MS_Start_Button:Hide()
 		  QDKP2_Frame2_MS_Close_Button:Hide()
 		  QDKP2_Frame2_MS_Clear_Button:Hide()
 		  QDKP2_Frame2_MS_Spam_Button:Hide()
+		  QDKP2_Frame2_Spam_Links_Button:Hide()
 	  end
 	elseif self.Sel=="raidmon" then
       myClass:ShowColumn('deltatotal', true)
@@ -259,6 +264,7 @@ function myClass.Refresh(self, forceResort)
 	  QDKP2_Frame2_MS_Close_Button:Hide()
 	  QDKP2_Frame2_MS_Clear_Button:Hide()
 	  QDKP2_Frame2_MS_Spam_Button:Hide()
+	  QDKP2_Frame2_Spam_Links_Button:Hide()
 	  QDKP2_Frame2_Bid_StdBid:Hide()
 	  QDKP2_Frame2_Bid_StdBid1:Hide()
 	  QDKP2_Frame2_Bid_StdBid50:Hide()
@@ -404,6 +410,7 @@ function myClass.Refresh(self, forceResort)
 	  QDKP2_Frame2_MS_Close_Button:Hide()
 	  QDKP2_Frame2_MS_Clear_Button:Hide()
 	  QDKP2_Frame2_MS_Spam_Button:Hide()
+	  QDKP2_Frame2_Spam_Links_Button:Hide()
 	  QDKP2_Frame2_Bid_StdBid:Show()
 	  QDKP2_Frame2_Bid_StdBid1:Show()
 	  QDKP2_Frame2_Bid_StdBid50:Show()
@@ -462,6 +469,7 @@ function myClass.Refresh(self, forceResort)
 	  QDKP2_Frame2_MS_Close_Button:Hide()
 	  QDKP2_Frame2_MS_Clear_Button:Hide()
 	  QDKP2_Frame2_MS_Spam_Button:Hide()
+	  QDKP2_Frame2_Spam_Links_Button:Hide()
 	  QDKP2_Frame2_Bid_StdBid:Show()
 	  QDKP2_Frame2_Bid_StdBid1:Show()
 	  QDKP2_Frame2_Bid_StdBid50:Show()
@@ -1063,6 +1071,35 @@ function myClass.PushedMSCloseButton(self)
 
 end
 
+function myClass.PushedSpamLinksButton(self)
+	local mess="Chars missing DKP are:"
+	local mess2=""
+	local mess3=""
+	local mess4="Whisper me ?setmain <main_name_here> if you still need to link your character up."
+	for i=1, #self.List do  --fills in the list data
+        local name = self.List[i]
+		spc = QDKP2_GetTotal(name)
+		if spc == 0 or spc == nil then
+			--ensure we can fit the next person into a single whisper
+			if (string.len(mess)+string.len(" " .. name..";"))<=255 then
+				mess=mess .. " " .. name..";"
+			--it wont so throw it into a second chat
+			elseif (string.len(mess2)+string.len("; " .. name..";"))<=255 then
+				mess2=mess2 .." " .. name..";"
+			elseif (string.len(mess3)+string.len("; " .. name..";"))<=255 then
+				mess3=mess3 .." " .. name..";"
+			else
+				print("WARNING OVERFLOW ON LINK SPAM")
+			end
+
+		end
+	end
+	QDKP2_BidM_SendMessage(nil,"MANAGER","bid_start",mess)
+	if string.len(mess2)>=1 then QDKP2_BidM_SendMessage(nil,"MANAGER","bid_start",mess2);end
+	if string.len(mess3)>=1 then QDKP2_BidM_SendMessage(nil,"MANAGER","bid_start",mess3);end
+	QDKP2_BidM_SendMessage(nil,"MANAGER","bid_start",mess4)
+end
+
 function myClass.PushedMSSpamButton(self)
 	local mess="MS Changes are:"
 	local mess2=""
@@ -1087,7 +1124,7 @@ function myClass.PushedMSSpamButton(self)
 	end
 	QDKP2_BidM_SendMessage(nil,"MANAGER","bid_start",mess)
 	if string.len(mess2)>=1 then QDKP2_BidM_SendMessage(nil,"MANAGER","bid_start",mess2);end
-	if string.len(mess2)>=1 then QDKP2_BidM_SendMessage(nil,"MANAGER","bid_start",mess3);end
+	if string.len(mess3)>=1 then QDKP2_BidM_SendMessage(nil,"MANAGER","bid_start",mess3);end
 end
 
 function myClass.LeftClickEntry(self)
