@@ -303,6 +303,63 @@
       </OnEscapePressed>
     </Scripts>
   </Frame>
+  
+    <Frame name="QDKP2_QuestionBox2" inherits="QDKP2PopUp">
+    <Size>
+      <AbsDimension x="350" y="80"/>
+    </Size>
+    <Anchors>
+      <Anchor relativePoint="CENTER" point="CENTER" >
+        <offset>
+          <AbsDimension x="0" y="30" />
+        </offset>
+      </Anchor>
+    </Anchors>
+    <Frames>
+      <Button name="$parent_Cancel" inherits="UIPanelButtonTemplate" text="No" id="12">
+        <Size>
+          <AbsDimension x="75" y="25"/>
+        </Size>
+        <Anchors>
+          <Anchor point="BOTTOM" relativePoint="BOTTOM">
+            <Offset>
+              <AbsDimension x="-50" y="6"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnClick>
+            QDKP2_AskUser_OnEnter2(false)
+          </OnClick>
+        </Scripts>
+      </Button>
+      <Button name="$parent_OK" inherits="UIPanelButtonTemplate" text="Yes" id="12">
+        <Size>
+          <AbsDimension x="75" y="25"/>
+        </Size>
+        <Anchors>
+          <Anchor point="BOTTOM" relativePoint="BOTTOM">
+            <Offset>
+              <AbsDimension x="50" y="6"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnClick>
+            QDKP2_AskUser_OnEnter2(true)
+          </OnClick>
+        </Scripts>
+      </Button>
+    </Frames>
+    <Scripts>
+      <OnEnterPressed>
+        QDKP2_AskUser_OnEnter2(true)
+      </OnEnterPressed>
+      <OnEscapePressed>
+        QDKP2_AskUser_OnEnter2(false)
+      </OnEscapePressed>
+    </Scripts>
+  </Frame>
 
   <Frame name="QDKP2_CopyWindow" inherits="QDKP2PopUp">
     <Size>

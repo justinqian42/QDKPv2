@@ -33,8 +33,21 @@ function QDKP2_InputBox_SetDefault(text)
   QDKP2_InputBox_Data:HighlightText()
 end
 
-function QDKP2_AskUser(text,func,arg1,arg2,arg3,arg4,arg5)
+function QDKP2_AskUser2(text,func,failfunc,arg1,arg2,arg3,arg4,arg5)
 
+  QDKP2_QuestionBox2_text:SetText(text)
+  QDKP2_InputBox:SetHeight(QDKP2_QuestionBox2_text:GetStringHeight()+100)
+  QDKP2_QuestionBox2:Show()
+  QDKP2_QuestionBox2_func=func
+  QDKP2_QuestionBox2_arg1=arg1
+  QDKP2_QuestionBox2_arg2=arg2
+  QDKP2_QuestionBox2_arg3=arg3
+  QDKP2_QuestionBox2_arg4=arg4
+  QDKP2_QuestionBox2_arg5=arg5
+  QDKP2_QuestionBox2_failfunc=failfunc
+end
+
+function QDKP2_AskUser(text,func,arg1,arg2,arg3,arg4,arg5)
   QDKP2_QuestionBox_text:SetText(text)
   QDKP2_InputBox:SetHeight(QDKP2_QuestionBox_text:GetStringHeight()+100)
   QDKP2_QuestionBox:Show()
@@ -50,6 +63,15 @@ function QDKP2_AskUser_OnEnter(PressedYes)
   QDKP2_QuestionBox:Hide()
   if PressedYes then
     QDKP2_QuestionBox_func(QDKP2_QuestionBox_arg1, QDKP2_QuestionBox_arg2, QDKP2_QuestionBox_arg3, QDKP2_QuestionBox_arg4, QDKP2_QuestionBox_arg5)
+  end
+end
+
+function QDKP2_AskUser_OnEnter2(PressedYes)
+  QDKP2_QuestionBox2:Hide()
+  if PressedYes then
+    QDKP2_QuestionBox2_func(QDKP2_QuestionBox2_arg1, QDKP2_QuestionBox2_arg2, QDKP2_QuestionBox2_arg3, QDKP2_QuestionBox2_arg4, QDKP2_QuestionBox2_arg5)
+  else
+	QDKP2_QuestionBox2_failfunc(QDKP2_QuestionBox2_arg1, QDKP2_QuestionBox2_arg2, QDKP2_QuestionBox2_arg3, QDKP2_QuestionBox2_arg4, QDKP2_QuestionBox2_arg5)
   end
 end
 

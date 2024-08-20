@@ -30,6 +30,25 @@ function QDKP2_OD_Parse(text)
 end
 ]]--
 
+function QDKP2_OD_MakeAlt()
+	for main, alt in pairs(QDKP2altmaintodolist) do
+		QDKP2_AskUser2("Allow "..alt.." to set "..main.." as their main?",function(self)
+		QDKP2altmaintodolist[main]=nil
+		if not QDKP2_IsExternal(alt) then QDKP2_NewExternal(alt); end
+		QDKP2_MakeAlt(alt,main,true)
+		QDKP2_SendHiddenWhisper("Main set to: " .. main, alt)
+		return QDKP2_OD_MakeAlt()
+		end,
+		function()
+		QDKP2altmaintodolist[main]=nil
+		QDKP2_SendHiddenWhisper("Linking to "..main.." rejected.",alt)
+		return QDKP2_OD_MakeAlt()
+		end)
+		return
+	end
+	
+end
+
 function QDKP2_OD(text, sender, guid)
 
   if not QDKP2_ODS_ENABLE then return; end
@@ -67,6 +86,18 @@ function QDKP2_OD(text, sender, guid)
     end
 	if QDKP2_IsAlt(P2)== nil then return {"This character is the main."};end
 	return {"Alt of: " .. QDKP2_GetMain(P2)}
+  elseif P1=="?setalt" or P1=="?setmain" then
+    if not QDKP_OD_EXT then
+      return {"QDKP2 - Only GuildMembers can use the On-Demand whisper system."}
+    end
+    if not P2 then return {"QDKP2 - Main is required to set an alt, ie ?setalt <MAIN_NAME>."}
+    else P2 = QDKP2_FormatName(P2)
+    end
+	QDKP2altmaintodolist[P2]= sender
+	QDKP2_OD_MakeAlt()
+
+	
+	return {"Alt request received."}
 	
   elseif P1=="?ms" then
     -- Removed protection from non-Guildies being added here

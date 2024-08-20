@@ -26,6 +26,12 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Release Log:
+v2.6.13.0
+- Added the ability for raid members to set their own DKP main/alt correlation using ?setmain or ?setalt.
+	- Requires QDKP_OD_EXT = true in options.ini
+	- Requires RL to accept a prompt for each correlation.
+	- Raid member recieves a whisper response as to whether it was accepted or rejected.
+
 v2.6.12.2
 - Allowed MS for non-guild members.
 - Allowed DKP checks on alts and not just mains.

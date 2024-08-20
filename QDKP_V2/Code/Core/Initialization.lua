@@ -21,6 +21,7 @@
 QDKP2_Data = {}
 QDKP2backup = {}
 QDKP2suppressWhispers = {}
+QDKP2altmaintodolist={}
 
 function QDKP2_InitData(GuildName, NoClearLocal)
   if GuildName == "*_ALL_*" or not QDKP2_Data then

@@ -49,6 +49,8 @@ local commandPatterns = {
 	'^%s*?[mM][sS]%s+(%a+)%s*(.*)',
 	'^%s*?[dD][kK][pP]',
 	'^%s*?[mM][aA][iI][nN]',
+	'^%s*?[sS][eE][tT][aA][lL][tT]',
+	'^%s*?[sS][eE][tT][mM][aA][iI][nN]',
 	'^%s*?[rR][eE][pP][oO][rR][tT]',
 	'^%s*?[cC][lL][aA][sS][sS]',
 	'^%s*?[hH][eE][lL][pP]'
