@@ -26,6 +26,12 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Release Log:
+v2.6.14.0
+- Added 'broadcast' functionality for MS Spams and Log Purchases exports.
+	- These are setup in options.ini QDKP2_BidM_ChannelWinCustom and QDKP2_BidM_ChannelMSCustom 
+	- Designed to post the data into a custom chat channel for auditing.
+	- Bot's can then watch that channel and repost the data into discord instantly.
+
 v2.6.13.2
 - BIS List updated to mirror the 'Warmane Lordaeron BIS Lists'
 
