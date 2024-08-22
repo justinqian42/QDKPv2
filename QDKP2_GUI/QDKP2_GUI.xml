@@ -1825,6 +1825,23 @@
           </OnClick>
         </Scripts>
       </Button>
+	  	  	  	  <Button name="QDKP2_Frame2_Broadcast_MS_Button" inherits="UIPanelButtonTemplate" text="QDKP2_LOC_GUIBROADCASTMS">
+        <Size>
+          <AbsDimension x="80" y="20"/> 
+        </Size>
+        <Anchors>
+          <Anchor point="BOTTOMRIGHT">
+            <Offset>
+              <AbsDimension x="-200" y="-12"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnClick>
+            QDKP2GUI_Roster:PushedBroadcastMSButton()
+          </OnClick>
+        </Scripts>
+      </Button>
       <Button name="QDKP2_Frame2_Bid_Button" inherits="UIPanelButtonTemplate" text="QDKP2_LOC_GUISTARTBID">
         <Size>
           <AbsDimension x="80" y="20"/>
