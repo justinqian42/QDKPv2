@@ -353,7 +353,40 @@ purchaselogsession=PurchaseLogSessionExport,
 extlogsession=ExtLogSessionExport,
 }
 
+function mysplit(inputstr, sep)
+  if sep == nil then
+    sep = "%s"
+  end
+  local t = {}
+  for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+    table.insert(t, str)
+  end
+  return t
+end
 
+
+function QDKP2_Export_Broadcast(Type,Format,OptPar)
+	local obj=ExporterList[Type]
+	if not obj then
+		QDKP2_Debug(1,"Core","Asked for unknow export type: "..tostring(Type))
+		return
+	end
+	QDKP2_Export_Type=Type
+	QDKP2_Export_OptPar=OptPar
+	Format=Format or obj.Formats[1]
+	QDKP2_CopyWindow_FormatManager=QDKP2_Export_ManageCheckBox
+	Text=QDKP2_Export(QDKP2_Export_Type,"discord",QDKP2_Export_OptPar)
+	tableau = mysplit(Text,"\n")
+	if QDKP2_BidM_ChannelWinCustom then
+		for k,v in pairs(tableau) do
+			
+			local channel = GetChannelName(QDKP2_BidM_ChannelWinCustom or 0)
+			ChatThrottleLib:SendChatMessage("NORMAL", "QDKP2",   v, "CHANNEL", "Common", channel)
+		end
+	else
+		print("You need to set a broadcast channel using QDKP2_BidM_ChannelWinCustom in options.ini")
+	end
+end
 
 function QDKP2_Export_Popup(Type,Format,OptPar)
 	local obj=ExporterList[Type]
