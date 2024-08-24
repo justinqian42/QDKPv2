@@ -1158,6 +1158,9 @@ function myClass.PushedBroadcastMSButton(self)
 	end
 
 	if QDKP2_BidM_ChannelMSCustom then
+		if GetChannelName(QDKP2_BidM_ChannelMSCustom or 0) == 0 then
+			local channel_type, channel_name = JoinChannelByName(QDKP2_BidM_ChannelMSCustom);
+		end
 		local channel = GetChannelName(QDKP2_BidM_ChannelMSCustom or 0)
 		ChatThrottleLib:SendChatMessage("NORMAL", "QDKP2",   mess, "CHANNEL", "Common", channel)
 		if string.len(mess2)>=1 then ChatThrottleLib:SendChatMessage("NORMAL", "QDKP2",   mess2, "CHANNEL", "Common", channel);end

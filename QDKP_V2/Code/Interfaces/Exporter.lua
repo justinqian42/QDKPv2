@@ -379,7 +379,9 @@ function QDKP2_Export_Broadcast(Type,Format,OptPar)
 	tableau = mysplit(Text,"\n")
 	if QDKP2_BidM_ChannelWinCustom then
 		for k,v in pairs(tableau) do
-			
+			if GetChannelName(QDKP2_BidM_ChannelWinCustom or 0) == 0 then
+				local channel_type, channel_name = JoinChannelByName(QDKP2_BidM_ChannelWinCustom);
+			end
 			local channel = GetChannelName(QDKP2_BidM_ChannelWinCustom or 0)
 			ChatThrottleLib:SendChatMessage("NORMAL", "QDKP2",   v, "CHANNEL", "Common", channel)
 		end
