@@ -56,7 +56,86 @@ local commandPatterns = {
 	'^%s*?[hH][eE][lL][pP]'
 }
 local numCommandPatterns = #commandPatterns
+local peopleToInvite = {}
+local UNGROUPED = 0
+local INPARTY = 1
+local INRAID = 2
+local groupStatus = UNGROUPED -- flag indicating groupsize
+local doActualInvites = nil
+local actualInviteFrame = CreateFrame("Frame")
+local aiTotal = 0
+local function _convertToRaid(self, elapsed)
+	aiTotal = aiTotal + elapsed
+	if aiTotal > 1 then
+		aiTotal = 0
+		if UnitInRaid("player") then
+			doActualInvites()
+			self:SetScript("OnUpdate", nil)
+		end
+	end
+end
 
+local function _waitForParty(self, elapsed)
+	aiTotal = aiTotal + elapsed
+	if aiTotal > 1 then
+		aiTotal = 0
+		if GetNumPartyMembers() > 0 then
+			ConvertToRaid()
+			self:SetScript("OnUpdate", _convertToRaid)
+		end
+	end
+end
+
+function doActualInvites()
+	if not UnitInRaid("player") then
+		local pNum = GetNumPartyMembers() + 1 -- 1-5
+		if pNum == 5 then
+			if #peopleToInvite > 0 then
+				ConvertToRaid()
+				actualInviteFrame:SetScript("OnUpdate", _convertToRaid)
+			end
+		else
+			local tmp = {}
+			for i = 1, (5 - pNum) do
+				local u = table.remove(peopleToInvite)
+				if u then tmp[u] = true end
+			end
+			if #peopleToInvite > 0 then
+				actualInviteFrame:SetScript("OnUpdate", _waitForParty)
+			end
+			for k in pairs(tmp) do
+				InviteUnit(k)
+			end
+		end
+		return
+	end
+	for i, v in next, peopleToInvite do
+		InviteUnit(v)
+	end
+	wipe(peopleToInvite)
+end
+
+function IsPromoted(name)
+	if groupStatus == UNGROUPED then return end
+
+	if not name then name = playerName end
+	if groupStatus == INRAID then
+		return UnitIsRaidOfficer(name)
+	elseif groupStatus == INPARTY then
+		return UnitIsPartyLeader(name)
+	end
+end
+function InGroup()
+	return groupStatus == INRAID or groupStatus == INPARTY
+end
+
+function InRaid()
+	return groupStatus == INRAID
+end
+
+local function canInvite()
+	return (InGroup() and IsPromoted()) or not InGroup()
+end
 
 function QDKP:ChatFrameFilter(...)
 
@@ -80,6 +159,23 @@ function QDKP:ChatFrameFilter(...)
 
     -- find ?dkp or any of the other command patterns in the chat message and try to handle the command.
 		-- find EPGPLootmaster: in the chat message and prevent these messages from showing up.
+
+	if QDKP2_INVITES and (QDKP2_INVITES_KEYWORD and msg == QDKP2_INVITES_KEYWORD) or (QDKP2_INVITES_KEYWORD_GUILD and msg == QDKP2_INVITES_KEYWORD_GUILD and QDKP2_IsInGuild(sender)) and canInvite() then
+		local isIn, instanceType = IsInInstance()
+		local party = GetNumPartyMembers()
+		local raid = GetNumRaidMembers()
+		if isIn and instanceType == "party" and party == 4 then
+			SendChatMessage(L["<oRA3> Sorry, the group is full."], "WHISPER", nil, sender)
+		elseif party == 4 and raid == 0 then
+			peopleToInvite[#peopleToInvite + 1] = sender
+			doActualInvites()
+		elseif raid == 40 then
+			SendChatMessage(L["<oRA3> Sorry, the group is full."], "WHISPER", nil, sender)
+		else
+			InviteUnit(sender)
+		end
+	end
+
 	local command, params = nil, nil
     for i=1, numCommandPatterns do
         command, params = strmatch(msg, commandPatterns[i])
