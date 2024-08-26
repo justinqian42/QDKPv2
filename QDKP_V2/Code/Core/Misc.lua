@@ -393,6 +393,12 @@ function QDKP2_SendHiddenWhisper(lines, towho)
   end
 
   if #towho == 0 then
+	towho = { temp }
+  end
+  
+  -- decided to always alllow whispers out to out of guild chars.
+  -- determination for sending whispers should be made in OnDemand.lua instead of here
+  if #towho == 0 then
     return
   end
 

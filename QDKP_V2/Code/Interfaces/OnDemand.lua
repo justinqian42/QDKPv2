@@ -29,7 +29,86 @@ function QDKP2_OD_Parse(text)
   return Phrase1, Phrase2, Phrase3
 end
 ]]--
+local peopleToInvite = {}
+local UNGROUPED = 0
+local INPARTY = 1
+local INRAID = 2
+local groupStatus = UNGROUPED -- flag indicating groupsize
+local doActualInvites = nil
+local actualInviteFrame = CreateFrame("Frame")
+local aiTotal = 0
+local function _convertToRaid(self, elapsed)
+	aiTotal = aiTotal + elapsed
+	if aiTotal > 1 then
+		aiTotal = 0
+		if UnitInRaid("player") then
+			doActualInvites()
+			self:SetScript("OnUpdate", nil)
+		end
+	end
+end
 
+local function _waitForParty(self, elapsed)
+	aiTotal = aiTotal + elapsed
+	if aiTotal > 1 then
+		aiTotal = 0
+		if GetNumPartyMembers() > 0 then
+			ConvertToRaid()
+			self:SetScript("OnUpdate", _convertToRaid)
+		end
+	end
+end
+
+function doActualInvites()
+	if not UnitInRaid("player") then
+		local pNum = GetNumPartyMembers() + 1 -- 1-5
+		if pNum == 5 then
+			if #peopleToInvite > 0 then
+				ConvertToRaid()
+				actualInviteFrame:SetScript("OnUpdate", _convertToRaid)
+			end
+		else
+			local tmp = {}
+			for i = 1, (5 - pNum) do
+				local u = table.remove(peopleToInvite)
+				if u then tmp[u] = true end
+			end
+			if #peopleToInvite > 0 then
+				actualInviteFrame:SetScript("OnUpdate", _waitForParty)
+			end
+			for k in pairs(tmp) do
+				InviteUnit(k)
+			end
+		end
+		return
+	end
+	for i, v in next, peopleToInvite do
+		InviteUnit(v)
+	end
+	wipe(peopleToInvite)
+end
+
+function IsPromoted(name)
+	if groupStatus == UNGROUPED then return end
+
+	if not name then name = playerName end
+	if groupStatus == INRAID then
+		return UnitIsRaidOfficer(name)
+	elseif groupStatus == INPARTY then
+		return UnitIsPartyLeader(name)
+	end
+end
+function InGroup()
+	return groupStatus == INRAID or groupStatus == INPARTY
+end
+
+function InRaid()
+	return groupStatus == INRAID
+end
+
+local function canInvite()
+	return (InGroup() and IsPromoted()) or not InGroup()
+end
 function QDKP2_OD_MakeAlt()
 	for main, alt in pairs(QDKP2altmaintodolist) do
 		QDKP2_AskUser2("Allow "..alt.." to set "..main.." as their main?",function(self)
@@ -84,6 +163,7 @@ function QDKP2_OD(text, sender, guid)
     if not P2 then P2=sender
     else P2 = QDKP2_FormatName(P2)
     end
+	if not QDKP2_IsInGuild(P2) then return {"This character name does not exist, please check the spelling and try again."};end
 	if QDKP2_IsAlt(P2)== nil then return {"This character is the main."};end
 	return {"Alt of: " .. QDKP2_GetMain(P2)}
   elseif P1=="?setalt" or P1=="?setmain" then
@@ -98,7 +178,25 @@ function QDKP2_OD(text, sender, guid)
 
 	
 	return {"Alt request received."}
-	
+  elseif P1 == QDKP2_INVITES_KEYWORD_GUILD then
+	if QDKP2_INVITES and (QDKP2_INVITES_KEYWORD and msg == QDKP2_INVITES_KEYWORD) or (QDKP2_INVITES_KEYWORD_GUILD and msg == QDKP2_INVITES_KEYWORD_GUILD and QDKP2_IsInGuild(sender)) and canInvite() then
+		local isIn, instanceType = IsInInstance()
+		local party = GetNumPartyMembers()
+		local raid = GetNumRaidMembers()
+		if isIn and instanceType == "party" and party == 4 then
+			return {"Sorry, the group is full."}
+		elseif party == 4 and raid == 0 then
+			peopleToInvite[#peopleToInvite + 1] = sender
+			doActualInvites()
+		elseif raid == 40 then
+			return{"Sorry, the group is full."}
+		else
+			InviteUnit(sender)
+		end
+	end
+	return
+  elseif P1 == '?ver' then
+	return {"Quick DKP " .. tostring(GetAddOnMetadata("QDKP2_GUI", "Version"))}
   elseif P1=="?ms" then
     -- Removed protection from non-Guildies being added here
     --if not QDKP2_IsInGuild(sender) and not QDKP_OD_EXT then
@@ -299,6 +397,8 @@ function QDKP2_OD(text, sender, guid)
     if QDKP2_KOD then table.insert(output, '"?rankdkp <rank>"'); end
     if QDKP2_ROD then table.insert(output, '"?log <name> all/current"'); end
 	table.insert(output, '"?ms <spec>"')
+	table.insert(output, '"?setmain <mainname>"')
+	table.insert(output, '"?main <altname>"')
     --if QDKP2_POD then table.insert(output, '"?prices <keywords>"'); end
     --if QDKP2_AOD then table.insert(output, '"?award <keywords>"'); end
     if table.getn(output)==1 then output={"QDKP2 - No On Demand enabled keywords."}; end
