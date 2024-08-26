@@ -27,10 +27,13 @@ the Free Software Foundation, either version 3 of the License, or
 
 Release Log:
 v2.6.15.0
+- Easier alt linking using text input, just right click the alt and select make alt.
 - Addition of autoinvites.
 	- Settings are in options.ini under QDKP2_INVITES
 	- Adapted from ORA3 (should work almost identically).
 	- Will auto convert to raid if required.
+- ?main bug fix for non-guild names
+- Addition of ?ver to ondemand.
 
 v2.6.14.1
 - Added autojoin channels for braodcast if not already joined.
