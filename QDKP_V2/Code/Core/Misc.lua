@@ -352,6 +352,7 @@ function QDKP2_Msg(msg, Type, Color, Channel)
 end
 
 function QDKP2_SendHiddenWhisper(lines, towho)
+  local temp = towho
   if type(lines) == 'string' then
     lines = { lines };
   end
