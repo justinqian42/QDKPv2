@@ -34,6 +34,8 @@ v2.6.15.0
 	- Will auto convert to raid if required.
 - ?main bug fix for non-guild names
 - Addition of ?ver to ondemand.
+- Fix for OnDemand responses not going to out of guild characters.
+- Roster sort fix for string bid entries ie 'all in'
 
 v2.6.14.1
 - Added autojoin channels for braodcast if not already joined.

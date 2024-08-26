@@ -1582,13 +1582,7 @@ AltMake={text=QDKP2_LOC_GUILINKALT,func=function()
     local main=myClass.SelectedPlayers[1]
     QDKP2_MakeAlt(alt,main)
   else
-  --todo
-  for k,v in pairs(myClass.SelectedPlayers) do
-	print(k,v)
-end
     QDKP2_OpenInputBox(QDKP2_LOC_GUILINKALTDESC.." Alternatively, type a name below.",QDKP2_MakeAlt2,myClass.SelectedPlayers[1],data)
-
-    --QDKP2_NotifyUser(QDKP2_LOC_GUILINKALTDESC)
   end
 end
 },
@@ -1991,8 +1985,34 @@ local function SortComparitor(val1, val2)
       if (test1 < test2) then compare = compare - increment; elseif (test1 > test2) then compare = compare + increment; end
 
       --Bid text
-      test1 = bid1.txt or ' '
-      test2 = bid2.txt or ' '
+
+
+
+	  if bid1.txt ~= nil and tonumber(bid1.txt) ~= nil and tonumber(bid1.txt) > 0 then
+	    test1 = tonumber(bid1.txt)
+	  elseif bid1.txt ~= nil and tonumber(bid1.txt) == nil then
+		test1 = bid1.value or -100000
+		test1 = tonumber(test1)
+	  else
+		test1 = -100000
+	  end
+	  
+
+	  --print("bid1.txt", bid1.txt)
+	  --print("bid1.value", bid1.value)
+	  --print("test1", test1)
+	  if bid2.txt ~= nil and tonumber(bid2.txt) ~= nil and tonumber(bid2.txt) > 0 then
+		test2 = tonumber(bid2.txt)
+	  elseif bid2.txt ~= nil and tonumber(bid2.txt) == nil then 
+		test2 = bid2.value or -100000
+		test2 = tonumber(test2)
+	  else
+		test2 = -100000
+	  end
+	  
+	  --print("bid2.txt", bid2.txt)
+	  --print("bid2.value", bid2.value)
+	  --print("test2", test2)
       if Reverse.BidText then invertBuffer=test2;test2=test1;test1=invertBuffer; end
       increment = Values.BidText
       if (test1 < test2) then compare = compare - increment; elseif (test1 > test2) then compare = compare + increment; end
