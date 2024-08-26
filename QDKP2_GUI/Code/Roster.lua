@@ -1582,7 +1582,13 @@ AltMake={text=QDKP2_LOC_GUILINKALT,func=function()
     local main=myClass.SelectedPlayers[1]
     QDKP2_MakeAlt(alt,main)
   else
-    QDKP2_NotifyUser(QDKP2_LOC_GUILINKALTDESC)
+  --todo
+  for k,v in pairs(myClass.SelectedPlayers) do
+	print(k,v)
+end
+    QDKP2_OpenInputBox(QDKP2_LOC_GUILINKALTDESC.." Alternatively, type a name below.",QDKP2_MakeAlt2,myClass.SelectedPlayers[1],data)
+
+    --QDKP2_NotifyUser(QDKP2_LOC_GUILINKALTDESC)
   end
 end
 },

@@ -21,6 +21,9 @@
 --      QDKP2_IsMainAlreadyProcessed(name): Returns true if you have already called QDKP2_ProcessedMain(name) for this main.
 --      QDKP2_AltsStillToCome(name,list,index): Returns true if you still have an alt of <name> to process ahead of index <i>.
 -- Reading file to table
+function QDKP2_MakeAlt2(main,alt)
+	QDKP2_MakeAlt(alt,main)
+end
 
 function QDKP2_MakeAlt(alt,main,sure)
 -- Function that makes <alt> an alt of <main>. Sure is to avoid the "Are you sure?" dialog.
