@@ -26,6 +26,9 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Release Log:
+v2.6.15.1
+- Fix for ?dkp queries against chars online.
+
 v2.6.15.0
 - Easier alt linking using text input, just right click the alt and select make alt.
 - Addition of autoinvites.

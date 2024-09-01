@@ -147,7 +147,7 @@ function QDKP2_OD(text, sender, guid)
       return {"QDKP2 - This feature is disabled."}
     elseif not (P2==sender or sender==QDKP2_GetMain(P2) or QDKP2_IOD_REQALL) then
       return {"QDKP2 - You can't ask for other player's data."}
-    elseif not QDKP2_IsInGuild(sender) then
+    elseif not QDKP2_IsInGuild(P2) then
       return {"QDKP2 - "..P2..": Invalid Guild Member Name."}
     else
       if P2==sender or sender==QDKP2_GetMain(P2) then
