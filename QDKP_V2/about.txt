@@ -26,6 +26,9 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Release Log:
+v2.6.15.2
+- Fix for character names not being recognised when coloured by elvui. This should fix a lot of intermittent issues.
+
 v2.6.15.1
 - Fix for ?dkp queries against chars online.
 

@@ -425,6 +425,11 @@ end
 
 
 --------------------- STRING SERVICES ----------------------
+
+local commandPatterns = {
+'c41e3a','f1760c','68ccef','aad372','f48cba','ffffff','fff468','036bd1','8c7cbe','c69b6d'
+}
+local numCommandPatterns = #commandPatterns
 function QDKP2_FormatName(name)
   --formats the name properly.  ie airiena would become Airiena
   --Unicode compatible
@@ -437,6 +442,18 @@ function QDKP2_FormatName(name)
     return string.upper(name);
   end
   local till = 1
+	escStr=name:match("[^\124][^cff][(%a+)(%d+)]+[^\124]")
+
+	local classCol, params, filteredName = nil, nil, nil
+    for i=1, numCommandPatterns do
+
+		classCol, params = strmatch(escStr, commandPatterns[i])
+		if classCol then
+			filteredName = string.gsub(escStr, classCol, "")
+		end
+	end
+  if filteredName then name = filteredName; end
+  
   for i = 1, #name do
     --this is to get the real first character (UTF8)
     --if i==#name then return string.upper(name); end
