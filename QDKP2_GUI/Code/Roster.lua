@@ -1085,16 +1085,27 @@ function myClass.PushedSpamLinksButton(self)
 	local mess4="Whisper me ?setmain <main_name_here> if you still need to link your character up."
 	for i=1, #self.List do  --fills in the list data
         local name = self.List[i]
-		spc = QDKP2_GetTotal(name)
-		if spc == 0 or spc == nil then
+		local dkp = QDKP2_GetTotal(name)
+		local isMain = false
+		if QDKP2_IsAlt(name) == nil then
+			isMain = true
+		end
+		local hasNoAlts = true
+		if isMain then
+			local alt_list = QDKP2_GetAlts(name)
+			if #alt_list > 0 then 
+				hasNoAlts = false
+			end
+		end
+		if dkp == nil or (dkp == 0 and isMain and hasNoAlts) then
 			--ensure we can fit the next person into a single whisper
-			if (string.len(mess)+string.len(" " .. name..";"))<=255 then
-				mess=mess .. " " .. name..";"
+			if (string.len(mess)+string.len(" " .. name..","))<=255 then
+				mess=mess .. " " .. name..","
 			--it wont so throw it into a second chat
-			elseif (string.len(mess2)+string.len("; " .. name..";"))<=255 then
-				mess2=mess2 .." " .. name..";"
-			elseif (string.len(mess3)+string.len("; " .. name..";"))<=255 then
-				mess3=mess3 .." " .. name..";"
+			elseif (string.len(mess2)+string.len(", " .. name..","))<=255 then
+				mess2=mess2 .." " .. name..","
+			elseif (string.len(mess3)+string.len("; " .. name..","))<=255 then
+				mess3=mess3 .." " .. name..","
 			else
 				print("WARNING OVERFLOW ON LINK SPAM")
 			end
