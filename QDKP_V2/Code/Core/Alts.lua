@@ -31,12 +31,12 @@ function QDKP2_MakeAlt(alt,main,sure)
   if QDKP2_ManagementMode() then QDKP2_Msg("You can't add or clear alt relations while you are managing a session.","WARNING"); return; end
   if not alt or alt=="" then
     QDKP2_Debug(1,"Core","Can't redefine alt relation: <alt> is nil.")
-    return
+    return false
   end
   alt=QDKP2_FormatName(alt)
   if not QDKP2_IsInGuild(alt) then
     QDKP2_Msg(alt.." is not a valid Guildmember.","ERROR")
-    return
+    return false
   end
   if not main then
     QDKP2_Debug(2,"Core","Clearing alt relation for "..alt)
@@ -46,7 +46,7 @@ function QDKP2_MakeAlt(alt,main,sure)
 
 		QDKP2extnote[main2]=nil
 		QDKP2_UpdateNoteByName(main2)
-		return
+		return false
     --QDKP2alts[alt]=nil
   else
     if not sure then
@@ -54,21 +54,21 @@ function QDKP2_MakeAlt(alt,main,sure)
       mess=string.gsub(mess,"$ALT",alt)
       mess=string.gsub(mess,"$MAIN",main)
       QDKP2_AskUser(mess, QDKP2_MakeAlt, alt, main, true)
-      return
+      return false
     end
     QDKP2_Debug(2,"Core","Making "..alt.." an alt of "..main)
     main=QDKP2_FormatName(main)
     if not QDKP2_IsInGuild(main) then
       QDKP2_Msg(main.." is not a valid Guildmember.","ERROR")
-      return
+      return false
     end
     if main==QDKP2_SelectedPlayer then
       QDKP2_Msg("An alt's Main must be different from the alt himself.","ERROR")
-      return
+      return false
     end
     if QDKP2_IsAlt(main) then
       QDKP2_Msg("You can't define an alt as a Main.","ERROR")
-      return
+      return false
     end
     local altTotal=QDKP2_GetTotal(alt)
     local altSpent=QDKP2_GetSpent(alt)
@@ -93,6 +93,7 @@ function QDKP2_MakeAlt(alt,main,sure)
   end
     QDKP2_DownloadGuild()
     QDKP2_Msg("Upload Changes to store the modifications.")
+	return true
 end
 
 function QDKP2_ClearAlt(alt)

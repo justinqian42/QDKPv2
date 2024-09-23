@@ -114,8 +114,12 @@ function QDKP2_OD_MakeAlt()
 		QDKP2_AskUser2("Allow "..alt.." to set "..main.." as their main?",function(self)
 		QDKP2altmaintodolist[main]=nil
 		if not QDKP2_IsExternal(alt) then QDKP2_NewExternal(alt); end
-		QDKP2_MakeAlt(alt,main,true)
-		QDKP2_SendHiddenWhisper("Main set to: " .. main, alt)
+		local result = QDKP2_MakeAlt(alt,main,true)
+		if result then 
+			QDKP2_SendHiddenWhisper("Main set to: " .. main, alt)
+		else
+			QDKP2_SendHiddenWhisper("Linking to "..main.." failed. Please try again.",alt)
+		end
 		return QDKP2_OD_MakeAlt()
 		end,
 		function()

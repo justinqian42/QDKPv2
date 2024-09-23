@@ -26,6 +26,9 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Release Log:
+v2.6.15.4
+- SetMs failure whisper response added.
+
 v2.6.15.3
 - Adjustment to link spam logic.
 
