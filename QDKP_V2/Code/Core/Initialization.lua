@@ -593,14 +593,14 @@ end
 
 local colors = {}
 colors.DEATHKNIGHT = 'c41e3a'
-colors.DRUID = 'f1760c'
+colors.DRUID = 'ff0c0a'
 colors.MAGE = '68ccef'
 colors.HUNTER = 'aad372'
 colors.PALADIN = 'f48cba'
 colors.PRIEST = 'ffffff'
 colors.ROGUE = 'fff468'
-colors.SHAMAN = '036bd1'
-colors.WARLOCK = '8c7cbe'
+colors.SHAMAN = '0070dd'
+colors.WARLOCK = '9382c9'
 colors.WARRIOR = 'c69b6d'
 
 function toTitleCase(str)
