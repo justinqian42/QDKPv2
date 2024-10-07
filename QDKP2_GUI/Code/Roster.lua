@@ -1346,7 +1346,10 @@ function myClass.PushedBidRollButton(self)
 end
   
 function myClass.PushedStdBidButton(self,plusInt)
-	if plusInt == "max" then SendChatMessage("All in", "RAID"); end
+	if plusInt == "max" then 
+		SendChatMessage("All in", "RAID")
+		return
+	end
     local xx = 0
 	for i,v in pairs(QDKP2GUI_Roster.MONITOR_DICT) do
 		if tonumber(v['bid']) > xx then

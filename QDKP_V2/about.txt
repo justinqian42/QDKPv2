@@ -28,6 +28,7 @@ the Free Software Foundation, either version 3 of the License, or
 Release Log:
 v2.6.15.6
 - BIS list color fix.
+- Small all in bug fix.
 
 v2.6.15.5
 - SetMs filter fix.
