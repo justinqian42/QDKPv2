@@ -593,7 +593,7 @@ end
 
 local colors = {}
 colors.DEATHKNIGHT = 'c41e3a'
-colors.DRUID = 'ff0c0a'
+colors.DRUID = 'ff7c0a'
 colors.MAGE = '68ccef'
 colors.HUNTER = 'aad372'
 colors.PALADIN = 'f48cba'

@@ -425,9 +425,18 @@ end
 
 
 --------------------- STRING SERVICES ----------------------
-
+-- Priest = ffffff
+-- Rogue = fff468
+-- hunter = aad372
+-- mage = 68ccef
+-- paladin = f48cba
+-- warlock = 9382c9
+-- druid = ff7c0a
+-- warrior = c69b6d
+-- deathknight = c41e3a
+-- shaman = 0070dd
 local commandPatterns = {
-'c41e3a','f1760c','68ccef','aad372','f48cba','ffffff','fff468','036bd1','8c7cbe','c69b6d','0070dd','9382c9','ff0c0a'
+'c41e3a','f1760c','68ccef','aad372','f48cba','ffffff','fff468','036bd1','8c7cbe','c69b6d','0070dd','9382c9','ff7c0a'
 }
 local numCommandPatterns = #commandPatterns
 function QDKP2_FormatName(name)
@@ -442,7 +451,7 @@ function QDKP2_FormatName(name)
     return string.upper(name);
   end
   local till = 1
-	escStr=name:match("[^\124][(%a+)(%d+)]+[^\124]")
+	--escStr=name:match("[^\124][(%a+)(%d+)]+[^\124]")
 	escStr = string.gsub(name, "\124cff", "")
 	escStr = string.gsub(escStr, "\124r", "")
 	local classCol, params, filteredName = nil, nil, nil
