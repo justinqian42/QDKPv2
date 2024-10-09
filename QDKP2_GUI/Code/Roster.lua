@@ -1060,13 +1060,10 @@ function myClass.PushedMSClearButton(self, sure)
 		QDKP2_AskUser("You are deleting all MS changes.\nThere is no undo. Continue?",myClass.PushedMSClearButton,self,true)
 	else
 		QDKP2_Debug(2,"clearing ms data")
-			for i=1, QDKP2GUI_Roster.ENTRIES do  --fills in the list data
-		  local indexAt = self.Offset+i
-		  local ParentName="QDKP2_frame2_entry"..tostring(i)
-		  if indexAt <= #self.List then
-			local name = self.List[indexAt]
-			QDKP2_Change_Spec('-',name)
-			end
+		for name, value in pairs(QDKP2msChanges) do  --fills in the list data
+			--print("Clearing MS of ".. name .. QDKP2msChanges[name] .. " " .. ['ms'])
+			QDKP2msChanges[name]['ms'] ='-'
+			
 		end
 		QDKP2GUI_Roster:Refresh()
 	end
