@@ -453,6 +453,7 @@ function QDKP2_FormatName(name)
   local till = 1
 	--escStr=name:match("[^\124][(%a+)(%d+)]+[^\124]")
 	escStr = string.gsub(name, "\124cff", "")
+	--print(escStr)
 	escStr = string.gsub(escStr, "\124r", "")
 	local classCol, params, filteredName = nil, nil, nil
     for i=1, numCommandPatterns do
