@@ -175,9 +175,12 @@ function QDKP2_OD(text, sender, guid)
       return {"QDKP2 - Only GuildMembers can use the On-Demand whisper system."}
     end
     if not P2 then return {"QDKP2 - Main is required to set an alt, ie ?setalt <MAIN_NAME>."}
-    else P2 = QDKP2_FormatName(P2)
+		else P2 = QDKP2_FormatName(P2)
     end
-	QDKP2altmaintodolist[P2]= sender
+	if P2 == sender then
+		return {"QDKP2 - Alt name must be different from the main."}
+	end
+	QDKP2altmaintodolist[P2] = sender
 	QDKP2_OD_MakeAlt()
 
 	

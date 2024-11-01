@@ -26,6 +26,9 @@ the Free Software Foundation, either version 3 of the License, or
 
 
 Release Log:
+v2.6.15.8
+- SetMain catch for idiots trying to set themselves as an alt...
+
 v2.6.15.7
 - MS Clear now also clears offline characters!
 
